@@ -9,6 +9,7 @@ import ProtectedRoute from '../components/layout/ProtectedRoute';
 import ChangePassword from '../pages/ChangePassword';
 import { vendorPaths } from './vendor.routes';
 
+import ErrorBounderCom from '@components/ErrorComponents/ErrorBounderCom';
 import OutLetLayout from '@components/layout/OutLetLayout';
 import VerifyOtpForm from '@pages/VerifyOtpForm';
 import { Button, Result } from 'antd';
@@ -19,7 +20,11 @@ import ResetPassword from '../pages/ResetPassword';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <ErrorBounderCom>
+        <App />
+      </ErrorBounderCom>
+    ),
   },
 
   {
@@ -43,28 +48,55 @@ const router = createBrowserRouter([
 
   {
     path: '/login',
-    element: <Login />,
+    element: (
+      <ErrorBounderCom>
+        <Login />
+      </ErrorBounderCom>
+    ),
   },
 
   {
     path: '/change-password',
-    element: <ChangePassword />,
+    element: (
+      <ErrorBounderCom>
+        <ChangePassword />
+      </ErrorBounderCom>
+    ),
   },
   {
     path: '/register',
-    element: <Register />,
+    element: (
+      <ErrorBounderCom>
+        {' '}
+        <Register />
+      </ErrorBounderCom>
+    ),
   },
   {
     path: '/forgot-password',
-    element: <ForgotPassword />,
+    element: (
+      <ErrorBounderCom>
+        {' '}
+        <ForgotPassword />
+      </ErrorBounderCom>
+    ),
   },
   {
     path: '/verify-otp',
-    element: <VerifyOtpForm />,
+    element: (
+      <ErrorBounderCom>
+        <VerifyOtpForm />
+      </ErrorBounderCom>
+    ),
   },
   {
     path: '/password-reset',
-    element: <ResetPassword />,
+    element: (
+      <ErrorBounderCom>
+        {' '}
+        <ResetPassword />
+      </ErrorBounderCom>
+    ),
   },
 
   {

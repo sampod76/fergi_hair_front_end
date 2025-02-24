@@ -44,7 +44,7 @@ export default function CategoryList() {
   query['sortOrder'] = sortOrder;
   query['company'] = company;
   query['searchTerm'] = searchTerm;
-  console.log(first);
+
   const { data, isLoading } = useGetAllCategoryQuery(query);
   const [deleteCategory, { isLoading: dLoading }] = useDeleteCategoryMutation();
   if (isLoading) {
