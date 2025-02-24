@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'd_docudriver',
+      name: 'd_fergie',
       script: 'node_modules/.bin/serve', // Correct path to 'serve'
       args: '-s dist -l 3006', // Serve 'dist' folder on port 3005
       instances: '1', // Single instance
