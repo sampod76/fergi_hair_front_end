@@ -1,5 +1,7 @@
 export enum tagTypes {
   buyer = 'buyer',
+  Product = 'Product',
+  ProductCategory = 'ProductCategory',
   Order = 'Order',
   seller = 'seller',
   user = 'user',
@@ -26,29 +28,4 @@ export enum tagTypes {
   PaymentHistory = 'PaymentHistory',
 }
 
-export const tagTypesList = [
-  tagTypes.subscriptions,
-  tagTypes.Order,
-  tagTypes.PaymentHistory,
-  tagTypes.buyer,
-  tagTypes.vendor,
-  tagTypes.seller,
-  tagTypes.user,
-  tagTypes.category,
-  tagTypes.profile,
-  tagTypes.Projects,
-  tagTypes.Employee,
-  tagTypes.TaskManagement,
-  tagTypes.Leaves,
-  tagTypes.LoginHistory,
-  tagTypes.auth,
-  tagTypes.Friendship,
-  tagTypes.ChatMessages,
-  tagTypes.admin,
-  tagTypes.Submissions,
-  tagTypes.allTextFieldFilters,
-  tagTypes.GeneralUser,
-  tagTypes.Notification,
-  tagTypes.testimonials,
-  tagTypes.FileUploads,
-];
+export const tagTypesList = Object.values(tagTypes);

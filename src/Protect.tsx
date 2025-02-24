@@ -13,7 +13,6 @@ import { useAppDispatch, useAppSelector } from './redux/hooks';
 const Protect = ({ children }: { children: React.ReactNode }) => {
   const user = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
-
   const token = useAppSelector(useCurrentToken);
   // console.log("🚀 ~ ProtectedRoute ~ token:", token);
   if (!token) {

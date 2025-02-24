@@ -6,33 +6,25 @@ import LoadingSkeleton from '@components/ui/Loading/LoadingSkeleton';
 import UMTable from '@components/ui/UMTable';
 
 import CategoryModal from '@components/Category/CategoryModal';
-import {
-  useDeleteCategoryMutation,
-  useGetAllCategoryQuery,
-} from '@redux/features/admin/categoryApi';
 
+import ProductCategoryModal from '@components/Category/ProductCategoryModal';
+import {
+  useDeleteProductCategoryMutation,
+  useGetAllProductCategoryQuery,
+} from '@redux/features/admin/productCategoryApi';
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
 import { useAppSelector } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
-import {
-  Button,
-  Dropdown,
-  Input,
-  Select,
-  Space,
-  TableProps,
-  Tooltip,
-} from 'antd';
+import { Button, Dropdown, Input, Space, TableProps, Tooltip } from 'antd';
 import { useState } from 'react';
 import { AiTwotonePlusCircle } from 'react-icons/ai';
-import { IoCreate } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IMeta } from '../../../types/common';
-export default function CategoryList() {
+export default function ProductCategoryList() {
   const user = useAppSelector(selectCurrentUser);
   //
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
+  const [size, setSize] = useState<number>(1000);
   const [sortBy, setSortBy] = useState<string>('serialNumber');
   const [sortOrder, setSortOrder] = useState<string>('asc');
   //
@@ -47,8 +39,9 @@ export default function CategoryList() {
   query['company'] = company;
   query['searchTerm'] = searchTerm;
 
-  const { data, isLoading } = useGetAllCategoryQuery(query);
-  const [deleteCategory, { isLoading: dLoading }] = useDeleteCategoryMutation();
+  const { data, isLoading } = useGetAllProductCategoryQuery(query);
+  const [deleteProductCategory, { isLoading: dLoading }] =
+    useDeleteProductCategoryMutation();
   if (isLoading) {
     return <LoadingSkeleton sectionNumber={5} />;
   }
@@ -57,7 +50,7 @@ export default function CategoryList() {
       async (res) => {
         if (res.isConfirmed) {
           try {
-            const res = await deleteCategory(id).unwrap();
+            const res = await deleteProductCategory(id).unwrap();
             SuccessModal('Category Successfully Deleted');
           } catch (error: any) {
             ErrorModal(error.message);
@@ -66,21 +59,17 @@ export default function CategoryList() {
       }
     );
   };
-  let resentUser = data?.data || [];
+  let allData = data?.data || [];
   const meta = (data?.meta as IMeta) || [];
 
   const columns: TableProps<any>['columns'] = [
     {
-      title: '#ID',
+      title: 'S/N',
       ellipsis: true,
       width: 200,
       render: (data: any) => (
-        <div className="flex items-center justify-between gap-2">
-          <p>
-            {data.company === 'companyOne'
-              ? 'O - ' + data.serialNumber
-              : 'T - ' + data.serialNumber}
-          </p>
+        <div className="flex items-center justify-between gap-2 text-lg font-bold">
+          <p>S/N -{data.serialNumber}</p>
         </div>
       ),
     },
@@ -89,9 +78,9 @@ export default function CategoryList() {
       ellipsis: true,
       render: (record: any) => (
         <div className="flex items-center justify-start gap-2">
-          {record?.images?.length && (
+          {record?.image && (
             <CustomImageTag
-              src={record?.images[0]}
+              src={record?.image}
               width={550}
               height={550}
               preview={true}
@@ -99,8 +88,8 @@ export default function CategoryList() {
               alt=""
             />
           )}
-          <Tooltip title={record.name}>
-            <p className="truncate">{record.name}</p>
+          <Tooltip title={record.title}>
+            <p className="truncate text-lg font-bold">{record.title}</p>
           </Tooltip>
         </div>
       ),
@@ -110,7 +99,7 @@ export default function CategoryList() {
       title: 'Date',
       ellipsis: true,
       render: (record: any) => (
-        <div className="flex items-start justify-between gap-2">
+        <div className="flex items-start justify-between gap-2 text-lg font-bold">
           <p>{new Date(record.createdAt).toDateString()}</p>
         </div>
       ),
@@ -171,7 +160,9 @@ export default function CategoryList() {
               arrow
               menu={{ items: menuItems }} // Pass items directly to the menu prop
             >
-              <button className="text-blue-700">Action</button>
+              <button className="text-2xl text-blue-700">
+                <BsThreeDotsVertical />{' '}
+              </button>
             </Dropdown>
           </Space>
         );
@@ -211,58 +202,17 @@ export default function CategoryList() {
               </p>
             }
           >
-            <CategoryModal />
+            <ProductCategoryModal />
           </ModalComponent>
-          <ModalComponent
-            button={
-              <p className="mx-2 flex cursor-pointer items-center justify-center rounded-xl border px-3 text-lg font-bold text-blue-400">
-                <IoCreate /> Update S/N
-              </p>
-            }
-            width={400}
+          {/* <Link
+            to={`/${user?.role}/product-category-update`}
+            className="mx-2 flex cursor-pointer items-center justify-center rounded-xl border px-3 text-lg font-bold text-blue-400"
           >
-            <div className="mx-2">
-              <Select
-                // onChange={(value) => setCompany(value)}
-                placeholder="Select Category Serial Number"
-                allowClear
-                size="large"
-              >
-                <Select.Option value="companyDocumentSubmit">
-                  <Link
-                    to={`/${user?.role}/category-update/companyDocumentSubmit`}
-                  >
-                    Company Document Submit
-                  </Link>
-                </Select.Option>
-                <Select.Option value="driverDocumentSubmit">
-                  <Link
-                    to={`/${user?.role}/category-update/driverDocumentSubmit`}
-                  >
-                    Driver Document Submit
-                  </Link>
-                </Select.Option>
-              </Select>
-            </div>
-          </ModalComponent>
+            <IoCreate /> Update S/N
+          </Link> */}
         </div>
 
         <ActionBar>
-          <div className="mx-2">
-            <Select
-              onChange={(value) => setCompany(value)}
-              placeholder="Select a company"
-              allowClear
-              size="large"
-            >
-              <Select.Option value="companyDocumentSubmit">
-                Company Document Submit
-              </Select.Option>
-              <Select.Option value="driverDocumentSubmit">
-                Driver Document Submit
-              </Select.Option>
-            </Select>
-          </div>
           <Input
             size="large"
             placeholder="Search"
@@ -282,11 +232,12 @@ export default function CategoryList() {
           )}
         </ActionBar>
       </div>
+
       <div className="bg-bgd2">
         <UMTable
           loading={isLoading}
           columns={columns}
-          dataSource={resentUser}
+          dataSource={allData}
           pageSize={size}
           totalPages={meta?.total}
           showSizeChanger={true}

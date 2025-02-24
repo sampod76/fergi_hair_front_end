@@ -23,7 +23,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import UserRatioChart from './User/UserRatio';
 
 const AdminDashboard = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -274,9 +273,6 @@ const AdminDashboard = () => {
               showSizeChanger={false}
               showPagination={false}
             />
-          </div>
-          <div className="rootBg w-96">
-            <UserRatioChart data={fullDashboardData?.averagePackages} />
           </div>
         </div>
       </div>

@@ -1,10 +1,12 @@
+import { IFileAfterUpload } from '@local-types/globalType';
 import { Image, message } from 'antd';
 import { saveAs } from 'file-saver';
 import { useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import fileObjectToLink from '../../../utils/fileObjectToLink';
+
 type ImageTagProps = {
-  src: any;
+  src: IFileAfterUpload | string;
   width?: number;
   height?: number;
   alt?: string;
