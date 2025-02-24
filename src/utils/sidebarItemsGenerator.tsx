@@ -1,8 +1,6 @@
 import { useAppSelector } from '@redux/hooks';
 import { CiCreditCard1, CiSettings } from 'react-icons/ci';
-import { FaCreditCard, FaMoneyCheckDollar, FaWpforms } from 'react-icons/fa6';
-import { IoMdPeople } from 'react-icons/io';
-import { LuPackagePlus } from 'react-icons/lu';
+import { FaCreditCard, FaWpforms } from 'react-icons/fa6';
 import {
   MdAddCard,
   MdDashboard,
@@ -10,7 +8,7 @@ import {
   MdPeople,
 } from 'react-icons/md';
 import { RiFlowerFill } from 'react-icons/ri';
-import { TbPointFilled } from 'react-icons/tb';
+import { TbCategoryPlus, TbPointFilled } from 'react-icons/tb';
 import { NavLink } from 'react-router-dom';
 import { TSidebarItem, TUserPath } from '../types';
 const icon = [
@@ -39,16 +37,8 @@ const icon = [
     icon: <CiSettings style={{ fontSize: '1.5rem' }} />,
   },
   {
-    name: 'IoMdPeople',
-    icon: <IoMdPeople style={{ fontSize: '1.5rem' }} />,
-  },
-  {
-    name: 'FaMoneyCheckDollar',
-    icon: <FaMoneyCheckDollar style={{ fontSize: '1.5rem' }} />,
-  },
-  {
-    name: 'LuPackagePlus',
-    icon: <LuPackagePlus style={{ fontSize: '1.5rem' }} />,
+    name: 'TbCategoryPlus ',
+    icon: <TbCategoryPlus style={{ fontSize: '1.5rem' }} />,
   },
   {
     name: 'CiCreditCard1',

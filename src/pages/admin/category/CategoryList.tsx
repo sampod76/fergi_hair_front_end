@@ -24,6 +24,7 @@ import {
   Tooltip,
 } from 'antd';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { IMeta } from '../../../types/common';
 export default function CategoryList() {
   const user = useAppSelector(selectCurrentUser);
@@ -31,7 +32,7 @@ export default function CategoryList() {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sortBy, setSortBy] = useState<string>('serialNumber');
-  const [sortOrder, setSortOrder] = useState<string>('desc');
+  const [sortOrder, setSortOrder] = useState<string>('asc');
   //
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [company, setCompany] = useState<string>('');
@@ -43,7 +44,7 @@ export default function CategoryList() {
   query['sortOrder'] = sortOrder;
   query['company'] = company;
   query['searchTerm'] = searchTerm;
-
+  console.log(first);
   const { data, isLoading } = useGetAllCategoryQuery(query);
   const [deleteCategory, { isLoading: dLoading }] = useDeleteCategoryMutation();
   if (isLoading) {
@@ -213,6 +214,38 @@ export default function CategoryList() {
           >
             <CategoryModal />
           </ModalComponent>
+          <ModalComponent
+            button={
+              <p className="mx-2 cursor-pointer rounded-xl border px-3 text-lg font-bold text-blue-400">
+                Update Category Serial Number
+              </p>
+            }
+            width={400}
+          >
+            <div className="mx-2">
+              <Select
+                // onChange={(value) => setCompany(value)}
+                placeholder="Select Category Serial Number"
+                allowClear
+                size="large"
+              >
+                <Select.Option value="companyDocumentSubmit">
+                  <Link
+                    to={`/${user?.role}/category-update/companyDocumentSubmit`}
+                  >
+                    Company Document Submit
+                  </Link>
+                </Select.Option>
+                <Select.Option value="driverDocumentSubmit">
+                  <Link
+                    to={`/${user?.role}/category-update/driverDocumentSubmit`}
+                  >
+                    Driver Document Submit
+                  </Link>
+                </Select.Option>
+              </Select>
+            </div>
+          </ModalComponent>
         </div>
 
         <ActionBar>
@@ -263,6 +296,11 @@ export default function CategoryList() {
           showPagination={true}
         />
       </div>
+      {/* <iframe
+        src="https://d43af62ilhxe5.cloudfront.net/others/plate.html"
+        width="100%"
+        height="500px"
+      ></iframe> */}
     </div>
   );
 }

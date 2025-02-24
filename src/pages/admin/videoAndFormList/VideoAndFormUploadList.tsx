@@ -7,10 +7,20 @@ import {
   useDeleteFileUploadMutation,
   useGetAllFileUploadQuery,
 } from '@redux/features/admin/fileUpload';
-import { useDebounced } from '@redux/hooks';
+import { selectCurrentUser } from '@redux/features/auth/authSlice';
+import { useAppSelector, useDebounced } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
-import { Button, Input, Pagination, PaginationProps } from 'antd';
+import {
+  Button,
+  Input,
+  message,
+  Pagination,
+  PaginationProps,
+  Select,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
+import { MdContentCopy } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 interface file {
   _id: string;
@@ -28,6 +38,8 @@ interface FileCardProps {
 const VideoAndFormUploadList: React.FC<{ uploadType: 'video' | 'doc' }> = ({
   uploadType,
 }) => {
+  const navigate = useNavigate();
+  const user = useAppSelector(selectCurrentUser);
   const getCurrentPage = new URLSearchParams(window.location.search).get(
     'page'
   );
@@ -110,10 +122,29 @@ const VideoAndFormUploadList: React.FC<{ uploadType: 'video' | 'doc' }> = ({
           />
         </div>
         <div className="p-4">
-          <h2 className="line-clamp-2 text-lg font-semibold">{file.title}</h2>
+          <h2
+            onClick={() => {
+              navigator.clipboard.writeText(file.title);
+              message.success('Copy Success:- ' + file.title);
+            }}
+            className="line-clamp-2 cursor-pointer text-lg font-semibold"
+          >
+            {file.title}
+          </h2>
           <div className="flex items-center justify-between">
-            <p className="mt-2">Price</p>
-            <p className="text-lg font-bold">${file.price}</p>
+            <p
+              onClick={() => {
+                navigator.clipboard.writeText(file._id);
+                message.success('Copy Success:- ' + file._id);
+              }}
+              className="flex cursor-pointer items-center gap-1"
+            >
+              <span className="text-base">Copy Id</span> <MdContentCopy />
+            </p>
+            <div className="flex items-center justify-center gap-1">
+              <p className="">Price</p>
+              <p className="text-lg font-bold">${file.price}</p>
+            </div>
           </div>
           <div>
             <div className="mt-4 flex items-center justify-between">
@@ -156,14 +187,40 @@ const VideoAndFormUploadList: React.FC<{ uploadType: 'video' | 'doc' }> = ({
       </div>
     );
   };
+  const handleSelectChange = (value: string) => {
+    // Navigate based on the selected value
+    navigate(`/${user?.role}/file-serial-update/${value}`);
+  };
   // const data = uploadType === 'video' ? videos : formdata;
   return (
     <div className="container mx-auto p-4">
       {/* Header Section */}
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold capitalize">
-          {uploadType} Upload
-        </h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-semibold capitalize">
+            {uploadType} Upload
+          </h1>
+          <ModalComponent
+            button={
+              <p className="mx-2 cursor-pointer rounded-sm border bg-slate-400 px-3 text-lg font-bold text-white">
+                Update Contain Serial Number
+              </p>
+            }
+            width={400}
+          >
+            <div className="mx-2">
+              <Select
+                placeholder="Select Contain Serial Number"
+                allowClear
+                size="large"
+                onChange={handleSelectChange} // Handle navigation on selection
+              >
+                <Select.Option value="doc">Form/doc</Select.Option>
+                <Select.Option value="video">Video</Select.Option>
+              </Select>
+            </div>
+          </ModalComponent>
+        </div>
 
         <div className="flex items-center gap-2">
           <ModalComponent
@@ -200,7 +257,7 @@ const VideoAndFormUploadList: React.FC<{ uploadType: 'video' | 'doc' }> = ({
       </div>
 
       {/* Video Cards Grid */}
-      <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:grid-cols-4 xl:gap-3">
+      <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-3 lg:gap-3 xl:gap-3 2xl:grid-cols-4">
         {fileData.map((file: any) => (
           <FileCard key={file._id} file={file} />
         ))}

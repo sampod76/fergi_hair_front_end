@@ -71,9 +71,20 @@ export const categoryApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.category],
     }),
+    updateCategorySerialNumber: build.mutation({
+      query: ({ data }: { data: Record<string, any> }) => {
+        return {
+          url: `${CATEGORY_URL}/serialnumber-update`,
+          method: 'PATCH',
+          data: data,
+          // contentType: 'multipart/form-data',
+        };
+      },
+      invalidatesTags: [tagTypes.category],
+    }),
 
     deleteCategory: build.mutation({
-      query: (id) => ({
+      query: (id: string) => ({
         url: `${CATEGORY_URL}/${id}`,
         method: 'DELETE',
       }),
@@ -88,4 +99,5 @@ export const {
   useGetAllCategoryQuery,
   useGetSingleCategoryQuery,
   useUpdateCategoryMutation,
+  useUpdateCategorySerialNumberMutation,
 } = categoryApi;

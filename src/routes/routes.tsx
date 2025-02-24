@@ -14,7 +14,6 @@ import VerifyOtpForm from '@pages/VerifyOtpForm';
 import { Button, Result } from 'antd';
 import Dashboard from '../Dashboard';
 import ForgotPassword from '../pages/ForgetPassword';
-import Profile from '../pages/Profile';
 import ResetPassword from '../pages/ResetPassword';
 
 const router = createBrowserRouter([
@@ -41,10 +40,7 @@ const router = createBrowserRouter([
     ),
     children: routeGenerator(vendorPaths),
   },
-  {
-    path: '/profile',
-    element: <Profile />,
-  },
+
   {
     path: '/login',
     element: <Login />,

@@ -16,8 +16,10 @@ export default function fileObjectToLink(src: any) {
 
   let imageSrc;
   if (src?.cdn) {
+    // console.log("🚀 ~ sadfsadf", src);
     imageSrc = src.cdn + '/' + src.path;
   } else if (typeof src === 'object' && src.url) {
+    // console.log("🚀 ~ fffasdfnk ~ src:", src);
     imageSrc = src.url;
   } else if (src?.server_url) {
     imageSrc = backendBaseUrl + '/' + src.server_url;

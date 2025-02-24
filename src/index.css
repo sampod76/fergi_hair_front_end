@@ -1,11 +1,10 @@
 :root {
   --rootBg: #ffffff;
-  --bgd: #f9f9f9;
-  --bgd2: #ffffff;
-  --authBg: #ffffff;
-  --buttonBg: black;
-  --buttonTextColor: white;
-  --gtc: #727272;
+  --bgd: #143a69;
+  --bgd2: #e8ebf0;
+  --authBg: #0c233f;
+  --buttonBg: #143a69;
+  --buttonTextColor: #ffffff;
 }
 @tailwind base;
 @tailwind components;
@@ -28,17 +27,17 @@
   white-space: normal;
 } */
 
-/* table */
+/*  */
 .table-row-light {
-  background-color: white;
+  background-color: #e6eaee;
 }
 .table-row-dark {
-  background-color: #f6f6f7;
+  background-color: #ddeaee;
 }
 
 .ant-table-thead > tr > th {
-  background-color: #e6eaee !important;
-  color: #535353 !important;
+  background-color: #143a69 !important;
+  color: white !important;
   font-size: 17px !important;
   text-align: center !important;
 }
@@ -52,94 +51,36 @@
   font-family: var(--font-k-sans) !important;
 }
 /*  */
-/* Sidebar menu items */
-/* Sidebar menu items */
+
 .sidebar-menu > .ant-menu-item {
-  background-color: #f9f9f9 !important;
+  background-color: #143a69 !important ;
   padding: 0.3rem 1rem;
   display: flex;
   align-items: center;
-  color: gray !important; /* Main menu text color */
+  /* color: white !important; */
 }
 
-/* Submenu title */
-/* Sidebar menu items */
-.sidebar-menu > .ant-menu-item {
-  background-color: #f9f9f9 !important;
-  padding: 0.3rem 1rem;
-  display: flex;
-  align-items: center;
-  color: gray !important; /* Main menu text color */
-}
-
-/* Submenu title */
 .ant-menu-submenu-title {
-  background-color: #f9f9f9 !important;
-  color: gray !important; /* Submenu title text color */
+  /* color: white !important; */
+  background-color: #143a69 !important;
 }
-
-/* Submenu items */
-/* Main menu items */
-.sidebar-menu > .ant-menu-item {
-  background-color: #f9f9f9 !important;
-  padding: 0.3rem 1rem;
-  display: flex;
-  align-items: center;
-  color: gray !important; /* Default main menu text color */
+.ant-menu .ant-menu-sub {
+  /* color: white !important; */
+  background-color: #143a69 !important;
 }
-
-/* Main menu active state */
-.sidebar-menu > .ant-menu-item-selected {
-  background-color: #fff !important; /* Active main menu background */
-  color: #0c233f !important; /* Active main menu text color */
-  font-weight: bold; /* Optional: Highlight active menu item */
+.ant-menu-submenu {
+  /* color: white !important; */
+  background-color: #143a69 !important;
+  margin-left: 4px;
+  margin-right: 4px;
 }
-
-/* Submenu title */
-.ant-menu-submenu-title {
-  background-color: #f9f9f9 !important;
-  color: gray !important; /* Default submenu title text color */
+.ant-menu-item-selected {
+  background-color: #fff !important;
+  color: #0c233f !important;
 }
-
-/* Active submenu title */
-.ant-menu-submenu-selected .ant-menu-submenu-title {
-  background-color: #fff !important; /* Active submenu title background */
-  color: #0c233f !important; /* Active submenu title text color */
-  font-weight: bold; /* Optional: Highlight active submenu title */
-}
-
-/* Submenu items */
-.ant-menu-sub .ant-menu-item {
-  background-color: #f9f9f9 !important; /* Submenu background color */
-  color: gray !important; /* Default submenu item text color */
-  border-radius: 0 !important; /* No rounded corners */
-}
-
-/* Active submenu item */
-.ant-menu-sub .ant-menu-item-selected {
-  background-color: #fff !important; /* Active submenu item background */
-  color: #0c233f !important; /* Active submenu item text color */
-  font-weight: bold; /* Optional: Highlight active submenu item */
-}
-
-/* Submenu container */
-.ant-menu-sub {
-  background-color: #f9f9f9 !important; /* Submenu container background */
-}
-
-/* Hover states */
-.ant-menu-item:hover,
-.ant-menu-submenu-title:hover {
-  background-color: #e6e6e6 !important; /* Slightly lighter gray for hover */
-  color: gray !important;
-}
-
-/* Open submenu state */
 .ant-menu-submenu-open {
-  background-color: #f9f9f9 !important; /* Open submenu background */
-  color: gray !important; /* Open submenu text color */
+  background-color: #143a69 !important;
 }
-
 /*  */
 
 .ant-checkbox-checked .ant-checkbox-inner {

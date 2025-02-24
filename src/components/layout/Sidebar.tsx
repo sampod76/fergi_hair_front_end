@@ -1,4 +1,4 @@
-import { Drawer, Image, Layout, Menu } from 'antd';
+import { Drawer, Layout, Menu } from 'antd';
 import { adminPaths } from '../../routes/admin.routes';
 import { sidebarItemsGenerator } from '../../utils/sidebarItemsGenerator';
 
@@ -96,18 +96,16 @@ const Sidebar = () => {
                     src={AllImage.logoWhite}
                     width={1900}
                     height={1900}
-                    className="mx-auto my-3 w-[100%] px-8"
+                    className="mx-auto my-3 w-[80%] px-8"
                   />
-                  <Image />
                 </Link>
               </div>
               <Menu
                 theme="dark"
                 mode="inline"
-                className="!lg:px-3 sidebar-menu !bg-transparent !px-5"
+                className="!lg:px-1 !bg-transparent !text-black"
                 //@ts-ignore
                 items={sidebarItems}
-                style={{ color: 'gray' }} // Ensures gray text
                 onClick={handleCollapse} // Close drawer on menu item click
               />
             </div>
@@ -119,7 +117,7 @@ const Sidebar = () => {
           collapsed={togoSidebar || isMobile}
           width={currentUser?.role === ENUM_USER_ROLE.admin ? 300 : 335}
           // width={335}
-          className="!bg-bgd !text-black"
+          className="rounded-l-3xl !bg-bgd !text-black"
           style={{ height: '100vh', position: 'sticky', top: '0', left: '0' }}
         >
           <div className="mt-16 !text-black">
@@ -136,17 +134,16 @@ const Sidebar = () => {
                   src={AllImage.logoWhite}
                   width={1900}
                   height={1900}
-                  className="mx-auto my-3 w-64 px-8"
+                  className="mx-auto my-3 w-[80%] px-8"
                 />
               </Link>
             </div>
             <Menu
               theme="dark"
               mode="inline"
-              className="!lg:px-3 sidebar-menu !bg-transparent !px-5"
+              className="!lg:px-3 !bg-transparent !px-5 !text-black"
               //@ts-ignore
               items={sidebarItems}
-              style={{ color: 'gray' }} // Ensures gray text
             />
           </div>
         </Sider>

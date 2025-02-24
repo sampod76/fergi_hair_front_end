@@ -36,7 +36,6 @@ const ChangePassword = () => {
         <h2 className="text-xl font-semibold">Change Password</h2>
       </div>
 
-      {/* Instruction */}
       <p className="mb-4 text-gray-500">
         Your password must be 8-10 characters long.
       </p>
@@ -45,47 +44,57 @@ const ChangePassword = () => {
       <Form
         name="change_password_form"
         className="change-password-form"
+        initialValues={{ remember: true }}
         onFinish={handleFinish}
       >
-        {/* Old Password */}
+        {/* Old Password Title */}
         <Typography.Title level={5} className="font-sans">
           Old Password
         </Typography.Title>
+
+        {/* Old Password Field */}
         <Form.Item
           name="oldPassword"
           rules={[
             { required: true, message: 'Please input your old password!' },
-            { min: 8, message: 'Password must be at least 8 characters long!' },
           ]}
+          hasFeedback={true}
         >
           <Input.Password
             size="large"
-            prefix={<LockOutlined />}
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            className="inputSize"
             placeholder="Enter your old password"
           />
         </Form.Item>
 
-        {/* New Password */}
+        {/* New Password Title */}
         <Typography.Title level={5} className="font-sans">
           New Password
         </Typography.Title>
+
+        {/* New Password Field */}
         <Form.Item
           name="newPassword"
           rules={[
             { required: true, message: 'Please input your new password!' },
-            { min: 8, message: 'Password must be at least 8 characters long!' },
           ]}
-          hasFeedback
+          hasFeedback={true}
         >
           <Input.Password
             size="large"
-            prefix={<LockOutlined />}
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            className="inputSize"
             placeholder="Enter your new password"
           />
         </Form.Item>
 
-        {/* Confirm New Password */}
+        {/* Confirm New Password Title */}
         <Typography.Title level={5}>Confirm New Password</Typography.Title>
+
+        {/* Confirm New Password Field */}
         <Form.Item
           name="confirmNewPassword"
           dependencies={['newPassword']}
@@ -102,11 +111,13 @@ const ChangePassword = () => {
               },
             }),
           ]}
-          hasFeedback
+          hasFeedback={true}
         >
           <Input.Password
             size="large"
-            prefix={<LockOutlined />}
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            className="inputSize"
             placeholder="Re-enter your new password"
           />
         </Form.Item>
@@ -117,9 +128,9 @@ const ChangePassword = () => {
             loading={isLoading}
             type="primary"
             htmlType="submit"
-            className="w-full text-lg"
+            className="w-full !bg-buttonBg !text-lg !text-buttonTextColor"
           >
-            Update Password
+            Update password
           </Button>
         </Form.Item>
       </Form>

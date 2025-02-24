@@ -66,7 +66,7 @@ export default function ResetPassword() {
               src={AllImage.logoAndName}
               width={1900}
               height={1900}
-              className="mx-auto h-20 w-auto"
+              className="mx-auto h-40 w-40"
             />
           </div>
           <div className="flex flex-col items-center justify-center px-8 py-5">

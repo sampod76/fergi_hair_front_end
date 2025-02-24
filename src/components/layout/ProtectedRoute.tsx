@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import ErrorBounderCom from '@components/ErrorComponents/ErrorBounderCom';
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { logout, useCurrentToken } from '../../redux/features/auth/authSlice';
@@ -32,7 +33,7 @@ const ProtectedRoute = ({ children, role }: TProtectedRoute) => {
     );
   }
 
-  return children;
+  return <ErrorBounderCom>{children}</ErrorBounderCom>;
 };
 
 export default ProtectedRoute;

@@ -82,6 +82,17 @@ export const fileUploadApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.FileUploads],
     }),
+    updateFileUploadSerialNumber: build.mutation({
+      query: ({ data }: { data: Record<string, any> }) => {
+        return {
+          url: `${URL}/serialnumber-update`,
+          method: 'PATCH',
+          data: data,
+          // contentType: 'multipart/form-data',
+        };
+      },
+      invalidatesTags: [tagTypes.FileUploads],
+    }),
   }),
 });
 
@@ -91,4 +102,5 @@ export const {
   useGetAllFileUploadQuery,
   useGetSingleFileUploadQuery,
   useUpdateFileUploadMutation,
+  useUpdateFileUploadSerialNumberMutation,
 } = fileUploadApi;
