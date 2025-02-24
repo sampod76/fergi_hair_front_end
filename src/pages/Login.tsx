@@ -85,26 +85,26 @@ const Login = () => {
       <Row
         style={{
           borderRadius: '30px',
-          background: '#e0e0e0',
+          background: '#f4dcec',
           // boxShadow: '20px 20px 60px #bebebe, -20px -20px 60px #ffffff',
         }}
         justify="center"
         align="middle"
         // style={{ height: "100vh" }}
-        className="container mx-auto h-fit w-fit px-10"
+        className="mx-auto max-w-lg px-10"
       >
-        <div className="px-8 py-5">
-          <div className="py-6">
+        <div className="w-full px-8 py-5">
+          <div className="!-mt-8">
             <CustomImageTag
               src={AllImage.logoAndName}
               width={1900}
               height={1900}
-              className="mx-auto h-40 w-40"
+              className="mx-auto h-48 w-48"
             />
           </div>
           <Form
             name="normal_login"
-            className="login-form"
+            className="login-form !-mt-16"
             initialValues={{ remember: true }}
             onFinish={onSubmit}
           >
@@ -112,14 +112,14 @@ const Login = () => {
               <span className="font-sans">{'Email'}</span>{' '}
             </Typography.Title> */}
 
-            <h1 className="py-2 text-center text-lg font-bold">Sign In</h1>
+            <h1 className="py-2 text-center text-2xl font-bold">Login</h1>
             <Form.Item
               name="email"
               rules={[{ required: true, message: 'Please input your Email!' }]}
             >
               <Input
                 size="large"
-                className="h-16 !w-72"
+                className="h-16 !w-96"
                 prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder={'Enter your email'}
               />
@@ -136,7 +136,7 @@ const Login = () => {
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
                 placeholder={'Enter your password'}
-                className="h-16 !w-72"
+                className="h-16 !w-96"
               />
             </Form.Item>
             <Form.Item>

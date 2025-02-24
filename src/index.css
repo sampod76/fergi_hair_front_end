@@ -1,9 +1,9 @@
 :root {
   --rootBg: #ffffff;
-  --bgd: #143a69;
+  --bgd: #771e70;
   --bgd2: #e8ebf0;
-  --authBg: #0c233f;
-  --buttonBg: #143a69;
+  --authBg: #84247c;
+  --buttonBg: #851d73;
   --buttonTextColor: #ffffff;
 }
 @tailwind base;
@@ -36,7 +36,7 @@
 }
 
 .ant-table-thead > tr > th {
-  background-color: #143a69 !important;
+  background-color: #882578 !important;
   color: white !important;
   font-size: 17px !important;
   text-align: center !important;
@@ -53,7 +53,7 @@
 /*  */
 
 .sidebar-menu > .ant-menu-item {
-  background-color: #143a69 !important ;
+  background-color: #771e70 !important ;
   padding: 0.3rem 1rem;
   display: flex;
   align-items: center;
@@ -62,15 +62,15 @@
 
 .ant-menu-submenu-title {
   /* color: white !important; */
-  background-color: #143a69 !important;
+  background-color: #771e70 !important;
 }
 .ant-menu .ant-menu-sub {
   /* color: white !important; */
-  background-color: #143a69 !important;
+  background-color: #771e70 !important;
 }
 .ant-menu-submenu {
   /* color: white !important; */
-  background-color: #143a69 !important;
+  background-color: #771e70 !important;
   margin-left: 4px;
   margin-right: 4px;
 }
@@ -79,20 +79,20 @@
   color: #0c233f !important;
 }
 .ant-menu-submenu-open {
-  background-color: #143a69 !important;
+  background-color: #771e70 !important;
 }
 /*  */
 
 .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: #143a69 !important;
-  border-color: #143a69 !important;
+  background-color: #771e70 !important;
+  border-color: #771e70 !important;
 }
 .ant-checkbox:hover .ant-checkbox-inner,
 .ant-checkbox-input:focus + .ant-checkbox-inner {
-  border-color: #143a69 !important;
+  border-color: #771e70 !important;
 }
 .ant-checkbox:hover .ant-checkbox-inner {
-  border-color: #143a69 !important;
+  border-color: #771e70 !important;
 }
 
 /* text-editor */

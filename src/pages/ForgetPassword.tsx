@@ -36,7 +36,7 @@ export default function ForgotPassword() {
         className="mx-auto h-fit w-fit max-w-md"
       >
         <div className="flex flex-col items-center justify-center px-1 py-5">
-          <div className="pt-6">
+          <div className="">
             <CustomImageTag
               src={AllImage.logoAndName}
               width={1900}
@@ -44,7 +44,7 @@ export default function ForgotPassword() {
               className="mx-auto h-40 w-40"
             />
           </div>
-          <div className="flex flex-col items-center justify-center px-8 py-5">
+          <div className="-mt-12 flex flex-col items-center justify-center px-8 py-5">
             <div className="mb-6 flex flex-col items-center justify-center">
               {/* <Link href={`/${lang}/sign-in`}>
           <ArrowLeftOutlined />

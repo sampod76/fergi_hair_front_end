@@ -60,7 +60,7 @@ export default function ResetPassword() {
         align="middle"
         className="mx-auto h-fit w-fit max-w-md"
       >
-        <div className="flex flex-col items-center justify-center px-8 py-5">
+        <div className="-mt-9 flex flex-col items-center justify-center px-8 py-5">
           <div className="py-6">
             <CustomImageTag
               src={AllImage.logoAndName}
@@ -69,13 +69,13 @@ export default function ResetPassword() {
               className="mx-auto h-40 w-40"
             />
           </div>
-          <div className="flex flex-col items-center justify-center px-8 py-5">
+          <div className="-mt-16 flex flex-col items-center justify-center px-8 py-5">
             <div className="mb-6 flex flex-col items-center justify-center">
               <div className="flex items-center justify-center gap-2 font-sans text-lg font-bold">
                 <Link className="text-black" to={'/Login'}>
                   <FaArrowLeft
                     className="text-black"
-                    style={{ fontSize: '15px' }}
+                    style={{ fontSize: '20px' }}
                   />
                 </Link>
                 {'Login'}
