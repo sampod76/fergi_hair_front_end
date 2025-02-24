@@ -1,0 +1,279 @@
+:root {
+  --rootBg: #ffffff;
+  --bgd: #f9f9f9;
+  --bgd2: #ffffff;
+  --authBg: #ffffff;
+  --buttonBg: black;
+  --buttonTextColor: white;
+  --gtc: #727272;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.inputSize {
+  min-height: 3.4rem;
+}
+
+/* .ant-transfer {
+  width: 100 !important;
+}
+
+.ant-transfer-list {
+  width: 100 !important;
+  flex: 1;
+}
+
+.ant-transfer-list-body {
+  white-space: normal;
+} */
+
+/* table */
+.table-row-light {
+  background-color: white;
+}
+.table-row-dark {
+  background-color: #f6f6f7;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #e6eaee !important;
+  color: #535353 !important;
+  font-size: 17px !important;
+  text-align: center !important;
+}
+
+.ant-table-cell {
+  font-size: 16px !important;
+  text-align: center !important;
+}
+
+.ant-table * {
+  font-family: var(--font-k-sans) !important;
+}
+/*  */
+/* Sidebar menu items */
+/* Sidebar menu items */
+.sidebar-menu > .ant-menu-item {
+  background-color: #f9f9f9 !important;
+  padding: 0.3rem 1rem;
+  display: flex;
+  align-items: center;
+  color: gray !important; /* Main menu text color */
+}
+
+/* Submenu title */
+/* Sidebar menu items */
+.sidebar-menu > .ant-menu-item {
+  background-color: #f9f9f9 !important;
+  padding: 0.3rem 1rem;
+  display: flex;
+  align-items: center;
+  color: gray !important; /* Main menu text color */
+}
+
+/* Submenu title */
+.ant-menu-submenu-title {
+  background-color: #f9f9f9 !important;
+  color: gray !important; /* Submenu title text color */
+}
+
+/* Submenu items */
+/* Main menu items */
+.sidebar-menu > .ant-menu-item {
+  background-color: #f9f9f9 !important;
+  padding: 0.3rem 1rem;
+  display: flex;
+  align-items: center;
+  color: gray !important; /* Default main menu text color */
+}
+
+/* Main menu active state */
+.sidebar-menu > .ant-menu-item-selected {
+  background-color: #fff !important; /* Active main menu background */
+  color: #0c233f !important; /* Active main menu text color */
+  font-weight: bold; /* Optional: Highlight active menu item */
+}
+
+/* Submenu title */
+.ant-menu-submenu-title {
+  background-color: #f9f9f9 !important;
+  color: gray !important; /* Default submenu title text color */
+}
+
+/* Active submenu title */
+.ant-menu-submenu-selected .ant-menu-submenu-title {
+  background-color: #fff !important; /* Active submenu title background */
+  color: #0c233f !important; /* Active submenu title text color */
+  font-weight: bold; /* Optional: Highlight active submenu title */
+}
+
+/* Submenu items */
+.ant-menu-sub .ant-menu-item {
+  background-color: #f9f9f9 !important; /* Submenu background color */
+  color: gray !important; /* Default submenu item text color */
+  border-radius: 0 !important; /* No rounded corners */
+}
+
+/* Active submenu item */
+.ant-menu-sub .ant-menu-item-selected {
+  background-color: #fff !important; /* Active submenu item background */
+  color: #0c233f !important; /* Active submenu item text color */
+  font-weight: bold; /* Optional: Highlight active submenu item */
+}
+
+/* Submenu container */
+.ant-menu-sub {
+  background-color: #f9f9f9 !important; /* Submenu container background */
+}
+
+/* Hover states */
+.ant-menu-item:hover,
+.ant-menu-submenu-title:hover {
+  background-color: #e6e6e6 !important; /* Slightly lighter gray for hover */
+  color: gray !important;
+}
+
+/* Open submenu state */
+.ant-menu-submenu-open {
+  background-color: #f9f9f9 !important; /* Open submenu background */
+  color: gray !important; /* Open submenu text color */
+}
+
+/*  */
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #143a69 !important;
+  border-color: #143a69 !important;
+}
+.ant-checkbox:hover .ant-checkbox-inner,
+.ant-checkbox-input:focus + .ant-checkbox-inner {
+  border-color: #143a69 !important;
+}
+.ant-checkbox:hover .ant-checkbox-inner {
+  border-color: #143a69 !important;
+}
+
+/* text-editor */
+
+/* Heading levels */
+.jodit-wysiwyg h1 {
+  @apply text-2xl font-bold;
+}
+h1 {
+  @apply text-2xl font-bold;
+}
+
+.jodit-wysiwyg h2 {
+  @apply text-xl font-bold;
+}
+h2 {
+  @apply text-xl font-bold;
+}
+
+.jodit-wysiwyg h3 {
+  @apply text-lg font-semibold;
+}
+h3 {
+  @apply text-lg font-semibold;
+}
+
+.jodit-wysiwyg h4 {
+  @apply text-base font-medium;
+}
+h4 {
+  @apply text-base font-medium;
+}
+
+/* Quotes */
+.jodit-wysiwyg blockquote {
+  @apply rounded-lg border border-gray-200 bg-gray-100 p-4;
+}
+
+blockquote {
+  @apply rounded-lg border border-gray-200 bg-gray-100 p-4;
+}
+
+/* Code blocks */
+.jodit-wysiwyg pre,
+.jodit-wysiwyg code {
+  @apply rounded-lg bg-gray-900 px-4 py-2 font-mono text-white;
+}
+
+code {
+  @apply rounded-lg bg-gray-900 px-4 py-2 font-mono text-white;
+}
+pre {
+  @apply rounded-lg bg-gray-900 px-4 py-2 font-mono text-white;
+}
+
+/* Unordered lists */
+.jodit-wysiwyg ul {
+  @apply list-inside list-disc pl-8;
+}
+ul {
+  @apply list-inside list-disc pl-8;
+}
+.jodit-wysiwyg ol {
+  @apply list-inside list-decimal pl-8;
+}
+ol {
+  @apply list-inside list-decimal pl-8;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd; /* Add border for the table */
+}
+
+td {
+  width: 16.6667%;
+  padding: 8px; /* Add padding for better spacing */
+  border: 1px solid #ddd; /* Add border for the table cells */
+}
+
+.enabled {
+  color: #333; /* Default text color for enabled state */
+}
+
+.disabled {
+  color: #999; /* Text color for disabled state */
+}
+
+.activated {
+  color: #007bff; /* Text color for active state */
+}
+
+.warning {
+  color: #ffc107; /* Text color for warning state */
+}
+
+.error {
+  color: #dc3545; /* Text color for error state */
+}
+
+.colorCheck {
+  @apply bg-slate-600 md:bg-blue-500 lg:bg-red-300 xl:bg-green-400;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: black rgb(209, 213, 219);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #fb8500;
+  border-radius: 10px;
+  border: 2px solid #f0f0f0;
+}
+
+/* text-editor end */
