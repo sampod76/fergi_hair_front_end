@@ -14,10 +14,8 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { vendorPaths } from '../../routes/vendor.routes';
 import { verifyToken } from '../../utils/verifyToken';
 
-import { ENUM_USER_ROLE } from '@local-types/userTypes';
 import { toggleCollapse } from '@redux/features/globalSlice';
-import { useEffect, useState } from 'react';
-
+import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint';
 const { Sider } = Layout;
 
 const userRole = {
@@ -29,22 +27,16 @@ const Sidebar = () => {
   const token = useAppSelector(useCurrentToken);
   const currentUser = useAppSelector(selectCurrentUser);
   const togoSidebar = useAppSelector((state) => state.global.collapse);
-
-  const [isMobile, setIsMobile] = useState(false);
-  // console.log('🚀 ~ Sidebar ~ isMobile:', isMobile);
+  const screens = useBreakpoint();
   const dispatch = useAppDispatch();
-
   const handleCollapse = () => {
     dispatch(toggleCollapse({}));
   };
   let user;
-
   if (token) {
     user = verifyToken(token);
   }
-
   let sidebarItems;
-
   switch ((user as TUser)?.role) {
     case userRole.ADMIN:
       sidebarItems = sidebarItemsGenerator(adminPaths, userRole.ADMIN);
@@ -56,27 +48,16 @@ const Sidebar = () => {
       break;
   }
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    handleResize(); // Initial check
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return (
     <>
-      {isMobile && togoSidebar ? (
+      {!screens.sm && togoSidebar ? (
         <>
           <Drawer
             placement="left"
             closable
             onClose={handleCollapse}
             open={togoSidebar}
-            width={currentUser?.role === ENUM_USER_ROLE.admin ? 240 : 450}
+            width={240}
             className="!bg-bgd"
           >
             <div className="!-ml-5 !text-black">
@@ -114,13 +95,13 @@ const Sidebar = () => {
       ) : (
         <Sider
           breakpoint="lg"
-          collapsed={togoSidebar || isMobile}
-          width={currentUser?.role === ENUM_USER_ROLE.admin ? 300 : 335}
+          collapsed={togoSidebar || !screens.sm}
+          width={290}
           // width={335}
           className="rounded-l-3xl !bg-bgd !text-black"
           style={{ height: '100vh', position: 'sticky', top: '0', left: '0' }}
         >
-          <div className="mt-16 !text-black">
+          <div className="!text-black">
             <div
               style={{
                 color: 'black',

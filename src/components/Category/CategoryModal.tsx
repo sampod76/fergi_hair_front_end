@@ -1,14 +1,17 @@
-import { UploadOutlined } from '@ant-design/icons';
-import CustomImageTag from '@components/ui/CustomTag/CustomImage';
+import {
+  ExclamationCircleOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
 import {
   useAddCategoryMutation,
   useUpdateCategoryMutation,
 } from '@redux/features/admin/categoryApi';
-
 import { ErrorModal, SuccessModal } from '@utils/modalHook';
-import { Button, Collapse, Form, Input, message, Select, Upload } from 'antd';
-import type { UploadFile } from 'antd/es/upload/interface';
+import { Button, Collapse, Form, Input, message, Modal } from 'antd';
+import { v4 as uuidv4 } from 'uuid'; // Import UUID generator
 const { Panel } = Collapse;
+const { confirm } = Modal; // Import confirmation modal
 const CategoryModal = ({
   initialValues,
   readOnly = false,
@@ -18,55 +21,29 @@ const CategoryModal = ({
 }) => {
   let iniValue = { ...initialValues };
 
+  // console.log('🚀 ~ iniValue:', iniValue);
   const [form] = Form.useForm();
   const [addCategory, { isLoading }] = useAddCategoryMutation();
   const [updateCategory, { isLoading: uloading }] = useUpdateCategoryMutation();
 
   const handleFinish = async (values: any) => {
-    // console.log('🚀 ~ handleFinish ~ values:', values);
+    console.log('🚀 ~ handleFinish ~ values:', values);
+    return;
     try {
-      /*
-       const [image, files] = await Promise.all([
-        multipleFilesUploaderS3([values?.image?.[0]?.originFileObj]),
-        multipleFilesUploaderS3(
-          Array.isArray(values.files)
-            ? values.files.map((file: UploadFile) => file.originFileObj)
-            : [] // Provide an empty array if values.files is not an array
-        ),
-      ]); 
-      */
-
-      const formData = new FormData();
-      if (values.image?.length > 0) {
-        formData.append('image', values?.image[0]?.originFileObj);
-        delete values.image;
-      }
-      // console.log(values.files);
-      if (values.files?.length > 0) {
-        values.files.forEach((file: UploadFile) => {
-          if (file.originFileObj) {
-            //! when use ant-d uploader then get originFileObj othen wise directly use file
-            // Check if originFileObj is defined
-            formData.append('files', file.originFileObj);
-          }
-        });
-        delete values.files;
-      }
-
-      formData.append('data', JSON.stringify(values));
       if (iniValue._id) {
         const res = await updateCategory({
           id: iniValue._id,
-          data: formData,
+          data: values,
         }).unwrap();
         SuccessModal('Successfully Updated');
         message.success('Successfully Updated');
-      } else {
-        const res = await addCategory(formData).unwrap();
-        SuccessModal('Successfully added');
-        form.resetFields();
-        message.success('Successfully added');
       }
+      //  else {
+      //   const res = await addCategory(formData).unwrap();
+      //   SuccessModal('Successfully added');
+      //   form.resetFields();
+      //   message.success('Successfully added');
+      // }
     } catch (error: any) {
       ErrorModal(error);
       message.error(error?.message);
@@ -77,7 +54,25 @@ const CategoryModal = ({
     const { image, files, ...valueCopy } = iniValue;
     iniValue = valueCopy;
   }
-
+  const formatLabelToValue = (label: string) => {
+    return label
+      .trim()
+      .replace(/\s+/g, '_') // Replace spaces with underscores
+      .replace(/[^\w_]/g, ''); // Remove special characters
+  };
+  const showConfirm = (name: any, remove: any, type = 'Category') => {
+    confirm({
+      title: `Are you sure you want to remove this ${type}?`,
+      icon: <ExclamationCircleOutlined />,
+      content: 'This action cannot be undone.',
+      okText: 'Yes, Remove',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk() {
+        remove(name);
+      },
+    });
+  };
   return (
     <Form
       form={form}
@@ -86,108 +81,189 @@ const CategoryModal = ({
       initialValues={iniValue._id ? { ...iniValue } : {}}
       layout="vertical"
     >
-      <Form.Item
-        label="Title"
-        name="title"
-        rules={[
-          {
-            required: iniValue._id ? false : true,
-            message: 'Please input the title!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item label="Subtitle" name="subTitle">
-        <Input />
-      </Form.Item>
-
-      <div className="flex items-center gap-2">
-        <Form.Item
-          label="Category Banner"
-          name="image"
-          valuePropName="fileList"
-          rules={[
-            {
-              required: iniValue._id ? false : true,
-              message: 'Please select the Banner Image!',
-            },
-          ]}
-          getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
-        >
-          <Upload
-            // action="/upload"
-            multiple={false}
-            listType="picture-card"
-            showUploadList={true}
-            maxCount={1}
-            accept="image/*"
-          >
-            Upload Image +
-          </Upload>
-        </Form.Item>
-
-        {initialValues?.image && (
-          <CustomImageTag
-            src={initialValues?.image}
-            height={300}
-            width={300}
-            className="w-32 cursor-pointer rounded-lg border border-purple-400"
-            preview={true}
-          />
-        )}
-      </div>
-
-      <div>
-        <Form.Item
-          label="Files"
-          name="files"
-          valuePropName="fileList"
-          rules={[
-            {
-              required: iniValue._id ? false : true,
-              message: 'Please select the file!',
-            },
-          ]}
-          getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
-        >
-          <Upload
-            accept="application/*"
-            maxCount={2}
-            multiple={false}
-            // action="/upload"
-            listType="text"
-            beforeUpload={() => false}
-          >
-            <Button icon={<UploadOutlined />}>Upload Files</Button>
-          </Upload>
-        </Form.Item>
-        <div className="my-2 flex items-center justify-center gap-2 rounded-md border">
-          <Form.Item>
-            <Button
-              loading={isLoading || uloading}
-              type="primary"
-              className="mt-4"
-              htmlType="submit"
-            >
-              Submit
-            </Button>
-          </Form.Item>
-          {!iniValue && (
-            <Form.Item>
-              <Button
-                // loading={isLoading}
-                type="dashed"
-                className="mt-4"
-                htmlType="reset"
+      <h1 className="pb-2 text-center">
+        <span className="w-fit rounded-lg border p-1">{iniValue.label}</span>
+      </h1>
+      <Form.List name="children">
+        {(fields, { add, remove }) => (
+          <div className="space-y-4">
+            {fields.map(({ key, name, ...restField }, index) => (
+              <div
+                key={key}
+                className="relative rounded-lg border bg-gray-100 p-4"
               >
-                Reset
-              </Button>
-            </Form.Item>
-          )}
-        </div>
-      </div>
+                {/* Auto-generated UID and Serial Number */}
+                <Form.Item
+                  name={[name, 'serialNumber']}
+                  initialValue={index + 1}
+                  hidden
+                >
+                  <Input />
+                </Form.Item>
+
+                <Form.Item name={[name, 'uid']} initialValue={uuidv4()} hidden>
+                  <Input />
+                </Form.Item>
+
+                {/* Parent Input Field (Auto-generate value from label) */}
+                <Form.Item
+                  {...restField}
+                  name={[name, 'label']}
+                  label="Category Label"
+                  rules={[{ required: true, message: 'Required!' }]}
+                >
+                  <Input
+                    placeholder="Enter Category Label"
+                    className="w-full rounded border p-2"
+                    onChange={(e) => {
+                      const label = e.target.value;
+                      form.setFieldValue(
+                        ['children', name, 'value'],
+                        formatLabelToValue(label)
+                      );
+                    }}
+                  />
+                </Form.Item>
+
+                <Form.Item name={[name, 'value']} hidden>
+                  <Input />
+                </Form.Item>
+
+                {/* Nested Children */}
+                <Form.List name={[name, 'children']}>
+                  {(childFields, { add: addChild, remove: removeChild }) => (
+                    <div className="ml-6 space-y-4">
+                      {childFields.map(
+                        (
+                          { key: childKey, name: childName, ...childRestField },
+                          childIndex
+                        ) => (
+                          <div
+                            key={childKey}
+                            className="relative rounded-lg border bg-white p-3"
+                          >
+                            {/* Auto-generated UID and Serial Number */}
+                            <Form.Item
+                              name={[childName, 'serialNumber']}
+                              initialValue={childIndex + 1}
+                              hidden
+                            >
+                              <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                              name={[childName, 'uid']}
+                              initialValue={uuidv4()}
+                              hidden
+                            >
+                              <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                              {...childRestField}
+                              name={[childName, 'label']}
+                              label="Child Label"
+                              rules={[{ required: true, message: 'Required!' }]}
+                            >
+                              <Input
+                                placeholder="Enter Child Label"
+                                className="w-full rounded border p-2"
+                                onChange={(e) => {
+                                  const label = e.target.value;
+                                  form.setFieldValue(
+                                    [
+                                      'children',
+                                      name,
+                                      'children',
+                                      childName,
+                                      'value',
+                                    ],
+                                    formatLabelToValue(label)
+                                  );
+                                }}
+                              />
+                            </Form.Item>
+
+                            <Form.Item name={[childName, 'value']} hidden>
+                              <Input />
+                            </Form.Item>
+
+                            {/* Remove Child Button with Confirmation */}
+                            <button
+                              onClick={() =>
+                                showConfirm(childName, removeChild, 'Child')
+                              }
+                              className="!absolute right-1 top-0 mr-2 mt-2 max-w-32 rounded-lg border border-dotted border-blue-400 p-1 text-red-500"
+                            >
+                              <MinusCircleOutlined /> Remove Child
+                            </button>
+                          </div>
+                        )
+                      )}
+
+                      {/* Add Child Button */}
+                      <div className="flex items-center justify-center">
+                        <Button
+                          type="dashed"
+                          onClick={() =>
+                            addChild({
+                              serialNumber: childFields.length + 1,
+                              uid: uuidv4(),
+                              label: '',
+                              value: '',
+                            })
+                          }
+                          block
+                          icon={<PlusOutlined />}
+                          className="!mx-auto mt-2 !max-w-80 text-blue-500"
+                        >
+                          Add Child
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </Form.List>
+
+                {/* Remove Parent Button with Confirmation */}
+                <Button
+                  type="dashed"
+                  danger
+                  onClick={() => showConfirm(name, remove, 'Category')}
+                  icon={<MinusCircleOutlined />}
+                  className="!absolute right-1 top-0 mr-3 mt-2 max-w-36 rounded-lg border border-dotted p-1 text-red-500"
+                >
+                  Remove Category
+                </Button>
+              </div>
+            ))}
+
+            {/* Add Parent Button */}
+            <Button
+              type="dashed"
+              onClick={() =>
+                add({
+                  serialNumber: fields.length + 1,
+                  uid: uuidv4(),
+                  label: '',
+                  value: '',
+                  children: [],
+                })
+              }
+              block
+              icon={<PlusOutlined />}
+              className="mt-2 text-blue-500"
+            >
+              Add Category
+            </Button>
+          </div>
+        )}
+      </Form.List>
+
+      <Form.Item style={{ marginTop: 20 }}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
     </Form>
   );
 };

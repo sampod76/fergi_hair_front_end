@@ -66,7 +66,7 @@ export default function ProductCategoryList() {
     {
       title: 'S/N',
       ellipsis: true,
-      width: 200,
+      width: 100,
       render: (data: any) => (
         <div className="flex items-center justify-between gap-2 text-lg font-bold">
           <p>S/N -{data.serialNumber}</p>
@@ -167,6 +167,7 @@ export default function ProductCategoryList() {
           </Space>
         );
       },
+      fixed: 'right',
     },
   ];
 
@@ -232,6 +233,22 @@ export default function ProductCategoryList() {
           )}
         </ActionBar>
       </div>
+      {/* <div>
+        <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-purple-400 to-pink-500">
+          <div className="grid grid-cols-2 gap-4 rounded-xl bg-white p-6 shadow-md">
+            {allData.map((data) => {
+              return (
+                <div key={data._id}>
+                  <h2 className="mb-2 text-lg font-semibold">{data.title}</h2>
+                  <button className="rounded-md bg-purple-600 px-4 py-2 text-white">
+                    Edit
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div> */}
 
       <div className="bg-bgd2">
         <UMTable

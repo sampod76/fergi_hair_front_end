@@ -29,10 +29,10 @@
 
 /*  */
 .table-row-light {
-  background-color: #e6eaee;
+  background-color: #ece6ee;
 }
 .table-row-dark {
-  background-color: #ddeaee;
+  background-color: #eedded;
 }
 
 .ant-table-thead > tr > th {

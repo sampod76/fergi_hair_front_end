@@ -14,37 +14,28 @@ import {
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
 import { useAppSelector } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
-import {
-  Button,
-  Dropdown,
-  Input,
-  Select,
-  Space,
-  TableProps,
-  Tooltip,
-} from 'antd';
+import { Button, Dropdown, Input, Space, TableProps, Tooltip } from 'antd';
 import { useState } from 'react';
 import { AiTwotonePlusCircle } from 'react-icons/ai';
-import { IoCreate } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IMeta } from '../../../types/common';
 export default function CategoryList() {
   const user = useAppSelector(selectCurrentUser);
   //
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
+  const [size, setSize] = useState<number>(100);
   const [sortBy, setSortBy] = useState<string>('serialNumber');
   const [sortOrder, setSortOrder] = useState<string>('asc');
   //
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [company, setCompany] = useState<string>('');
+  const [categoryType, setCategoryType] = useState<string>('profile');
   //
   const query: Record<string, any> = {};
   query['limit'] = size;
   query['page'] = page;
   query['sortBy'] = sortBy;
   query['sortOrder'] = sortOrder;
-  query['company'] = company;
+  query['categoryType'] = categoryType;
   query['searchTerm'] = searchTerm;
 
   const { data, isLoading } = useGetAllCategoryQuery(query);
@@ -71,16 +62,12 @@ export default function CategoryList() {
 
   const columns: TableProps<any>['columns'] = [
     {
-      title: '#ID',
+      title: 'S/N',
       ellipsis: true,
       width: 200,
       render: (data: any) => (
         <div className="flex items-center justify-between gap-2">
-          <p>
-            {data.company === 'companyOne'
-              ? 'O - ' + data.serialNumber
-              : 'T - ' + data.serialNumber}
-          </p>
+          <p>S/N-{data.serialNumber}</p>
         </div>
       ),
     },
@@ -99,8 +86,8 @@ export default function CategoryList() {
               alt=""
             />
           )}
-          <Tooltip title={record.name}>
-            <p className="truncate">{record.name}</p>
+          <Tooltip title={record.label}>
+            <p className="truncate">{record.label}</p>
           </Tooltip>
         </div>
       ),
@@ -171,11 +158,14 @@ export default function CategoryList() {
               arrow
               menu={{ items: menuItems }} // Pass items directly to the menu prop
             >
-              <button className="text-blue-700">Action</button>
+              <button className="text-2xl text-blue-700">
+                <BsThreeDotsVertical />{' '}
+              </button>
             </Dropdown>
           </Space>
         );
       },
+      fixed: 'right',
     },
   ];
 
@@ -194,13 +184,13 @@ export default function CategoryList() {
     setSortBy('');
     setSortOrder('');
     setSearchTerm('');
-    setCompany('');
+    setCategoryType('');
   };
 
   return (
     <div>
       <h1 className="text-center text-3xl font-bold capitalize">
-        Product Category list
+        Manage Hair Identity
       </h1>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
@@ -213,7 +203,7 @@ export default function CategoryList() {
           >
             <CategoryModal />
           </ModalComponent>
-          <ModalComponent
+          {/* <ModalComponent
             button={
               <p className="mx-2 flex cursor-pointer items-center justify-center rounded-xl border px-3 text-lg font-bold text-blue-400">
                 <IoCreate /> Update S/N
@@ -244,13 +234,13 @@ export default function CategoryList() {
                 </Select.Option>
               </Select>
             </div>
-          </ModalComponent>
+          </ModalComponent> */}
         </div>
 
         <ActionBar>
-          <div className="mx-2">
+          {/* <div className="mx-2">
             <Select
-              onChange={(value) => setCompany(value)}
+              onChange={(value) => setCategoryType(value)}
               placeholder="Select a company"
               allowClear
               size="large"
@@ -262,7 +252,7 @@ export default function CategoryList() {
                 Driver Document Submit
               </Select.Option>
             </Select>
-          </div>
+          </div> */}
           <Input
             size="large"
             placeholder="Search"

@@ -83,6 +83,7 @@ const ProductCategoryModal = ({
       onFinish={handleFinish}
       initialValues={iniValue._id ? { ...iniValue } : {}}
       layout="vertical"
+      className=""
     >
       <Form.Item
         label="Title"
@@ -102,7 +103,7 @@ const ProductCategoryModal = ({
           <Button
             loading={isLoading || uloading}
             type="primary"
-            className="mt-4"
+            className=""
             htmlType="submit"
           >
             Submit
@@ -113,7 +114,7 @@ const ProductCategoryModal = ({
             <Button
               // loading={isLoading}
               type="dashed"
-              className="mt-4"
+              className=""
               htmlType="reset"
             >
               Reset
