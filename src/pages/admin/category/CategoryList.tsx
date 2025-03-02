@@ -57,7 +57,8 @@ export default function CategoryList() {
       }
     );
   };
-  let resentUser = data?.data || [];
+  let allData = data?.data || [];
+
   const meta = (data?.meta as IMeta) || [];
 
   const columns: TableProps<any>['columns'] = [
@@ -65,9 +66,10 @@ export default function CategoryList() {
       title: 'S/N',
       ellipsis: true,
       width: 200,
+      dataIndex: 'serialNumber',
       render: (data: any) => (
         <div className="flex items-center justify-between gap-2">
-          <p>S/N-{data.serialNumber}</p>
+          <p>S/N-{data}</p>
         </div>
       ),
     },
@@ -128,7 +130,7 @@ export default function CategoryList() {
               <ModalComponent
                 button={
                   <Button className="!w-20" type="default">
-                    Edit
+                    Edit/View
                   </Button>
                 }
               >
@@ -136,19 +138,19 @@ export default function CategoryList() {
               </ModalComponent>
             ),
           },
-          {
-            key: 'delete',
-            label: (
-              <Button
-                className="!w-20"
-                type="default"
-                loading={dLoading}
-                onClick={() => handleDelete(record._id)}
-              >
-                Delete
-              </Button>
-            ),
-          },
+          // {
+          //   key: 'delete',
+          //   label: (
+          //     <Button
+          //       className="!w-20"
+          //       type="default"
+          //       loading={dLoading}
+          //       onClick={() => handleDelete(record._id)}
+          //     >
+          //       Delete
+          //     </Button>
+          //   ),
+          // },
         ];
 
         return (
@@ -276,7 +278,7 @@ export default function CategoryList() {
         <UMTable
           loading={isLoading}
           columns={columns}
-          dataSource={resentUser}
+          dataSource={allData}
           pageSize={size}
           totalPages={meta?.total}
           showSizeChanger={true}

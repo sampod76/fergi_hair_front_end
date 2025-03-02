@@ -28,8 +28,9 @@ const CategoryModal = ({
 
   const handleFinish = async (values: any) => {
     console.log('🚀 ~ handleFinish ~ values:', values);
-    return;
     try {
+      const key = 'loadingMessage';
+      message.loading({ content: 'Adding to category...', key });
       if (iniValue._id) {
         const res = await updateCategory({
           id: iniValue._id,
@@ -44,21 +45,26 @@ const CategoryModal = ({
       //   form.resetFields();
       //   message.success('Successfully added');
       // }
+      message.destroy(key);
     } catch (error: any) {
+      console.log('🚀 ~ handleFinish ~ error:', error);
       ErrorModal(error);
       message.error(error?.message);
     }
   };
 
-  if (iniValue) {
-    const { image, files, ...valueCopy } = iniValue;
-    iniValue = valueCopy;
-  }
   const formatLabelToValue = (label: string) => {
     return label
       .trim()
+      .replace(/\(/g, ' ') // Replace opening parenthesis with a space
+      .replace(/\)/g, '') // Remove closing parenthesis
+      .replace(/\//g, '_') // Replace forward slashes with underscores
       .replace(/\s+/g, '_') // Replace spaces with underscores
-      .replace(/[^\w_]/g, ''); // Remove special characters
+      .replace(/[^\w_]/g, '') // Remove any other special characters
+      .replace(/_+/g, '_') // Ensure no double underscores
+      .split('_') // Split into words
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+      .join('_'); // Join back with underscores
   };
   const showConfirm = (name: any, remove: any, type = 'Category') => {
     confirm({
@@ -259,11 +265,18 @@ const CategoryModal = ({
         )}
       </Form.List>
 
-      <Form.Item style={{ marginTop: 20 }}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
+      <div className="flex items-center justify-center">
+        <Form.Item style={{ marginTop: 20 }}>
+          <Button
+            loading={uloading}
+            className="!min-w-40"
+            type="primary"
+            htmlType="submit"
+          >
+            Submit
+          </Button>
+        </Form.Item>
+      </div>
     </Form>
   );
 };
