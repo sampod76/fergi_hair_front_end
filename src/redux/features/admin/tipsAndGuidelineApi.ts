@@ -5,6 +5,7 @@ import { tagTypes } from '../../tag-types';
 const URL = '/tips-guideline';
 
 export interface ITipsAndGuid {
+  _id: string;
   productId: string;
   productTitle: string;
   author: any;
@@ -14,7 +15,7 @@ export interface ITipsAndGuid {
 }
 export const tipsAndGuidelineApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getAllProductCategory: build.query({
+    getAllTipsAndGuideline: build.query({
       query: (arg: Record<string, any>) => {
         return {
           url: URL,
@@ -31,7 +32,7 @@ export const tipsAndGuidelineApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.TipsAndGuid],
     }),
 
-    getSingleProductCategory: build.query({
+    getSingleTipsAndGuideline: build.query({
       query: (id: string | string[] | undefined) => {
         return {
           url: `${URL}/${id}`,
@@ -42,7 +43,7 @@ export const tipsAndGuidelineApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.TipsAndGuid],
     }),
 
-    addProductCategory: build.mutation({
+    addTipsAndGuideline: build.mutation({
       query: (data) => {
         return {
           url: URL,
@@ -54,7 +55,7 @@ export const tipsAndGuidelineApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.TipsAndGuid],
     }),
 
-    updateProductCategory: build.mutation({
+    updateTipsAndGuideline: build.mutation({
       query: ({ data, id }) => {
         return {
           url: `${URL}/${id}`,
@@ -65,7 +66,7 @@ export const tipsAndGuidelineApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.TipsAndGuid],
     }),
-    updateProductCategorySerialNumber: build.mutation({
+    updateTipsAndGuidelineSerialNumber: build.mutation({
       query: ({ data }: { data: Record<string, any> }) => {
         return {
           url: `${URL}/serialnumber-update`,
@@ -77,7 +78,7 @@ export const tipsAndGuidelineApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.TipsAndGuid],
     }),
 
-    deleteProductCategory: build.mutation({
+    deleteTipsAndGuideline: build.mutation({
       query: (id: string) => ({
         url: `${URL}/${id}`,
         method: 'DELETE',
@@ -88,10 +89,10 @@ export const tipsAndGuidelineApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useAddProductCategoryMutation,
-  useDeleteProductCategoryMutation,
-  useGetAllProductCategoryQuery,
-  useGetSingleProductCategoryQuery,
-  useUpdateProductCategoryMutation,
-  useUpdateProductCategorySerialNumberMutation,
+  useAddTipsAndGuidelineMutation,
+  useDeleteTipsAndGuidelineMutation,
+  useGetAllTipsAndGuidelineQuery,
+  useGetSingleTipsAndGuidelineQuery,
+  useUpdateTipsAndGuidelineMutation,
+  useUpdateTipsAndGuidelineSerialNumberMutation,
 } = tipsAndGuidelineApi;

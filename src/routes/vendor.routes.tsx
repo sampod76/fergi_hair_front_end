@@ -5,18 +5,11 @@ import AllNotification from '@pages/admin/notification/AllNotification';
 import Settings from '@pages/admin/settings/Settings';
 
 import UserDetails from '@pages/admin/User/UserDetails';
-import VendorDashboard from '@pages/vendor/VendorDashboard';
+
 import LoginHistory from '../pages/LoginHistory';
 import Profile from '../pages/Profile';
 
 export const vendorPaths = [
-  {
-    name: 'Dashboard',
-    path: 'dashboard',
-    iconName: 'MdDashboard',
-    element: <VendorDashboard />,
-  },
-
   {
     name: 'Company Documents User',
     path: 'company-documents-user',

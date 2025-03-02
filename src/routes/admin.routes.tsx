@@ -17,6 +17,8 @@ import TermsAndCondition from '@pages/admin/settings/AllTextField/Terms&Conditio
 
 import UserDetails from '@pages/admin/User/UserDetails';
 
+import Product from '@pages/admin/products/Products';
+import Settings from '@pages/admin/settings/Settings';
 import LoginHistory from '../pages/LoginHistory';
 import Profile from '../pages/Profile';
 export const adminPaths = [
@@ -45,8 +47,15 @@ export const adminPaths = [
     name: 'Products',
     path: 'products',
     iconName: 'TbCategoryPlus ',
+    element: <Product />,
+  },
+  {
+    name: 'Hair Tips & Guidelines',
+    path: 'hair-tips-guidelines',
+    iconName: 'TbCategoryPlus ',
     element: <CategoryList />,
   },
+
   {
     path: 'product-category-update',
     element: <CategorySerialNumberUpdate />,
@@ -74,6 +83,12 @@ export const adminPaths = [
         element: <Earings earnType="package" />,
       },
     ],
+  },
+  {
+    name: 'Settings',
+    path: 'settings',
+    iconName: 'CiSettings',
+    element: <Settings />,
   },
 
   {

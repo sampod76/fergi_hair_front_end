@@ -12,6 +12,7 @@ export interface ICategory {
 }
 
 export interface IUser {
+  _id: string;
   userUniqueId: string;
   userId?: string;
   email: string;
@@ -37,6 +38,7 @@ export interface IUser {
   author?: any; // Adjust this type accordingly
   status?: string;
   isDelete?: boolean;
+  createdAt: string;
 }
 
 export const generalUserApi = baseApi.injectEndpoints({

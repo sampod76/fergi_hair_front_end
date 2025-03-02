@@ -5,6 +5,7 @@ import { tagTypes } from '../../tag-types';
 const URL = '/user-save-products';
 
 export interface IRoutingReminder {
+  _id: string;
   reminderType?: string;
   scheduleType?: string;
   month?: string;
@@ -25,7 +26,7 @@ export interface IRoutingReminder {
 }
 export const routingReminderApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getAllProductCategory: build.query({
+    getAllRoutingReminder: build.query({
       query: (arg: Record<string, any>) => {
         return {
           url: URL,
@@ -42,7 +43,7 @@ export const routingReminderApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.RoutingReminder],
     }),
 
-    getSingleProductCategory: build.query({
+    getSingleRoutingReminder: build.query({
       query: (id: string | string[] | undefined) => {
         return {
           url: `${URL}/${id}`,
@@ -53,7 +54,7 @@ export const routingReminderApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.RoutingReminder],
     }),
 
-    addProductCategory: build.mutation({
+    addRoutingReminder: build.mutation({
       query: (data) => {
         return {
           url: URL,
@@ -65,7 +66,7 @@ export const routingReminderApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.RoutingReminder],
     }),
 
-    updateProductCategory: build.mutation({
+    updateRoutingReminder: build.mutation({
       query: ({ data, id }) => {
         return {
           url: `${URL}/${id}`,
@@ -76,7 +77,7 @@ export const routingReminderApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.RoutingReminder],
     }),
-    updateProductCategorySerialNumber: build.mutation({
+    updateRoutingReminderSerialNumber: build.mutation({
       query: ({ data }: { data: Record<string, any> }) => {
         return {
           url: `${URL}/serialnumber-update`,
@@ -88,7 +89,7 @@ export const routingReminderApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.RoutingReminder],
     }),
 
-    deleteProductCategory: build.mutation({
+    deleteRoutingReminder: build.mutation({
       query: (id: string) => ({
         url: `${URL}/${id}`,
         method: 'DELETE',
@@ -99,10 +100,10 @@ export const routingReminderApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useAddProductCategoryMutation,
-  useDeleteProductCategoryMutation,
-  useGetAllProductCategoryQuery,
-  useGetSingleProductCategoryQuery,
-  useUpdateProductCategoryMutation,
-  useUpdateProductCategorySerialNumberMutation,
+  useAddRoutingReminderMutation,
+  useDeleteRoutingReminderMutation,
+  useGetAllRoutingReminderQuery,
+  useGetSingleRoutingReminderQuery,
+  useUpdateRoutingReminderMutation,
+  useUpdateRoutingReminderSerialNumberMutation,
 } = routingReminderApi;

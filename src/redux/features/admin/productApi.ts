@@ -12,6 +12,7 @@ type Pricing = {
 };
 
 export interface IProduct {
+  _id: string;
   name: string;
   subTitle?: string;
   images?: IFileAfterUpload[]; // Adjust type accordingly
@@ -26,7 +27,7 @@ export interface IProduct {
 }
 export const productApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getAllProductCategory: build.query({
+    getAllProduct: build.query({
       query: (arg: Record<string, any>) => {
         return {
           url: URL,
@@ -43,7 +44,7 @@ export const productApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.Product],
     }),
 
-    getSingleProductCategory: build.query({
+    getSingleProduct: build.query({
       query: (id: string | string[] | undefined) => {
         return {
           url: `${URL}/${id}`,
@@ -54,7 +55,7 @@ export const productApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.Product],
     }),
 
-    addProductCategory: build.mutation({
+    addProduct: build.mutation({
       query: (data) => {
         return {
           url: URL,
@@ -66,7 +67,7 @@ export const productApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.Product],
     }),
 
-    updateProductCategory: build.mutation({
+    updateProduct: build.mutation({
       query: ({ data, id }) => {
         return {
           url: `${URL}/${id}`,
@@ -77,7 +78,7 @@ export const productApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.Product],
     }),
-    updateProductCategorySerialNumber: build.mutation({
+    updateProductSerialNumber: build.mutation({
       query: ({ data }: { data: Record<string, any> }) => {
         return {
           url: `${URL}/serialnumber-update`,
@@ -89,7 +90,7 @@ export const productApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.Product],
     }),
 
-    deleteProductCategory: build.mutation({
+    deleteProduct: build.mutation({
       query: (id: string) => ({
         url: `${URL}/${id}`,
         method: 'DELETE',
@@ -100,10 +101,10 @@ export const productApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useAddProductCategoryMutation,
-  useDeleteProductCategoryMutation,
-  useGetAllProductCategoryQuery,
-  useGetSingleProductCategoryQuery,
-  useUpdateProductCategoryMutation,
-  useUpdateProductCategorySerialNumberMutation,
+  useAddProductMutation,
+  useDeleteProductMutation,
+  useGetAllProductQuery,
+  useGetSingleProductQuery,
+  useUpdateProductMutation,
+  useUpdateProductSerialNumberMutation,
 } = productApi;

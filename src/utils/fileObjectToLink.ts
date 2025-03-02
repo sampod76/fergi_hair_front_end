@@ -12,7 +12,9 @@
 
 import { IFileAfterUpload } from '@local-types/globalType';
 
-export default function fileObjectToLink(src: IFileAfterUpload | string) {
+export default function fileObjectToLink(
+  src: IFileAfterUpload | string | undefined
+) {
   // Backend baseurl
   const backendBaseUrl = 'http://localhost:5000';
 

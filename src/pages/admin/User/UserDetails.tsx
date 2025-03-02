@@ -14,17 +14,14 @@ export default function UserDetails() {
     userRoleBaseId,
     { skip: !userRoleBaseId }
   );
-  const userData = user?.data;
+  const userData = user;
 
-  const { data: AllCategory, isLoading } = useGetAllCategoryQuery(
-    {
-      limit: 555,
-      company: userData?.roleType,
-      sortBy: 'asc',
-      sortOrder: 'serialNumber',
-    },
-    { skip: !Boolean(userData?.roleType) }
-  );
+  const { data: AllCategory, isLoading } = useGetAllCategoryQuery({
+    limit: 555,
+
+    sortBy: 'asc',
+    sortOrder: 'serialNumber',
+  });
 
   if (isLoading || uLoaidng) {
     return <LoadingSkeleton sectionNumber={5} />;
@@ -37,7 +34,7 @@ export default function UserDetails() {
       {/* Header and Profile Image */}
       <div className="mb-6 flex flex-col items-center">
         <h2 className="mb-2 text-2xl font-bold capitalize">
-          {userData?.roleType}
+          {userData?.accountType}
         </h2>
         <h3 className="mb-4 text-lg font-semibold">User Details</h3>
         <CustomImageTag
@@ -56,7 +53,10 @@ export default function UserDetails() {
         <div className="space-y-4 rounded-lg p-4">
           <div className="flex justify-between">
             <span className="font-medium">Date:</span>
-            <span>{new Date(userData?.createdAt).toLocaleDateString()}</span>
+            <span>
+              {userData?.createdAt &&
+                new Date(userData?.createdAt).toLocaleDateString()}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="font-medium">User Name:</span>

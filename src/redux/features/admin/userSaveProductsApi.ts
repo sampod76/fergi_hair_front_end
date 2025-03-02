@@ -6,6 +6,7 @@ import { tagTypes } from '../../tag-types';
 const URL = '/user-save-products';
 
 export interface IUserSaveProduct {
+  _id: string;
   name: string;
   subTitle?: string;
   images?: IFileAfterUpload[]; // Adjust this type accordingly
@@ -18,7 +19,7 @@ export interface IUserSaveProduct {
 }
 export const userSaveProductsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getAllProductCategory: build.query({
+    getAllUserSaveProducts: build.query({
       query: (arg: Record<string, any>) => {
         return {
           url: URL,
@@ -35,7 +36,7 @@ export const userSaveProductsApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.UserSaveProduct],
     }),
 
-    getSingleProductCategory: build.query({
+    getSingleUserSaveProducts: build.query({
       query: (id: string | string[] | undefined) => {
         return {
           url: `${URL}/${id}`,
@@ -46,7 +47,7 @@ export const userSaveProductsApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.UserSaveProduct],
     }),
 
-    addProductCategory: build.mutation({
+    addUserSaveProducts: build.mutation({
       query: (data) => {
         return {
           url: URL,
@@ -58,7 +59,7 @@ export const userSaveProductsApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.UserSaveProduct],
     }),
 
-    updateProductCategory: build.mutation({
+    updateUserSaveProducts: build.mutation({
       query: ({ data, id }) => {
         return {
           url: `${URL}/${id}`,
@@ -69,7 +70,7 @@ export const userSaveProductsApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.UserSaveProduct],
     }),
-    updateProductCategorySerialNumber: build.mutation({
+    updateUserSaveProductsSerialNumber: build.mutation({
       query: ({ data }: { data: Record<string, any> }) => {
         return {
           url: `${URL}/serialnumber-update`,
@@ -81,7 +82,7 @@ export const userSaveProductsApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.UserSaveProduct],
     }),
 
-    deleteProductCategory: build.mutation({
+    deleteUserSaveProducts: build.mutation({
       query: (id: string) => ({
         url: `${URL}/${id}`,
         method: 'DELETE',
@@ -92,10 +93,10 @@ export const userSaveProductsApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useAddProductCategoryMutation,
-  useDeleteProductCategoryMutation,
-  useGetAllProductCategoryQuery,
-  useGetSingleProductCategoryQuery,
-  useUpdateProductCategoryMutation,
-  useUpdateProductCategorySerialNumberMutation,
+  useAddUserSaveProductsMutation,
+  useDeleteUserSaveProductsMutation,
+  useGetAllUserSaveProductsQuery,
+  useGetSingleUserSaveProductsQuery,
+  useUpdateUserSaveProductsMutation,
+  useUpdateUserSaveProductsSerialNumberMutation,
 } = userSaveProductsApi;

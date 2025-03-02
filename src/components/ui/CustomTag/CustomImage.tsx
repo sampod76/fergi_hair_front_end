@@ -6,7 +6,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import fileObjectToLink from '../../../utils/fileObjectToLink';
 
 type ImageTagProps = {
-  src: IFileAfterUpload | string;
+  src: IFileAfterUpload | string | undefined;
   width?: number;
   height?: number;
   alt?: string;

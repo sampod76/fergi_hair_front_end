@@ -96,9 +96,9 @@ const Sidebar = () => {
         <Sider
           breakpoint="lg"
           collapsed={togoSidebar || !screens.sm}
-          width={290}
+          width={300}
           // width={335}
-          className="rounded-l-3xl !bg-bgd !text-black"
+          className="!bg-bgd !text-black"
           style={{ height: '100vh', position: 'sticky', top: '0', left: '0' }}
         >
           <div className="!text-black">

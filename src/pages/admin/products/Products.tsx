@@ -7,17 +7,15 @@ import UMTable from '@components/ui/UMTable';
 
 import CategoryModal from '@components/Category/CategoryModal';
 
-import ProductCategoryModal from '@components/Category/ProductCategoryModal';
 import {
-  useDeleteProductCategoryMutation,
-  useGetAllProductCategoryQuery,
-} from '@redux/features/admin/productCategoryApi';
+  useDeleteProductMutation,
+  useGetAllProductQuery,
+} from '@redux/features/admin/productApi';
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
 import { useAppSelector } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
 import { Button, Dropdown, Input, Space, TableProps, Tooltip } from 'antd';
 import { useState } from 'react';
-import { AiTwotonePlusCircle } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IMeta } from '../../../types/common';
 export default function Product() {
@@ -38,10 +36,10 @@ export default function Product() {
   query['sortOrder'] = sortOrder;
   query['createAtFrom'] = month;
   query['searchTerm'] = searchTerm;
+  query['needProperty'] = 'productCategoryId';
 
-  const { data, isLoading } = useGetAllProductCategoryQuery(query);
-  const [deleteProductCategory, { isLoading: dLoading }] =
-    useDeleteProductCategoryMutation();
+  const { data, isLoading } = useGetAllProductQuery(query);
+  const [deleteProduct, { isLoading: dLoading }] = useDeleteProductMutation();
   if (isLoading) {
     return <LoadingSkeleton sectionNumber={5} />;
   }
@@ -50,7 +48,7 @@ export default function Product() {
       async (res) => {
         if (res.isConfirmed) {
           try {
-            const res = await deleteProductCategory(id).unwrap();
+            const res = await deleteProduct(id).unwrap();
             SuccessModal('Category Successfully Deleted');
           } catch (error: any) {
             ErrorModal(error.message);
@@ -74,13 +72,13 @@ export default function Product() {
       ),
     },
     {
-      title: 'Title',
+      title: 'Product Name',
       ellipsis: true,
       render: (record: any) => (
         <div className="flex items-center justify-start gap-2">
-          {record?.image && (
+          {record?.images && (
             <CustomImageTag
-              src={record?.image}
+              src={record?.images[0]}
               width={550}
               height={550}
               preview={true}
@@ -88,13 +86,46 @@ export default function Product() {
               alt=""
             />
           )}
-          <Tooltip title={record.title}>
-            <p className="truncate text-lg font-bold">{record.title}</p>
+          <Tooltip title={record.name}>
+            <p className="truncate text-lg font-bold">{record.name}</p>
           </Tooltip>
         </div>
       ),
     },
 
+    {
+      title: 'Category',
+      ellipsis: true,
+      dataIndex: 'productCategoryDetails',
+      render: (record: any) => (
+        <div className="flex items-start justify-between gap-2 text-lg font-bold">
+          <p>{record.title}</p>
+        </div>
+      ),
+      width: 200,
+    },
+    {
+      title: 'Status',
+      ellipsis: true,
+      dataIndex: 'status',
+      render: (record: any) => (
+        <div className="flex items-start justify-between gap-2 text-lg font-bold">
+          <p>{record}</p>
+        </div>
+      ),
+      width: 100,
+    },
+    {
+      title: 'Price',
+      ellipsis: true,
+      dataIndex: 'pricing',
+      render: (record: any) => (
+        <div className="flex items-start justify-between gap-2 text-lg font-bold">
+          <p>{record.price}</p>
+        </div>
+      ),
+      width: 100,
+    },
     {
       title: 'Date',
       ellipsis: true,
@@ -192,25 +223,11 @@ export default function Product() {
   return (
     <div>
       <h1 className="text-center text-3xl font-bold capitalize">
-        Product Category list
+        Product list
       </h1>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <ModalComponent
-            button={
-              <p className="mx-2 flex cursor-pointer items-center justify-center gap-1 rounded-xl border px-3 text-lg font-bold text-gray-600">
-                <AiTwotonePlusCircle /> Create
-              </p>
-            }
-          >
-            <ProductCategoryModal />
-          </ModalComponent>
-          {/* <Link
-            to={`/${user?.role}/product-category-update`}
-            className="mx-2 flex cursor-pointer items-center justify-center rounded-xl border px-3 text-lg font-bold text-blue-400"
-          >
-            <IoCreate /> Update S/N
-          </Link> */}
+          <h2 className="ml-2">Products</h2>
         </div>
 
         <ActionBar>

@@ -10,6 +10,7 @@ interface ICategoryValue {
   uid: string;
 }
 export interface IServiceLogger {
+  _id: string;
   logType?: String;
   logDate?: Date;
   author: any; // Adjust this type accordingly
@@ -38,7 +39,7 @@ export interface IServiceLogger {
 }
 export const serviceLoggerApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getAllProductCategory: build.query({
+    getAllServiceLogger: build.query({
       query: (arg: Record<string, any>) => {
         return {
           url: URL,
@@ -55,7 +56,7 @@ export const serviceLoggerApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.ServiceLogger],
     }),
 
-    getSingleProductCategory: build.query({
+    getSingleServiceLogger: build.query({
       query: (id: string | string[] | undefined) => {
         return {
           url: `${URL}/${id}`,
@@ -66,7 +67,7 @@ export const serviceLoggerApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.ServiceLogger],
     }),
 
-    addProductCategory: build.mutation({
+    addServiceLogger: build.mutation({
       query: (data) => {
         return {
           url: URL,
@@ -78,7 +79,7 @@ export const serviceLoggerApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.ServiceLogger],
     }),
 
-    updateProductCategory: build.mutation({
+    updateServiceLogger: build.mutation({
       query: ({ data, id }) => {
         return {
           url: `${URL}/${id}`,
@@ -89,7 +90,7 @@ export const serviceLoggerApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.ServiceLogger],
     }),
-    updateProductCategorySerialNumber: build.mutation({
+    updateServiceLoggerSerialNumber: build.mutation({
       query: ({ data }: { data: Record<string, any> }) => {
         return {
           url: `${URL}/serialnumber-update`,
@@ -101,7 +102,7 @@ export const serviceLoggerApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.ServiceLogger],
     }),
 
-    deleteProductCategory: build.mutation({
+    deleteServiceLogger: build.mutation({
       query: (id: string) => ({
         url: `${URL}/${id}`,
         method: 'DELETE',
@@ -112,10 +113,10 @@ export const serviceLoggerApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useAddProductCategoryMutation,
-  useDeleteProductCategoryMutation,
-  useGetAllProductCategoryQuery,
-  useGetSingleProductCategoryQuery,
-  useUpdateProductCategoryMutation,
-  useUpdateProductCategorySerialNumberMutation,
+  useAddServiceLoggerMutation,
+  useDeleteServiceLoggerMutation,
+  useGetAllServiceLoggerQuery,
+  useGetSingleServiceLoggerQuery,
+  useUpdateServiceLoggerMutation,
+  useUpdateServiceLoggerSerialNumberMutation,
 } = serviceLoggerApi;
