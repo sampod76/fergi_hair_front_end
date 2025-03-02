@@ -26,6 +26,10 @@ export enum tagTypes {
   vendor = 'vendor',
   subscriptions = 'subscriptions',
   PaymentHistory = 'PaymentHistory',
+  UserSaveProduct = 'UserSaveProduct',
+  RoutingReminder = 'RoutingReminder',
+  ServiceLogger = 'ServiceLogger',
+  TipsAndGuid = 'TipsAndGuid',
 }
 
 export const tagTypesList = Object.values(tagTypes);

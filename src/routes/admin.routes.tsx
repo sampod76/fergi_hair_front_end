@@ -14,10 +14,9 @@ import AllNotification from '@pages/admin/notification/AllNotification';
 import ShowOrder from '@pages/admin/order/ShowOrder';
 import PrivacyPolicy from '@pages/admin/settings/AllTextField/PrivacyPolicy';
 import TermsAndCondition from '@pages/admin/settings/AllTextField/Terms&Condition';
-import Settings from '@pages/admin/settings/Settings';
-import ShowSubmissions from '@pages/admin/submission/ShowSubmissions';
+
 import UserDetails from '@pages/admin/User/UserDetails';
-import VendorList from '@pages/admin/vendorList/vendorList';
+
 import LoginHistory from '../pages/LoginHistory';
 import Profile from '../pages/Profile';
 export const adminPaths = [
@@ -28,12 +27,7 @@ export const adminPaths = [
     element: <AdminDashboard />,
   },
   //
-  {
-    name: 'Account Details',
-    path: 'Users',
-    iconName: 'MdPeople',
-    element: <VendorList companyType={'companyOne'} />,
-  },
+
   {
     name: 'Manage Hair Identity',
     path: 'manage-hair-identity',
@@ -82,16 +76,6 @@ export const adminPaths = [
     ],
   },
 
-  {
-    name: 'Settings',
-    path: 'settings',
-    iconName: 'CiSettings',
-    element: <Settings />,
-  },
-  {
-    path: 'show-user-submissions/:userId',
-    element: <ShowSubmissions />,
-  },
   {
     path: 'user-details/:userRoleBaseId',
     element: <UserDetails />,

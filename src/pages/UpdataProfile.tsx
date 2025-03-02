@@ -4,7 +4,7 @@ import CustomImageTag from '@components/ui/CustomTag/CustomImage';
 import LoadingSkeleton from '@components/ui/Loading/LoadingSkeleton';
 import UploadImage from '@components/ui/UploadImage';
 import { useUpdateadminMutation } from '@redux/features/admin/adminApi';
-import { useUpdateEmployeeMutation } from '@redux/features/admin/employeeApi';
+
 import { useGetProfileQuery } from '@redux/features/auth/authApi';
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
 import { useAppSelector } from '@redux/hooks';
@@ -21,8 +21,7 @@ const ProfileUpdate = () => {
   const [image, setImageState] = useState([]);
   console.log('🚀 ~ ProfileUpdate ~ image:', image);
   const [imageLoading, setImageLoading] = useState(false);
-  const [updateEmployee, { isLoading: tempLoading }] =
-    useUpdateEmployeeMutation();
+
   const [updateAdmin, { isLoading: adminLoading }] = useUpdateadminMutation();
 
   const onFinish = async (data: any) => {
@@ -40,11 +39,6 @@ const ProfileUpdate = () => {
 
       if (user?.role === 'admin') {
         await updateAdmin({
-          id: getProfile?.roleInfo._id,
-          data: data,
-        }).unwrap();
-      } else {
-        await updateEmployee({
           id: getProfile?.roleInfo._id,
           data: data,
         }).unwrap();
@@ -140,11 +134,7 @@ const ProfileUpdate = () => {
             </Form.Item>
           </div>
 
-          <Button
-            htmlType="submit"
-            loading={tempLoading || adminLoading}
-            className="w-full"
-          >
+          <Button htmlType="submit" loading={adminLoading} className="w-full">
             Update
           </Button>
         </Form>
