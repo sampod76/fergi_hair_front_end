@@ -61,7 +61,7 @@ export const productApi = baseApi.injectEndpoints({
           url: URL,
           method: 'POST',
           data: data,
-          // contentType: 'multipart/form-data',
+          contentType: 'multipart/form-data',
         };
       },
       invalidatesTags: [tagTypes.Product],
@@ -73,7 +73,7 @@ export const productApi = baseApi.injectEndpoints({
           url: `${URL}/${id}`,
           method: 'PATCH',
           data: data,
-          // contentType: 'multipart/form-data',
+          contentType: 'multipart/form-data',
         };
       },
       invalidatesTags: [tagTypes.Product],

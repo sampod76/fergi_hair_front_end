@@ -10,6 +10,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.bgColor {
+  @apply bg-gradient-to-r from-blue-500 to-green-500;
+}
+
 .inputSize {
   min-height: 3.4rem;
 }

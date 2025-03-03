@@ -5,8 +5,7 @@ import CustomImageTag from '@components/ui/CustomTag/CustomImage';
 import LoadingSkeleton from '@components/ui/Loading/LoadingSkeleton';
 import UMTable from '@components/ui/UMTable';
 
-import CategoryModal from '@components/Category/CategoryModal';
-
+import CreateProduct from '@components/Product/CreateProduct';
 import {
   useDeleteProductMutation,
   useGetAllProductQuery,
@@ -14,12 +13,30 @@ import {
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
 import { useAppSelector } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
-import { Button, Dropdown, Input, Space, TableProps, Tooltip } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Dropdown,
+  Flex,
+  Input,
+  Select,
+  Space,
+  TableProps,
+  Tag,
+  Tooltip,
+} from 'antd';
+import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { FaFilter } from 'react-icons/fa';
+import { MdAddToPhotos } from 'react-icons/md';
 import { IMeta } from '../../../types/common';
 export default function Product() {
   const user = useAppSelector(selectCurrentUser);
+  const [filteredInfo, setFilteredInfo] = useState<{ status: string[] }>({
+    status: ['active'],
+  });
+
   //
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(20);
@@ -29,14 +46,23 @@ export default function Product() {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [month, setMonth] = useState<string>('');
   //
+  //
+  const [dates, setDates] = useState<{
+    startDate: string;
+    endDate: string;
+  }>({ startDate: '', endDate: '' });
+  //
+
   const query: Record<string, any> = {};
   query['limit'] = size;
   query['page'] = page;
   query['sortBy'] = sortBy;
   query['sortOrder'] = sortOrder;
-  query['createAtFrom'] = month;
+  query['createdAtFrom'] = dates.startDate;
+  query['createdAtTo'] = dates.endDate;
   query['searchTerm'] = searchTerm;
   query['needProperty'] = 'productCategoryId';
+  query['status'] = filteredInfo.status[0];
 
   const { data, isLoading } = useGetAllProductQuery(query);
   const [deleteProduct, { isLoading: dLoading }] = useDeleteProductMutation();
@@ -66,7 +92,7 @@ export default function Product() {
       ellipsis: true,
       width: 100,
       render: (data: any) => (
-        <div className="flex items-center justify-between gap-2 text-lg font-bold">
+        <div className="flex items-center justify-between gap-2 text-lg font-normal">
           <p>S/N -{data.serialNumber}</p>
         </div>
       ),
@@ -87,7 +113,7 @@ export default function Product() {
             />
           )}
           <Tooltip title={record.name}>
-            <p className="truncate text-lg font-bold">{record.name}</p>
+            <p className="truncate text-lg font-normal">{record.name}</p>
           </Tooltip>
         </div>
       ),
@@ -98,7 +124,7 @@ export default function Product() {
       ellipsis: true,
       dataIndex: 'productCategoryDetails',
       render: (record: any) => (
-        <div className="flex items-start justify-between gap-2 text-lg font-bold">
+        <div className="flex items-start justify-between gap-2 text-lg font-normal">
           <p>{record.title}</p>
         </div>
       ),
@@ -108,20 +134,79 @@ export default function Product() {
       title: 'Status',
       ellipsis: true,
       dataIndex: 'status',
-      render: (record: any) => (
-        <div className="flex items-start justify-between gap-2 text-lg font-bold">
-          <p>{record}</p>
+      filters: [
+        { text: 'Active', value: 'active' },
+        { text: 'Inactive', value: 'inactive' },
+      ],
+      filteredValue: filteredInfo.status || null,
+      onFilter: (value, record) => record.status.includes(value), // use client-side
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => (
+        <div style={{ padding: 8 }}>
+          <Select
+            style={{ width: '100%', marginBottom: 8, display: 'block' }}
+            value={selectedKeys[0]}
+            onChange={(value) => setSelectedKeys(value ? [value] : [])}
+            placeholder="Select a status"
+
+            // filterOption={(input, option) =>
+            //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            // }
+          >
+            <Select.Option value="active">Active</Select.Option>
+            <Select.Option value="inactive">Inactive</Select.Option>
+          </Select>
+          <Flex justify="center" align="center" gap={2}>
+            <Button
+              type="primary"
+              onClick={() => confirm()}
+              size="small"
+              style={{ width: '50%', marginRight: 8 }}
+            >
+              OK
+            </Button>
+            <Button
+              onClick={() => {
+                if (typeof clearFilters === 'function') {
+                  clearFilters();
+                }
+                setFilteredInfo((c: any) => ({ ...c, status: [] }));
+              }}
+              size="small"
+              style={{ width: '50%' }}
+            >
+              Reset
+            </Button>
+          </Flex>
         </div>
       ),
-      width: 100,
+      filterIcon: (filtered) => (
+        <FaFilter
+          style={{ color: filtered ? '#FF00FF' : '#FFFFFF', fontSize: '1rem' }}
+        />
+      ),
+      render: (record: any) => (
+        <div className="flex items-start justify-between gap-2 text-lg font-normal">
+          {record === 'active' ? (
+            <Tag color="green">{record}</Tag>
+          ) : (
+            <Tag color="red">{record}</Tag>
+          )}
+        </div>
+      ),
+      width: 120,
     },
     {
       title: 'Price',
       ellipsis: true,
       dataIndex: 'pricing',
       render: (record: any) => (
-        <div className="flex items-start justify-between gap-2 text-lg font-bold">
-          <p>{record.price}</p>
+        <div className="flex items-start justify-between gap-2 text-lg font-normal">
+          <p>$ {record.price}</p>
         </div>
       ),
       width: 100,
@@ -130,7 +215,7 @@ export default function Product() {
       title: 'Date',
       ellipsis: true,
       render: (record: any) => (
-        <div className="flex items-start justify-between gap-2 text-lg font-bold">
+        <div className="flex items-start justify-between gap-2 text-lg font-normal">
           <p>{new Date(record.createdAt).toDateString()}</p>
         </div>
       ),
@@ -138,7 +223,7 @@ export default function Product() {
     },
     {
       title: 'Action',
-      width: 120,
+      width: 90,
       render: (record: any) => {
         const menuItems = [
           {
@@ -151,7 +236,7 @@ export default function Product() {
                   </Button>
                 }
               >
-                <CategoryModal initialValues={record} readOnly={true} />
+                <CreateProduct initialValues={record} readOnly={true} />
               </ModalComponent>
             ),
           },
@@ -165,7 +250,7 @@ export default function Product() {
                   </Button>
                 }
               >
-                <CategoryModal initialValues={record} />
+                <CreateProduct initialValues={record} />
               </ModalComponent>
             ),
           },
@@ -201,7 +286,14 @@ export default function Product() {
       fixed: 'right',
     },
   ];
-
+  const handleFilterChange = (values: Record<string, any>) => {
+    let filterValue: Record<string, any> = { ...filteredInfo };
+    Object.entries(values).forEach(([key, value]) => {
+      filterValue[key] = value;
+    });
+    //@ts-ignore
+    setFilteredInfo(filterValue);
+  };
   const onPaginationChange = (page: number, pageSize: number) => {
     setPage(page);
     setSize(pageSize);
@@ -211,6 +303,7 @@ export default function Product() {
     //
     setSortBy(field as string);
     setSortOrder(order === 'ascend' ? 'asc' : 'desc');
+    handleFilterChange(filter);
   };
 
   const resetFilters = () => {
@@ -219,36 +312,146 @@ export default function Product() {
     setSearchTerm('');
     setMonth('');
   };
+  const onChangeDatePicker = (
+    dateRange: [Dayjs | null, Dayjs | null] | null,
+    dateStrings: string[]
+  ) => {
+    // console.log(dateRange, 'dateRange'); //["ant-date format"]
+    // console.log(dateStrings, 'dateStrings'); // ['2024-10-01 00:00:00', '2024-10-31 23:59:59']
+    if (dateRange && dateRange[0] && dateRange[1]) {
+      const formattedDate = dateRange.map((date) => date!.toISOString());
+      setDates({
+        startDate: formattedDate[0],
+        endDate: formattedDate[1],
+      });
+      //  console.log('Selected Dates: ', formattedDate); //iso format ['2024-09-30T18:00:00.000Z', '2024-10-31T17:59:59.999Z']
+    } else {
+      setDates({
+        startDate: '',
+        endDate: '',
+      });
+    }
+  };
 
   return (
     <div>
-      <h1 className="text-center text-3xl font-bold capitalize">
+      <h1 className="text-center text-3xl font-normal capitalize">
         Product list
       </h1>
+      <div className="mt-1 flex w-full items-center justify-center gap-1 rounded-xl bg-[#b6549c]">
+        <ModalComponent
+          button={
+            <button className="mx-2 flex w-full cursor-pointer items-center justify-center gap-1 p-2 px-3 text-lg font-bold text-white">
+              <MdAddToPhotos className="mt-1" /> Add New Product
+            </button>
+          }
+          width={700}
+        >
+          <CreateProduct />
+        </ModalComponent>
+      </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           <h2 className="ml-2">Products</h2>
         </div>
-
-        <ActionBar>
-          <Input
-            size="large"
-            placeholder="Search"
-            onChange={(e) => setSearchTerm(e.target.value)}
+        <div className="flex items-start justify-center gap-2">
+          <ActionBar>
+            <Input
+              size="large"
+              placeholder="Search"
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                width: '250px',
+              }}
+            />
+            {(!!sortBy || !!sortOrder || !!searchTerm) && (
+              <Button
+                style={{ margin: '0px 5px' }}
+                type="default"
+                onClick={resetFilters}
+              >
+                <ReloadOutlined />
+              </Button>
+            )}
+          </ActionBar>
+          <DatePicker.RangePicker
             style={{
-              width: '250px',
+              fontSize: '25px',
+              marginBottom: '15px',
+              fontWeight: 'normal',
+              marginTop: '10px',
             }}
+            /*
+           disabledDate={(current) =>
+            current && current < dayjs().startOf("day") // Using dayjs to disable past dates
+          }
+        */
+            /* // multiple array data disabled ['2024-11-01','2024-11-05']
+          disabledDate={(current) => {
+            // Disable if current date is in the disabledDates array
+            return (
+              current &&
+              disabledDates.some((date) => date.isSame(current, 'day'))
+            );
+          }} 
+        */
+            /*   //disable dara range
+          disabledDate={(current) => {
+            // চেক করছে যে current তারিখটি startDate এবং endDate এর মধ্যে পড়ে কি না
+            return (
+              current &&
+              current.isAfter(disableStartDate.startOf('day')) &&
+              current.isBefore(disableEndDate.endOf('day'))
+            );
+          }} 
+      */
+            presets={[
+              {
+                label: (
+                  <span aria-label="Current Time to End of Day">Now ~ EOD</span>
+                ),
+                value: () => [dayjs(), dayjs().endOf('day')], // from now to end of the current day
+              },
+              {
+                label: 'Yesterday', //2024-10-30 00:00:00  to 2024-10-30 23:59:59
+                value: [
+                  dayjs().subtract(1, 'day').startOf('day'),
+                  dayjs().subtract(1, 'day').endOf('day'),
+                ], // entire day for yesterday
+              },
+              {
+                label: 'Last Week', //2024-10-24 00:00:00 to 2024-10-31 23:59:59
+                value: [
+                  dayjs().subtract(7, 'day').startOf('day'),
+                  dayjs().endOf('day'),
+                ], // from last week to end of current day
+              },
+              // {
+              //   label: 'Last Month', // 2024-09-30 00:00:00 to 2024-10-31 23:59:59
+              //   value: [dayjs().subtract(1, 'month').endOf('day'), dayjs().endOf('day')], // from last month to end of current day
+              // },
+              {
+                label: 'Last 30 Days', // 2024-09-30 00:00:00 to 2024-10-31 23:59:59
+                value: [
+                  dayjs().add(-30, 'd').startOf('day'),
+                  dayjs().endOf('day'),
+                ], // from last month to end of current day
+              },
+            ]}
+            /*
+           presets={[
+            { label: 'Yesterday', value: [dayjs().add(-1, 'd'), dayjs()] },
+            { label: 'Last Week', value: [dayjs().add(-7, 'd'), dayjs()] },
+            { label: 'Last 30 Days', value: [dayjs().add(-30, 'd'), dayjs()] },
+            { label: 'Last 90 Days', value: [dayjs().add(-90, 'd'), dayjs()] },
+          ]} 
+            */
+            // showTime
+            //  format="YYYY/MM/DD HH:mm:ss"
+            size="large"
+            onChange={onChangeDatePicker}
           />
-          {(!!sortBy || !!sortOrder || !!searchTerm) && (
-            <Button
-              style={{ margin: '0px 5px' }}
-              type="default"
-              onClick={resetFilters}
-            >
-              <ReloadOutlined />
-            </Button>
-          )}
-        </ActionBar>
+        </div>
       </div>
       {/* <div>
         <div className="flex min-h-screen items-center justify-center bg-gradient-to-r from-purple-400 to-pink-500">
