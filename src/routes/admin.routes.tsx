@@ -31,28 +31,34 @@ export const adminPaths = [
   //
 
   {
+    name: 'Account Details',
+    path: 'account-details',
+    iconName: 'MdPeople',
+    element: <CategoryList />,
+  },
+  {
     name: 'Manage Hair Identity',
     path: 'manage-hair-identity',
-    iconName: 'MdPeople',
+    iconName: 'GiHairStrands',
     element: <CategoryList />,
   },
   {
     name: 'Category',
     path: 'product-category',
-    iconName: 'TbCategoryPlus ',
+    iconName: 'TbCategoryPlus',
     element: <ProductCategoryList />,
   },
 
   {
     name: 'Products',
     path: 'products',
-    iconName: 'TbCategoryPlus ',
+    iconName: 'MdOutlineProductionQuantityLimits',
     element: <Product />,
   },
   {
     name: 'Hair Tips & Guidelines',
     path: 'hair-tips-guidelines',
-    iconName: 'TbCategoryPlus ',
+    iconName: 'MdTipsAndUpdates',
     element: <CategoryList />,
   },
 

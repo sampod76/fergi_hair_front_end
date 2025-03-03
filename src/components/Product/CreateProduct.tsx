@@ -98,7 +98,7 @@ const CreateProduct = ({
   };
 
   if (iniValue) {
-    const { image, files, ...valueCopy } = iniValue;
+    const { images, ...valueCopy } = iniValue;
     iniValue = valueCopy;
   }
   const filterOption = (
@@ -157,44 +157,46 @@ const CreateProduct = ({
             })}
           />
         </Form.Item>
-        <Form.Item
-          label="Upload photo"
-          name="images"
-          valuePropName="fileList"
-          rules={[
-            {
-              required: iniValue._id ? false : true,
-              message: 'Please select the Banner Image!',
-            },
-          ]}
-          getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
-        >
-          <Upload
-            // action="/upload"
-            multiple={false}
-            listType="picture-card"
-            showUploadList={true}
-            maxCount={1}
-            accept="image/*"
-            beforeUpload={() => false}
+        <div className="flex items-center justify-center gap-2">
+          <Form.Item
+            label="Upload photo"
+            name="images"
+            valuePropName="fileList"
+            rules={[
+              {
+                required: iniValue._id ? false : true,
+                message: 'Please select the Banner Image!',
+              },
+            ]}
+            getValueFromEvent={(e) => (Array.isArray(e) ? e : e && e.fileList)}
+            className="!flex justify-between"
           >
-            <p className="cursor-pointer rounded-lg border p-2">
-              {' '}
-              Upload Image +
-            </p>
-          </Upload>
-        </Form.Item>
-
-        {initialValues?.images &&
-          initialValues?.images?.map((d: IFileAfterUpload) => (
-            <CustomImageTag
-              src={d}
-              height={300}
-              width={300}
-              className="w-32 cursor-pointer rounded-lg border border-purple-400"
-              preview={true}
-            />
-          ))}
+            <Upload
+              // action="/upload"
+              multiple={false}
+              listType="picture-card"
+              showUploadList={true}
+              maxCount={1}
+              accept="image/*"
+              beforeUpload={() => false}
+            >
+              <p className="cursor-pointer rounded-lg border p-2">
+                {' '}
+                Upload Image +
+              </p>
+            </Upload>
+          </Form.Item>
+          {initialValues?.images &&
+            initialValues?.images?.map((d: IFileAfterUpload) => (
+              <CustomImageTag
+                src={d}
+                height={300}
+                width={300}
+                className="w-28 cursor-pointer rounded-lg border border-purple-400"
+                preview={true}
+              />
+            ))}
+        </div>
       </div>
 
       <Form.Item

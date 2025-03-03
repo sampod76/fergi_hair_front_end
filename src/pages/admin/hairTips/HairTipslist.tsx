@@ -31,7 +31,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaFilter } from 'react-icons/fa';
 import { MdAddToPhotos } from 'react-icons/md';
 import { IMeta } from '../../../types/common';
-export default function Product() {
+export default function HairTipslist() {
   const user = useAppSelector(selectCurrentUser);
   const [filteredInfo, setFilteredInfo] = useState<{ status: string[] }>({
     status: ['active'],
@@ -200,17 +200,7 @@ export default function Product() {
       ),
       width: 120,
     },
-    {
-      title: 'Price',
-      ellipsis: true,
-      dataIndex: 'pricing',
-      render: (record: any) => (
-        <div className="flex items-start justify-between gap-2 text-lg font-normal">
-          <p>$ {record.price}</p>
-        </div>
-      ),
-      width: 100,
-    },
+
     {
       title: 'Date',
       ellipsis: true,

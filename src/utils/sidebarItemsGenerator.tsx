@@ -1,11 +1,14 @@
 import { useAppSelector } from '@redux/hooks';
 import { CiCreditCard1, CiSettings } from 'react-icons/ci';
 import { FaCreditCard, FaWpforms } from 'react-icons/fa6';
+import { GiHairStrands } from 'react-icons/gi';
 import {
   MdAddCard,
   MdDashboard,
   MdOndemandVideo,
+  MdOutlineProductionQuantityLimits,
   MdPeople,
+  MdTipsAndUpdates,
 } from 'react-icons/md';
 import { RiFlowerFill } from 'react-icons/ri';
 import { TbCategoryPlus, TbPointFilled } from 'react-icons/tb';
@@ -37,8 +40,20 @@ const icon = [
     icon: <CiSettings style={{ fontSize: '1.5rem' }} />,
   },
   {
-    name: 'TbCategoryPlus ',
+    name: 'TbCategoryPlus',
     icon: <TbCategoryPlus style={{ fontSize: '1.5rem' }} />,
+  },
+  {
+    name: 'MdOutlineProductionQuantityLimits',
+    icon: <MdOutlineProductionQuantityLimits style={{ fontSize: '1.5rem' }} />,
+  },
+  {
+    name: 'MdTipsAndUpdates',
+    icon: <MdTipsAndUpdates style={{ fontSize: '1.5rem' }} />,
+  },
+  {
+    name: 'GiHairStrands',
+    icon: <GiHairStrands style={{ fontSize: '1.5rem' }} />,
   },
   {
     name: 'CiCreditCard1',
