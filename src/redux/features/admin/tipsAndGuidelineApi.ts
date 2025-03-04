@@ -49,7 +49,7 @@ export const tipsAndGuidelineApi = baseApi.injectEndpoints({
           url: URL,
           method: 'POST',
           data: data,
-          // contentType: 'multipart/form-data',
+          contentType: 'multipart/form-data',
         };
       },
       invalidatesTags: [tagTypes.TipsAndGuid],
@@ -61,7 +61,7 @@ export const tipsAndGuidelineApi = baseApi.injectEndpoints({
           url: `${URL}/${id}`,
           method: 'PATCH',
           data: data,
-          // contentType: 'multipart/form-data',
+          contentType: 'multipart/form-data',
         };
       },
       invalidatesTags: [tagTypes.TipsAndGuid],

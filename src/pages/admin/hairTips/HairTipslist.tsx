@@ -1,34 +1,21 @@
 import { ReloadOutlined } from '@ant-design/icons';
 import ModalComponent from '@components/Modal/ModalComponents';
 import ActionBar from '@components/ui/ActionBar';
-import CustomImageTag from '@components/ui/CustomTag/CustomImage';
 import LoadingSkeleton from '@components/ui/Loading/LoadingSkeleton';
 import UMTable from '@components/ui/UMTable';
 
-import CreateProduct from '@components/Product/CreateProduct';
+import HairIdentityCreate from '@components/HairIdentity/HairIdentityCreate';
 import {
-  useDeleteProductMutation,
-  useGetAllProductQuery,
-} from '@redux/features/admin/productApi';
+  useDeleteTipsAndGuidelineMutation,
+  useGetAllTipsAndGuidelineQuery,
+} from '@redux/features/admin/tipsAndGuidelineApi';
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
 import { useAppSelector } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
-import {
-  Button,
-  DatePicker,
-  Dropdown,
-  Flex,
-  Input,
-  Select,
-  Space,
-  TableProps,
-  Tag,
-  Tooltip,
-} from 'antd';
+import { Button, DatePicker, Dropdown, Input, Space, TableProps } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { FaFilter } from 'react-icons/fa';
 import { MdAddToPhotos } from 'react-icons/md';
 import { IMeta } from '../../../types/common';
 export default function HairTipslist() {
@@ -64,8 +51,9 @@ export default function HairTipslist() {
   query['needProperty'] = 'productCategoryId';
   query['status'] = filteredInfo.status[0];
 
-  const { data, isLoading } = useGetAllProductQuery(query);
-  const [deleteProduct, { isLoading: dLoading }] = useDeleteProductMutation();
+  const { data, isLoading } = useGetAllTipsAndGuidelineQuery(query);
+  const [deleteProduct, { isLoading: dLoading }] =
+    useDeleteTipsAndGuidelineMutation();
   if (isLoading) {
     return <LoadingSkeleton sectionNumber={5} />;
   }
@@ -93,112 +81,9 @@ export default function HairTipslist() {
       width: 100,
       render: (data: any) => (
         <div className="flex items-center justify-between gap-2 text-lg font-normal">
-          <p>S/N -{data.serialNumber}</p>
+          <p>S/N -{data?.serialNumber}</p>
         </div>
       ),
-    },
-    {
-      title: 'Product Name',
-      ellipsis: true,
-      render: (record: any) => (
-        <div className="flex items-center justify-start gap-2">
-          {record?.images && (
-            <CustomImageTag
-              src={record?.images[0]}
-              width={550}
-              height={550}
-              preview={true}
-              className="h-8 w-8 rounded-full shadow-lg md:h-12 md:w-12"
-              alt=""
-            />
-          )}
-          <Tooltip title={record.name}>
-            <p className="truncate text-lg font-normal">{record.name}</p>
-          </Tooltip>
-        </div>
-      ),
-    },
-
-    {
-      title: 'Category',
-      ellipsis: true,
-      dataIndex: 'productCategoryDetails',
-      render: (record: any) => (
-        <div className="flex items-start justify-between gap-2 text-lg font-normal">
-          <p>{record.title}</p>
-        </div>
-      ),
-      width: 200,
-    },
-    {
-      title: 'Status',
-      ellipsis: true,
-      dataIndex: 'status',
-      filters: [
-        { text: 'Active', value: 'active' },
-        { text: 'Inactive', value: 'inactive' },
-      ],
-      filteredValue: filteredInfo.status || null,
-      onFilter: (value, record) => record.status.includes(value), // use client-side
-      filterDropdown: ({
-        setSelectedKeys,
-        selectedKeys,
-        confirm,
-        clearFilters,
-      }) => (
-        <div style={{ padding: 8 }}>
-          <Select
-            style={{ width: '100%', marginBottom: 8, display: 'block' }}
-            value={selectedKeys[0]}
-            onChange={(value) => setSelectedKeys(value ? [value] : [])}
-            placeholder="Select a status"
-
-            // filterOption={(input, option) =>
-            //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            // }
-          >
-            <Select.Option value="active">Active</Select.Option>
-            <Select.Option value="inactive">Inactive</Select.Option>
-          </Select>
-          <Flex justify="center" align="center" gap={2}>
-            <Button
-              type="primary"
-              onClick={() => confirm()}
-              size="small"
-              style={{ width: '50%', marginRight: 8 }}
-            >
-              OK
-            </Button>
-            <Button
-              onClick={() => {
-                if (typeof clearFilters === 'function') {
-                  clearFilters();
-                }
-                setFilteredInfo((c: any) => ({ ...c, status: [] }));
-              }}
-              size="small"
-              style={{ width: '50%' }}
-            >
-              Reset
-            </Button>
-          </Flex>
-        </div>
-      ),
-      filterIcon: (filtered) => (
-        <FaFilter
-          style={{ color: filtered ? '#FF00FF' : '#FFFFFF', fontSize: '1rem' }}
-        />
-      ),
-      render: (record: any) => (
-        <div className="flex items-start justify-between gap-2 text-lg font-normal">
-          {record === 'active' ? (
-            <Tag color="green">{record}</Tag>
-          ) : (
-            <Tag color="red">{record}</Tag>
-          )}
-        </div>
-      ),
-      width: 120,
     },
 
     {
@@ -225,9 +110,9 @@ export default function HairTipslist() {
                     View
                   </Button>
                 }
-                width={700}
+                width={1000}
               >
-                <CreateProduct initialValues={record} readOnly={true} />
+                <HairIdentityCreate initialValues={record} readOnly={true} />
               </ModalComponent>
             ),
           },
@@ -240,9 +125,9 @@ export default function HairTipslist() {
                     Edit
                   </Button>
                 }
-                width={700}
+                width={1000}
               >
-                <CreateProduct initialValues={record} />
+                <HairIdentityCreate initialValues={record} />
               </ModalComponent>
             ),
           },
@@ -328,23 +213,23 @@ export default function HairTipslist() {
   return (
     <div>
       <h1 className="text-center text-3xl font-normal capitalize">
-        Product list
+        Hair Tips list
       </h1>
       <div className="mt-1 flex w-full items-center justify-center gap-1 rounded-xl bg-[#b6549c]">
         <ModalComponent
           button={
             <button className="mx-2 flex w-full cursor-pointer items-center justify-center gap-1 p-2 px-3 text-lg font-bold text-white">
-              <MdAddToPhotos className="mt-1" /> Add New Product
+              <MdAddToPhotos className="mt-1" /> Add New Hair Tips
             </button>
           }
-          width={700}
+          width={1000}
         >
-          <CreateProduct />
+          <HairIdentityCreate />
         </ModalComponent>
       </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <h2 className="ml-2">Products</h2>
+          <h2 className="ml-2">Hair Tips</h2>
         </div>
         <div className="flex items-start justify-center gap-2">
           <ActionBar>

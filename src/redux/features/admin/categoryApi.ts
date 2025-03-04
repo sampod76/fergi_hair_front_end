@@ -4,19 +4,24 @@ import { baseApi } from '../../api/baseApi';
 import { tagTypes } from '../../tag-types';
 
 const CATEGORY_URL = '/category';
-export interface ICategory {
-  _id: string;
-  title: string;
-  subTitle: string;
-  company: string;
-  image: IFileAfterUpload;
-  files: IFileAfterUpload[];
+interface IChildCategory {
+  value: string;
+  label: string;
+  uid: string;
   serialNumber: number;
   status: string;
-  isDelete: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  isDelete: boolean;
+  children: IChildCategory[];
+}
+export interface ICategory {
+  value: string;
+  label: string;
+  uid: string;
+  image?: IFileAfterUpload; // Assuming mongooseFileSchema is referencing ObjectId
+  serialNumber: number;
+  status: string;
+  isDelete: boolean;
+  children: IChildCategory[];
 }
 export const categoryApi = baseApi.injectEndpoints({
   endpoints: (build) => ({

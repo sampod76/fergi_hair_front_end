@@ -17,6 +17,7 @@ import TermsAndCondition from '@pages/admin/settings/AllTextField/Terms&Conditio
 
 import UserDetails from '@pages/admin/User/UserDetails';
 
+import HairTipslist from '@pages/admin/hairTips/HairTipslist';
 import Product from '@pages/admin/products/Products';
 import Settings from '@pages/admin/settings/Settings';
 import LoginHistory from '../pages/LoginHistory';
@@ -59,7 +60,7 @@ export const adminPaths = [
     name: 'Hair Tips & Guidelines',
     path: 'hair-tips-guidelines',
     iconName: 'MdTipsAndUpdates',
-    element: <CategoryList />,
+    element: <HairTipslist />,
   },
 
   {
