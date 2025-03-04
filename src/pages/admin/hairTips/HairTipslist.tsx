@@ -5,14 +5,23 @@ import LoadingSkeleton from '@components/ui/Loading/LoadingSkeleton';
 import UMTable from '@components/ui/UMTable';
 
 import HairIdentityCreate from '@components/HairIdentity/HairIdentityCreate';
+import CustomImageTag from '@components/ui/CustomTag/CustomImage';
 import {
   useDeleteTipsAndGuidelineMutation,
   useGetAllTipsAndGuidelineQuery,
 } from '@redux/features/admin/tipsAndGuidelineApi';
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
-import { useAppSelector } from '@redux/hooks';
+import { useAppSelector, useDebounced } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
-import { Button, DatePicker, Dropdown, Input, Space, TableProps } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Dropdown,
+  Input,
+  Space,
+  TableProps,
+  Tooltip,
+} from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -47,9 +56,16 @@ export default function HairTipslist() {
   query['sortOrder'] = sortOrder;
   query['createdAtFrom'] = dates.startDate;
   query['createdAtTo'] = dates.endDate;
-  query['searchTerm'] = searchTerm;
   query['needProperty'] = 'productCategoryId';
   query['status'] = filteredInfo.status[0];
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query['searchTerm'] = debouncedSearchTerm;
+  }
 
   const { data, isLoading } = useGetAllTipsAndGuidelineQuery(query);
   const [deleteProduct, { isLoading: dLoading }] =
@@ -85,12 +101,62 @@ export default function HairTipslist() {
         </div>
       ),
     },
+    {
+      title: 'Banner',
+      ellipsis: true,
+      dataIndex: 'images',
+      width: 100,
+      render: (data: any) => (
+        <div className="flex items-center justify-center gap-2 text-lg font-normal">
+          {data?.length && (
+            <CustomImageTag
+              src={data[0]}
+              width={550}
+              height={550}
+              preview={true}
+              className="h-8 w-8 rounded-full shadow-lg md:h-12 md:w-12"
+              alt=""
+            />
+          )}
+        </div>
+      ),
+    },
+    {
+      title: 'Title',
+      // ellipsis: true,
+      dataIndex: 'title',
+
+      render: (data: any) => (
+        <Tooltip title={data}>
+          <div className="line-clamp-1 text-lg font-normal">
+            <p>{data}</p>
+          </div>
+        </Tooltip>
+      ),
+    },
+    {
+      title: 'Category',
+      // ellipsis: true,
+      dataIndex: 'category',
+
+      render: (data: any) => (
+        <div className="text-lg font-normal">
+          <p>
+            {data.label}
+            {data?.children ? `/${data?.children.label}` : ''}
+            {data?.children?.children
+              ? `/${data?.children?.children?.label}`
+              : ''}
+          </p>
+        </div>
+      ),
+    },
 
     {
       title: 'Date',
       ellipsis: true,
       render: (record: any) => (
-        <div className="flex items-start justify-between gap-2 text-lg font-normal">
+        <div className="flex items-start justify-center gap-2 text-lg font-normal">
           <p>{new Date(record.createdAt).toDateString()}</p>
         </div>
       ),

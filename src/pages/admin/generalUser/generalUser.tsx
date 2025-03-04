@@ -8,7 +8,7 @@ import UMTable from '@components/ui/UMTable';
 import ViewUserInfoModal from '@components/UsersAllComponets/viewUserInfoModal';
 import { useGetAllGeneralUserQuery } from '@redux/features/admin/generalUsersApi';
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
-import { useAppSelector } from '@redux/hooks';
+import { useAppSelector, useDebounced } from '@redux/hooks';
 import { Button, Input, TableProps } from 'antd';
 import { useState } from 'react';
 import { GrView } from 'react-icons/gr';
@@ -30,7 +30,14 @@ export default function GeneralUser({ roleType }: { roleType: string }) {
   query['needProperty'] = 'roleInfo';
   // query['role'] = 'generalUser';
   query['roleType'] = roleType;
-  query['searchTerm'] = searchTerm;
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query['searchTerm'] = debouncedSearchTerm;
+  }
 
   const { data, isLoading } = useGetAllGeneralUserQuery(query);
   if (isLoading) {

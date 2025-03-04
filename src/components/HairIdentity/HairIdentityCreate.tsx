@@ -82,30 +82,8 @@ const HairIdentityCreate = ({
   const handleFinish = async (values: Record<string, any>) => {
     const { category } = values;
 
-    // const recursionCategory = (data: ICategory[]) => {
-    //   const categoryId = category.shift();
-
-    //   return data.find((item: ICategory) => {
-    //     console.log('🚀 ~ recursionCategory ~ caegoryId:', categoryId);
-    //     console.log('🚀 ~ returndata.find ~ item:', item);
-    //     // Create a modified object
-    //     if (item.uid === categoryId) {
-    //       const modifiedItem: any = {
-    //         ...item, // Change 'value' to 'uid'
-    //         children: item?.children ? recursionCategory(item.children) : {}, // Recursively modify children
-    //       };
-
-    //       return modifiedItem;
-    //     } else {
-    //       return false;
-    //     }
-    //   });
-    // };
-    // const d = recursionCategory([...modifyCategory]);
-    // console.log('recursionCategory', d);
-    // console.log('🚀 ~ handleFinish ~ values:', values);
-
     let categoryValues: any;
+
     for (let i = 0; i < category.length; i++) {
       if (i === 0) {
         categoryValues = modifyCategory.find((m) => m.uid === category[i]);
@@ -126,8 +104,22 @@ const HairIdentityCreate = ({
             ),
           },
         };
+      } else if (i === 3 && categoryValues?.children?.children?.children) {
+        categoryValues = {
+          ...categoryValues,
+          children: {
+            ...categoryValues.children,
+            children: {
+              ...categoryValues.children.children,
+              children: categoryValues.children.children.children.find(
+                (m: any) => m.uid === category[i]
+              ),
+            },
+          },
+        };
       }
     }
+
     values.category = categoryValues;
     if (textEditorValue) {
       values.details = textEditorValue;
@@ -152,6 +144,7 @@ const HairIdentityCreate = ({
         const res = await addTips(formData).unwrap();
         SuccessModal('Successfully added');
         form.resetFields();
+        setTextEditorValue('');
         message.success('Successfully added');
       }
     } catch (error: any) {
@@ -171,6 +164,9 @@ const HairIdentityCreate = ({
         categoryArray.push(category.children.uid);
         if (category.children.children) {
           categoryArray.push(category.children.children.uid);
+          if (category.children.children.children) {
+            categoryArray.push(category.children.children.children.uid);
+          }
         }
       }
     }

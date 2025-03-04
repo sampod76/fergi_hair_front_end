@@ -11,7 +11,7 @@ import {
   useGetAllProductQuery,
 } from '@redux/features/admin/productApi';
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
-import { useAppSelector } from '@redux/hooks';
+import { useAppSelector, useDebounced } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
 import {
   Button,
@@ -60,9 +60,16 @@ export default function Product() {
   query['sortOrder'] = sortOrder;
   query['createdAtFrom'] = dates.startDate;
   query['createdAtTo'] = dates.endDate;
-  query['searchTerm'] = searchTerm;
   query['needProperty'] = 'productCategoryId';
   query['status'] = filteredInfo.status[0];
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query['searchTerm'] = debouncedSearchTerm;
+  }
 
   const { data, isLoading } = useGetAllProductQuery(query);
   const [deleteProduct, { isLoading: dLoading }] = useDeleteProductMutation();

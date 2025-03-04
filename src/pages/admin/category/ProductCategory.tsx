@@ -13,7 +13,7 @@ import {
   useGetAllProductCategoryQuery,
 } from '@redux/features/admin/productCategoryApi';
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
-import { useAppSelector } from '@redux/hooks';
+import { useAppSelector, useDebounced } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
 import { Button, Dropdown, Input, Space, TableProps, Tooltip } from 'antd';
 import { useState } from 'react';
@@ -37,7 +37,14 @@ export default function ProductCategoryList() {
   query['sortBy'] = sortBy;
   query['sortOrder'] = sortOrder;
   query['company'] = company;
-  query['searchTerm'] = searchTerm;
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query['searchTerm'] = debouncedSearchTerm;
+  }
 
   const { data, isLoading } = useGetAllProductCategoryQuery(query);
   const [deleteProductCategory, { isLoading: dLoading }] =

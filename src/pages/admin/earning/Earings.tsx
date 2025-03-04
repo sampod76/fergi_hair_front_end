@@ -14,7 +14,7 @@ import {
   useGetAllTimeToGroupValueQuery,
 } from '@redux/features/admin/paymentHistoryApi';
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
-import { useAppSelector } from '@redux/hooks';
+import { useAppSelector, useDebounced } from '@redux/hooks';
 import { Button, Input, TableProps, Tag } from 'antd';
 import { useState } from 'react';
 import { GrView } from 'react-icons/gr';
@@ -36,7 +36,14 @@ export default function Earings({ earnType }: { earnType?: string }) {
   query['needProperty'] = 'author';
   // query['role'] = 'generalUser';
 
-  query['searchTerm'] = searchTerm;
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query['searchTerm'] = debouncedSearchTerm;
+  }
 
   const { data, isLoading } = useGetAllPaymentHistoryQuery(query);
   const tQuery: any = {};

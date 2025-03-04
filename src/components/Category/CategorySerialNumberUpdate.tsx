@@ -3,6 +3,7 @@ import {
   useGetAllCategoryQuery,
   useUpdateCategorySerialNumberMutation,
 } from '@redux/features/admin/categoryApi';
+import { useDebounced } from '@redux/hooks';
 import { ErrorModal, SuccessModal } from '@utils/modalHook';
 import { Button, message, Select } from 'antd';
 import { useEffect, useState } from 'react';
@@ -39,7 +40,14 @@ export default function CategorySerialNumberUpdate() {
   query['sortBy'] = sortBy;
   query['sortOrder'] = sortOrder;
   query['company'] = company;
-  query['searchTerm'] = searchTerm;
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query['searchTerm'] = debouncedSearchTerm;
+  }
   const { data, isLoading } = useGetAllCategoryQuery(query, {
     skip: !Boolean(company),
   });

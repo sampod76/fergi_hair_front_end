@@ -3,6 +3,7 @@ import {
   useGetAllFileUploadQuery,
   useUpdateFileUploadSerialNumberMutation,
 } from '@redux/features/admin/fileUpload';
+import { useDebounced } from '@redux/hooks';
 import { ErrorModal, SuccessModal } from '@utils/modalHook';
 import { Button, message, Select } from 'antd';
 import { useEffect, useState } from 'react';
@@ -39,7 +40,14 @@ export default function FileSerialNumberUpdate() {
   query['sortBy'] = sortBy;
   query['sortOrder'] = sortOrder;
   query['fileType'] = fileTypeGet;
-  query['searchTerm'] = searchTerm;
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query['searchTerm'] = debouncedSearchTerm;
+  }
   const { data, isLoading } = useGetAllFileUploadQuery(query, {
     skip: !Boolean(fileTypeGet),
   });

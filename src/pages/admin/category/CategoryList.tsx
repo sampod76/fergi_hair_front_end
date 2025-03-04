@@ -12,7 +12,7 @@ import {
 } from '@redux/features/admin/categoryApi';
 
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
-import { useAppSelector } from '@redux/hooks';
+import { useAppSelector, useDebounced } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
 import { Button, Dropdown, Input, Space, TableProps, Tooltip } from 'antd';
 import { useState } from 'react';
@@ -36,7 +36,14 @@ export default function CategoryList() {
   query['sortBy'] = sortBy;
   query['sortOrder'] = sortOrder;
   query['categoryType'] = categoryType;
-  query['searchTerm'] = searchTerm;
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query['searchTerm'] = debouncedSearchTerm;
+  }
 
   const { data, isLoading } = useGetAllCategoryQuery(query);
   const [deleteCategory, { isLoading: dLoading }] = useDeleteCategoryMutation();
