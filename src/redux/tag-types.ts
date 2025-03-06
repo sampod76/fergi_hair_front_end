@@ -30,6 +30,7 @@ export enum tagTypes {
   RoutingReminder = 'RoutingReminder',
   ServiceLogger = 'ServiceLogger',
   TipsAndGuid = 'TipsAndGuid',
+  User = 'User',
 }
 
 export const tagTypesList = Object.values(tagTypes);

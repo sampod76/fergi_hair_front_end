@@ -89,5 +89,4 @@ export const {
   useGetSingleAdminSettingQuery,
   useUpdateAdminSettingMutation,
   //
-  useGetDashboardQuery,
 } = adminSettingApi;
