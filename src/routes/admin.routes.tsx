@@ -20,6 +20,7 @@ import UserDetails from '@pages/admin/User/UserDetails';
 import HairTipslist from '@pages/admin/hairTips/HairTipslist';
 import Product from '@pages/admin/products/Products';
 import Settings from '@pages/admin/settings/Settings';
+import GeneralUsersList from '@pages/GeneralUsers/GeneralUsersList';
 import LoginHistory from '../pages/LoginHistory';
 import Profile from '../pages/Profile';
 export const adminPaths = [
@@ -35,7 +36,7 @@ export const adminPaths = [
     name: 'Account Details',
     path: 'account-details',
     iconName: 'MdPeople',
-    element: <CategoryList />,
+    element: <GeneralUsersList />,
   },
   {
     name: 'Manage Hair Identity',
@@ -73,23 +74,23 @@ export const adminPaths = [
   },
   {
     name: 'Earnings',
-    // path: 'earnings',
+    path: 'earnings',
     iconName: 'FaCreditCard',
-    // element: <Company companyType={'companyOne'} />,
-    children: [
-      {
-        name: 'Content',
-        path: 'Content',
-        iconName: 'TbPointFilled',
-        element: <Earings earnType="file" />,
-      },
-      {
-        name: 'Subscriptions',
-        path: 'SubscriptionsEarning',
-        iconName: 'TbPointFilled',
-        element: <Earings earnType="package" />,
-      },
-    ],
+    element: <Earings earnType="file" />,
+    // children: [
+    //   {
+    //     name: 'Content',
+    //     path: 'Content',
+    //     iconName: 'TbPointFilled',
+    //     element: <Earings earnType="file" />,
+    //   },
+    //   {
+    //     name: 'Subscriptions',
+    //     path: 'SubscriptionsEarning',
+    //     iconName: 'TbPointFilled',
+    //     element: <Earings earnType="package" />,
+    //   },
+    // ],
   },
   {
     name: 'Settings',

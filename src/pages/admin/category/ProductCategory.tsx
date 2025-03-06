@@ -5,8 +5,6 @@ import CustomImageTag from '@components/ui/CustomTag/CustomImage';
 import LoadingSkeleton from '@components/ui/Loading/LoadingSkeleton';
 import UMTable from '@components/ui/UMTable';
 
-import CategoryModal from '@components/Category/CategoryModal';
-
 import ProductCategoryModal from '@components/Category/ProductCategoryModal';
 import {
   useDeleteProductCategoryMutation,
@@ -127,7 +125,7 @@ export default function ProductCategoryList() {
                   </Button>
                 }
               >
-                <CategoryModal initialValues={record} readOnly={true} />
+                <ProductCategoryModal initialValues={record} readOnly={true} />
               </ModalComponent>
             ),
           },
@@ -141,7 +139,7 @@ export default function ProductCategoryList() {
                   </Button>
                 }
               >
-                <CategoryModal initialValues={record} />
+                <ProductCategoryModal initialValues={record} />
               </ModalComponent>
             ),
           },

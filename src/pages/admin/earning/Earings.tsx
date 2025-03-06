@@ -15,7 +15,7 @@ import {
 } from '@redux/features/admin/paymentHistoryApi';
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
 import { useAppSelector, useDebounced } from '@redux/hooks';
-import { Button, Input, TableProps, Tag } from 'antd';
+import { Button, Input, TableProps } from 'antd';
 import { useState } from 'react';
 import { GrView } from 'react-icons/gr';
 
@@ -32,8 +32,8 @@ export default function Earings({ earnType }: { earnType?: string }) {
   query['page'] = page;
   query['sortBy'] = sortBy;
   query['sortOrder'] = sortOrder;
-  query['earnType'] = earnType;
-  query['needProperty'] = 'author';
+  // query['earnType'] = earnType;
+  // query['needProperty'] = 'author';
   // query['role'] = 'generalUser';
 
   const debouncedSearchTerm = useDebounced({
@@ -56,6 +56,7 @@ export default function Earings({ earnType }: { earnType?: string }) {
   }
   //
   let paymentData = data?.data || [];
+  console.log('🚀 ~ Earings ~ paymentData:', paymentData);
   const meta = (data?.meta as IMeta) || [];
   //
   const timeData = tdata?.data;
@@ -120,74 +121,6 @@ export default function Earings({ earnType }: { earnType?: string }) {
       title: 'Email',
       dataIndex: ['author', 'details', 'email'],
       ellipsis: true,
-    },
-    {
-      title: earnType === 'package' ? 'Package' : 'Content Type',
-      dataIndex: earnType === 'package' ? 'packageName' : 'fileType',
-      ellipsis: true,
-      render: (data) => {
-        let color = '';
-        let text = '';
-
-        // Normalize the package name to lowercase for consistent matching
-        const normalizedPackage = data?.toLowerCase();
-
-        switch (normalizedPackage) {
-          case 'doc':
-            color = 'blue'; // Basic package color
-            text = 'Documentation';
-            break;
-          case 'video':
-            color = 'green'; // Basic package color
-            text = 'Video';
-            break;
-          case 'plus':
-            color = 'cyan'; // Plus package color
-            text = 'Plus';
-            break;
-          case 'premium':
-            color = 'gold'; // Premium package color
-            text = 'Premium';
-            break;
-          case 'pro':
-            color = 'geekblue'; // Pro package color
-            text = 'Pro';
-            break;
-          case 'ultimate':
-            color = 'purple'; // Ultimate package color
-            text = 'Ultimate';
-            break;
-          case 'silver':
-            color = 'gray'; // Silver package color
-            text = 'Silver';
-            break;
-          case 'gold':
-            color = 'gold'; // Gold package color
-            text = 'Gold';
-            break;
-          case 'platinum':
-            color = 'purple'; // Platinum package color
-            text = 'Platinum';
-            break;
-          default:
-            color = 'default';
-            text = 'Unknown';
-        }
-
-        return <Tag color={color}>{text}</Tag>;
-      },
-    },
-
-    {
-      title: 'Payment',
-      dataIndex: 'payment_method_types',
-      render: (data: any) => {
-        return (
-          <div className="flex items-center justify-start gap-1">
-            <p className="truncate">{data[0]}</p>
-          </div>
-        );
-      },
     },
 
     {

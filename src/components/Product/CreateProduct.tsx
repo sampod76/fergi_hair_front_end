@@ -198,19 +198,32 @@ const CreateProduct = ({
             ))}
         </div>
       </div>
+      <div className="flex justify-start gap-2">
+        <Form.Item
+          label="Price"
+          name={['pricing', 'price']}
+          rules={[
+            {
+              required: iniValue._id ? false : true,
+              message: 'Please input the title!',
+            },
+          ]}
+        >
+          <InputNumber type="number" min={0} />
+        </Form.Item>
+        {iniValue._id && (
+          <Form.Item label="Status" name="status">
+            <Select
+              defaultValue={'active'}
+              options={[
+                { label: 'Active', value: 'active' },
+                { label: 'Inactive', value: 'inactive' },
+              ]}
+            />
+          </Form.Item>
+        )}
+      </div>
 
-      <Form.Item
-        label="Price"
-        name={['pricing', 'price']}
-        rules={[
-          {
-            required: iniValue._id ? false : true,
-            message: 'Please input the title!',
-          },
-        ]}
-      >
-        <InputNumber type="number" min={0} />
-      </Form.Item>
       <Form.Item
         label="Description"
         name="description"

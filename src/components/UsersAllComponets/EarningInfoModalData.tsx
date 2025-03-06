@@ -48,6 +48,10 @@ export default function EarningInfoModal({ data }: any) {
                   : 'N/A'}
               </span>
             </div>
+            <div className="flex justify-between">
+              <span className="font-medium">User Email:</span>
+              <span>{userInfo?.email || 'N/A'}</span>
+            </div>
             {/* <div className="flex justify-between">
               <span className="font-medium">User ID:</span>
               <span>{data?.userUniqueId || 'N/A'}</span>

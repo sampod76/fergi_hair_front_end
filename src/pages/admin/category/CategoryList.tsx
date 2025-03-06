@@ -16,7 +16,6 @@ import { useAppSelector, useDebounced } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
 import { Button, Dropdown, Input, Space, TableProps, Tooltip } from 'antd';
 import { useState } from 'react';
-import { AiTwotonePlusCircle } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IMeta } from '../../../types/common';
 export default function CategoryList() {
@@ -203,7 +202,7 @@ export default function CategoryList() {
       </h1>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <ModalComponent
+          {/* <ModalComponent
             button={
               <p className="mx-2 flex cursor-pointer items-center justify-center gap-1 rounded-xl border px-3 text-lg font-bold text-gray-600">
                 <AiTwotonePlusCircle /> Create
@@ -211,38 +210,6 @@ export default function CategoryList() {
             }
           >
             <CategoryModal />
-          </ModalComponent>
-          {/* <ModalComponent
-            button={
-              <p className="mx-2 flex cursor-pointer items-center justify-center rounded-xl border px-3 text-lg font-bold text-blue-400">
-                <IoCreate /> Update S/N
-              </p>
-            }
-            width={400}
-          >
-            <div className="mx-2">
-              <Select
-                // onChange={(value) => setCompany(value)}
-                placeholder="Select Category Serial Number"
-                allowClear
-                size="large"
-              >
-                <Select.Option value="companyDocumentSubmit">
-                  <Link
-                    to={`/${user?.role}/category-update/companyDocumentSubmit`}
-                  >
-                    Company Document Submit
-                  </Link>
-                </Select.Option>
-                <Select.Option value="driverDocumentSubmit">
-                  <Link
-                    to={`/${user?.role}/category-update/driverDocumentSubmit`}
-                  >
-                    Driver Document Submit
-                  </Link>
-                </Select.Option>
-              </Select>
-            </div>
           </ModalComponent> */}
         </div>
 

@@ -24,6 +24,8 @@ const TextEditorNotSetValue = ({
       // sanitize: false,
       defaultMode: 1, // Set default alignment to left
       toolbarAdaptive: false,
+      minHeight: '400px', // Approximate height for 10 rows
+      maxHeight: '500px', // Allow expansion if needed
     }),
     []
   );

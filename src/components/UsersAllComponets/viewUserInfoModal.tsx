@@ -78,15 +78,6 @@ export default function ViewUserInfoModal({ data }: any) {
               );
             })} */}
           </div>
-          <div className="mt-2 flex space-x-4">
-            <button className="w-full rounded-full border-2 px-4 py-2 text-bgd transition-colors duration-300">
-              Download
-            </button>
-
-            <button className="w-full rounded-full bg-bgd px-4 py-2 text-white transition-colors duration-300">
-              Print
-            </button>
-          </div>
         </div>
       </div>
     </div>

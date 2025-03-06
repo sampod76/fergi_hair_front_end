@@ -4,7 +4,7 @@ import {
 } from '@redux/features/admin/productCategoryApi';
 
 import { ErrorModal, SuccessModal } from '@utils/modalHook';
-import { Button, Collapse, Form, Input, message } from 'antd';
+import { Button, Collapse, Form, Input, message, Select } from 'antd';
 import type { UploadFile } from 'antd/es/upload/interface';
 const { Panel } = Collapse;
 const ProductCategoryModal = ({
@@ -71,7 +71,7 @@ const ProductCategoryModal = ({
     }
   };
 
-  if (iniValue) {
+  if (iniValue._id) {
     const { image, files, ...valueCopy } = iniValue;
     iniValue = valueCopy;
   }
@@ -81,7 +81,7 @@ const ProductCategoryModal = ({
       form={form}
       disabled={readOnly}
       onFinish={handleFinish}
-      initialValues={iniValue._id ? { ...iniValue } : {}}
+      initialValues={iniValue._id ? { ...iniValue } : { status: 'active' }}
       layout="vertical"
       className=""
     >
@@ -96,6 +96,15 @@ const ProductCategoryModal = ({
         ]}
       >
         <Input />
+      </Form.Item>
+      <Form.Item label="Status" name="status">
+        <Select
+          defaultValue={'active'}
+          options={[
+            { label: 'Active', value: 'active' },
+            { label: 'Inactive', value: 'inactive' },
+          ]}
+        />
       </Form.Item>
 
       <div className="flex items-center justify-center gap-2 rounded-md">
