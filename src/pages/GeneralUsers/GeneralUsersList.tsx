@@ -1,11 +1,9 @@
 import { ReloadOutlined } from '@ant-design/icons';
-import ModalComponent from '@components/Modal/ModalComponents';
 import ActionBar from '@components/ui/ActionBar';
 import CustomImageTag from '@components/ui/CustomTag/CustomImage';
 import LoadingSkeleton from '@components/ui/Loading/LoadingSkeleton';
 import UMTable from '@components/ui/UMTable';
 
-import ViewUserInfoModal from '@components/UsersAllComponets/viewUserInfoModal';
 import {
   useDeleteGeneralUserMutation,
   useGetAllGeneralUserQuery,
@@ -16,6 +14,7 @@ import { useAppSelector, useDebounced } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
 import { Button, Dropdown, Input, Menu, Space, TableProps } from 'antd';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function GeneralUsersList() {
   const user = useAppSelector(selectCurrentUser);
@@ -131,16 +130,10 @@ export default function GeneralUsersList() {
                       //   onClick={() => handleEdit(record._id)}
                     >
                       <div className="flex items-center justify-center gap-3">
-                        <ModalComponent
-                          button={<button>View</button>}
-                          width={700}
-                        >
-                          <div className="my-6 flex items-center justify-center">
-                            <ViewUserInfoModal
-                              data={{ ...record, role: 'generalUser' }}
-                            />
-                          </div>
-                        </ModalComponent>
+                        <Link to={`/${user?.role}/user-details/${record._id}`}>
+                          {' '}
+                          View
+                        </Link>
                       </div>
                     </Button>
                   </Menu.Item>

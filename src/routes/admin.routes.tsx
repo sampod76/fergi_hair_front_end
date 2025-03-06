@@ -65,14 +65,6 @@ export const adminPaths = [
   },
 
   {
-    path: 'product-category-update',
-    element: <CategorySerialNumberUpdate />,
-  },
-  {
-    path: 'file-serial-update/:fileType',
-    element: <FileSerialNumberUpdate />,
-  },
-  {
     name: 'Earnings',
     path: 'earnings',
     iconName: 'FaCreditCard',
@@ -98,7 +90,15 @@ export const adminPaths = [
     iconName: 'CiSettings',
     element: <Settings />,
   },
+  {
+    path: 'product-category-update',
+    element: <CategorySerialNumberUpdate />,
+  },
 
+  {
+    path: 'file-serial-update/:fileType',
+    element: <FileSerialNumberUpdate />,
+  },
   {
     path: 'user-details/:userRoleBaseId',
     element: <UserDetails />,

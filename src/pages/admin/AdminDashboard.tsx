@@ -16,9 +16,12 @@ import { useState } from 'react';
 import { FaDollarSign, FaUser } from 'react-icons/fa';
 import { GrView } from 'react-icons/gr';
 import {
+  Area,
   Bar,
   BarChart,
   CartesianGrid,
+  Line,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -225,7 +228,6 @@ const AdminDashboard = () => {
     });
     return month;
   });
-  console.log('🚀 ~ AdminDashboard ~ userchangeData:', userchangeData);
 
   // ********************************
   const onChange = (date: any, dateString: any) => {
@@ -293,16 +295,29 @@ const AdminDashboard = () => {
               height="100%"
               style={{ paddingBottom: '50px', borderRadius: '10px' }}
             >
-              <BarChart
+              <LineChart
                 data={userchangeData}
                 margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
               >
+                <defs>
+                  <linearGradient
+                    id="wave-gradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stopColor="#8B63FF" stopOpacity={0.7} />
+                    <stop offset="100%" stopColor="#FF5FCE" stopOpacity={0.2} />
+                  </linearGradient>
+                </defs>
+
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                   dataKey="name"
                   //@ts-ignore
                   tick={{ fontSize: 14, angle: 290 }}
-                  interval={0} // This ensures that all month names are shown
+                  interval={0}
                   ticks={[
                     'Jan',
                     'Feb',
@@ -316,14 +331,27 @@ const AdminDashboard = () => {
                     'Oct',
                     'Nov',
                     'Dec',
-                  ]} // Manually set all months to show up
+                  ]}
                 />
-
                 <YAxis tick={{ fontSize: 14 }} />
                 <Tooltip />
-                <Bar dataKey="growth" fill="var(--bgd)" barSize={20} />
-                {/* <ReferenceLine y={5000} stroke="#007BFF" strokeWidth={3} /> */}
-              </BarChart>
+
+                {/* Area element added to fill the area under the line */}
+                <Area
+                  type="monotone"
+                  dataKey="growth"
+                  fill="url(#wave-gradient)"
+                  stroke="none"
+                />
+
+                <Line
+                  type="monotone"
+                  dataKey="growth"
+                  stroke="url(#wave-gradient)"
+                  strokeWidth={3}
+                  dot={false}
+                />
+              </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
