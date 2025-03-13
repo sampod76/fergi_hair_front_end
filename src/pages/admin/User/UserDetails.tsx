@@ -15,7 +15,7 @@ export default function UserDetails() {
   const location = useLocation();
   const navigate = useNavigate();
   const { userRoleBaseId } = useParams();
-  console.log('🚀 ~ UserDetails ~ params:', userRoleBaseId);
+  // console.log('🚀 ~ UserDetails ~ params:', userRoleBaseId);
   const searchParams = new URLSearchParams(location.search);
   const mainTab = searchParams.get('mainTab');
 
@@ -55,7 +55,7 @@ export default function UserDetails() {
       children: <UserProducts roleBaseUserId={userRoleBaseId as string} />,
     },
     {
-      key: '3',
+      key: '4',
       label: 'Purchase',
       children: <UserPurchase roleBaseUserId={userRoleBaseId as string} />,
     },

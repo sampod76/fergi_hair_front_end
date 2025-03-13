@@ -2,7 +2,7 @@ import { IMeta } from '../../../types/common';
 import { baseApi } from '../../api/baseApi';
 import { tagTypes } from '../../tag-types';
 
-const URL = '/user-save-products';
+const URL = '/routing-reminder';
 
 export interface IRoutingReminder {
   _id: string;
