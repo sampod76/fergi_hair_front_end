@@ -57,7 +57,7 @@ jobs:
           node-version: 23.x
           cache: 'yarn'
       - name: Change Directory
-        run: cd /home/sampod/dashboard-runner/_work/client_Fergie_hair_care/client_Fergie_hair_care
+        run: cd /home/sampod/dashboard-runner/_work/fergi_hair_front_end/fergi_hair_front_end
       - name: Install Dependencies
         run: yarn install
       - name: Unzip environment
