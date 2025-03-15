@@ -1,7 +1,7 @@
-import { getBaseUrl } from '@helpers/config/envConfig';
+import { configEnv } from '@helpers/config/envConfig';
 import axios, { AxiosProgressEvent } from 'axios';
 import { instance as axiosInstance } from '../helpers/axios/axiosInstance';
-const url = `${getBaseUrl}/aws/create-aws-upload-files-token`;
+const url = `${configEnv.baseURL}/aws/create-aws-upload-files-token`;
 
 const singleFileUploaderInS3 = async (
   fileData: { pre_url: any },
