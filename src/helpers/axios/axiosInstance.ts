@@ -3,7 +3,7 @@ import {
   getFromLocalStorage,
   setToLocalStorage,
 } from '../../utils/local-storage';
-import { getBaseUrl } from '../config/envConfig';
+import { configEnv } from '../config/envConfig';
 // import { message } from 'antd';
 // const token = useAppSelector(useCurrentToken);
 const instance = axios.create();
@@ -52,7 +52,7 @@ instance.interceptors.response.use(
         // const response = await getRefreshToken();
         // const accessToken = response?.data?.accessToken;
         const response = await axios.post(
-          `${getBaseUrl()}/auth/refresh-token`,
+          `${configEnv.baseURL}/auth/refresh-token`,
           {},
           { withCredentials: true }
         );
