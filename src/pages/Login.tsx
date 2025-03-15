@@ -1,6 +1,9 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Checkbox, Flex, Form, Input, Row } from 'antd';
+import { FieldValues } from 'react-hook-form';
 
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { AllImage } from '@assets/AllImge';
+import CustomImageTag from '@components/ui/CustomTag/CustomImage';
 import { ENUM_USER_ROLE } from '@local-types/userTypes';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -16,6 +19,7 @@ import { setToLocalStorage } from '../utils/local-storage';
 import { ErrorModal } from '../utils/modalHook';
 import { verifyToken } from '../utils/verifyToken';
 // import styled from 'styled-components';
+
 // // Create a styled component for the Ant Design checkbox
 // const StyledCheckbox = styled(Checkbox)`
 //   .ant-checkbox-checked .ant-checkbox-inner {
@@ -30,7 +34,6 @@ import { verifyToken } from '../utils/verifyToken';
 //     border-color: #7f1d1d;
 //   }
 // `;
-
 const Login = () => {
   const user = useAppSelector(selectCurrentUser);
   const navigate = useNavigate();
@@ -38,8 +41,8 @@ const Login = () => {
   const [error, setError] = useState('');
   const [login, { isLoading }] = useLoginMutation();
 
-  const onSubmit = async (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: FieldValues) => {
+    // console.log(data);
 
     try {
       const res = await login({ ...data }).unwrap();
@@ -78,102 +81,97 @@ const Login = () => {
   }, [user?.userId]);
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Side Image */}
-      <div className="hidden w-1/2 md:block">
-        <img
-          src="https://images.unsplash.com/photo-1726387871055-35c2c98357f9?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Side Banner"
-          className="h-full w-[90%]"
-        />
-      </div>
-
-      {/* Login Form */}
-      <div className="flex w-full flex-col items-center justify-center rounded-lg px-8 py-10 md:w-1/2">
-        <div className="flex w-full flex-col items-center justify-center rounded-2xl border-8 p-5 shadow-2xl">
-          {/* Logo */}
-          <div className="mb-6 text-center">
-            <img
+    <div className="flex min-h-screen items-center justify-center !bg-authBg">
+      <Row
+        style={{
+          borderRadius: '30px',
+          background: '#f4dcec',
+          // boxShadow: '20px 20px 60px #bebebe, -20px -20px 60px #ffffff',
+        }}
+        justify="center"
+        align="middle"
+        // style={{ height: "100vh" }}
+        className="mx-auto max-w-lg px-10"
+      >
+        <div className="w-full px-8 py-5">
+          <div className="!-mt-8">
+            <CustomImageTag
               src={AllImage.logoAndName}
-              alt="Fall In Logo"
-              className="mx-auto h-20 w-auto"
+              width={1900}
+              height={1900}
+              className="mx-auto h-48 w-48"
             />
           </div>
-
-          {/* Title */}
-          <h1 className="mb-6 text-center text-2xl font-semibold text-gray-800">
-            Login to Fall In
-          </h1>
-
-          {/* Form */}
           <Form
-            name="login_form"
-            // initialValues={{ remember: true }}
+            name="normal_login"
+            className="login-form !-mt-16"
+            initialValues={{ remember: true }}
             onFinish={onSubmit}
-            className="w-full max-w-sm"
-            layout="vertical"
           >
-            {/* Email Input */}
+            {/* <Typography.Title level={5}>
+              <span className="font-sans">{'Email'}</span>{' '}
+            </Typography.Title> */}
+
+            <h1 className="py-2 text-center text-2xl font-bold">Login</h1>
             <Form.Item
               name="email"
-              label="Email or Username"
               rules={[{ required: true, message: 'Please input your Email!' }]}
             >
-              <Input placeholder="Enter your email or username" />
+              <Input
+                size="large"
+                className="h-16 !w-96"
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder={'Enter your email'}
+              />
             </Form.Item>
-
-            {/* Password Input */}
+            {/* <Typography.Title level={5}>{'Password'}</Typography.Title> */}
             <Form.Item
               name="password"
               rules={[
                 { required: true, message: 'Please input your Password!' },
               ]}
-              label="Password"
             >
               <Input.Password
                 size="large"
-                placeholder="Enter your password"
-                className="h-12 rounded-md border-gray-300 focus:ring focus:ring-blue-200"
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                type="password"
+                placeholder={'Enter your password'}
+                className="h-16 !w-96"
               />
             </Form.Item>
+            <Form.Item>
+              <Flex justify="space-between">
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                  <Checkbox>
+                    <span className="font-sans font-semibold text-buttonBg">
+                      {'Remember me'}
+                    </span>
+                  </Checkbox>
+                </Form.Item>
 
-            {/* Forgot Password */}
-            <div className="mb-4 text-left underline">
-              <Link
-                to="/forgot-password"
-                className="text-sm !text-gray-800 hover:underline"
+                <Link className="login-form-forgot" to={`/forgot-password`}>
+                  <span className="font-sans font-semibold text-buttonBg">
+                    {'Forgot password'}
+                  </span>
+                </Link>
+              </Flex>
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                loading={isLoading}
+                type="default"
+                htmlType="submit"
+                className="inputSize w-full !bg-buttonBg !text-lg !text-buttonTextColor"
               >
-                Forgot Password
-              </Link>
-            </div>
+                {'Login'}
+              </Button>
 
-            {/* Submit Button */}
-            <div className="flex items-center justify-center">
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="mx-auto block h-10 w-36 rounded-md !bg-black text-sm text-white hover:bg-gray-900 focus:ring focus:ring-gray-400"
-                  loading={isLoading}
-                >
-                  Login
-                </Button>
-              </Form.Item>
-            </div>
-
-            {/* Additional Text */}
-            <p className="mt-4 text-center text-sm text-black">
-              Forgot your password?{' '}
-              <Link
-                to="/forgot-password"
-                className="font-medium !text-black !underline"
-              >
-                Forgot Password
-              </Link>
-            </p>
+              <p className="text-center text-red-500">{error}</p>
+            </Form.Item>
           </Form>
         </div>
-      </div>
+      </Row>
     </div>
   );
 };

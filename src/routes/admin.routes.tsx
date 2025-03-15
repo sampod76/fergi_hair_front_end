@@ -4,17 +4,23 @@ import AdminDashboard from '../pages/admin/AdminDashboard';
 
 import AboutUs from '@pages/admin/settings/AllTextField/AboutUs';
 
-import AccountDetails from '@components/AccountDetails/AccountDetails';
+import CategorySerialNumberUpdate from '@components/Category/CategorySerialNumberUpdate';
+import FileSerialNumberUpdate from '@components/FileUploder/FileSerialNumberUpdate';
 import { ENUM_USER_ROLE } from '@local-types/userTypes';
+import CategoryList from '@pages/admin/category/CategoryList';
+import ProductCategoryList from '@pages/admin/category/ProductCategory';
 import Earings from '@pages/admin/earning/Earings';
 import AllNotification from '@pages/admin/notification/AllNotification';
 import ShowOrder from '@pages/admin/order/ShowOrder';
 import PrivacyPolicy from '@pages/admin/settings/AllTextField/PrivacyPolicy';
 import TermsAndCondition from '@pages/admin/settings/AllTextField/Terms&Condition';
-import Settings from '@pages/admin/settings/Settings';
-import ShowSubmissions from '@pages/admin/submission/ShowSubmissions';
-import ManageSumscription from '@pages/admin/subscriptions/SubscriptionsPage';
+
 import UserDetails from '@pages/admin/User/UserDetails';
+
+import HairTipslist from '@pages/admin/hairTips/HairTipslist';
+import Product from '@pages/admin/products/Products';
+import Settings from '@pages/admin/settings/Settings';
+import GeneralUsersList from '@pages/GeneralUsers/GeneralUsersList';
 import LoginHistory from '../pages/LoginHistory';
 import Profile from '../pages/Profile';
 export const adminPaths = [
@@ -24,26 +30,60 @@ export const adminPaths = [
     iconName: 'MdDashboard',
     element: <AdminDashboard />,
   },
+  //
+
   {
     name: 'Account Details',
     path: 'account-details',
-    iconName: 'IoMdPeople',
-    element: <AccountDetails />,
+    iconName: 'MdPeople',
+    element: <GeneralUsersList />,
   },
+  {
+    name: 'Manage Hair Identity',
+    path: 'manage-hair-identity',
+    iconName: 'GiHairStrands',
+    element: <CategoryList />,
+  },
+  {
+    name: 'Category',
+    path: 'product-category',
+    iconName: 'TbCategoryPlus',
+    element: <ProductCategoryList />,
+  },
+
+  {
+    name: 'Products',
+    path: 'products',
+    iconName: 'MdOutlineProductionQuantityLimits',
+    element: <Product />,
+  },
+  {
+    name: 'Hair Tips & Guidelines',
+    path: 'hair-tips-guidelines',
+    iconName: 'MdTipsAndUpdates',
+    element: <HairTipslist />,
+  },
+
   {
     name: 'Earnings',
     path: 'earnings',
     iconName: 'FaCreditCard',
-    element: <Earings />,
+    element: <Earings earnType="file" />,
+    // children: [
+    //   {
+    //     name: 'Content',
+    //     path: 'Content',
+    //     iconName: 'TbPointFilled',
+    //     element: <Earings earnType="file" />,
+    //   },
+    //   {
+    //     name: 'Subscriptions',
+    //     path: 'SubscriptionsEarning',
+    //     iconName: 'TbPointFilled',
+    //     element: <Earings earnType="package" />,
+    //   },
+    // ],
   },
-
-  {
-    name: 'Manage Subscription',
-    path: 'manage-subscription',
-    iconName: 'LuPackagePlus',
-    element: <ManageSumscription />,
-  },
-
   {
     name: 'Settings',
     path: 'settings',
@@ -51,8 +91,13 @@ export const adminPaths = [
     element: <Settings />,
   },
   {
-    path: 'show-user-submissions/:userId',
-    element: <ShowSubmissions />,
+    path: 'product-category-update',
+    element: <CategorySerialNumberUpdate />,
+  },
+
+  {
+    path: 'file-serial-update/:fileType',
+    element: <FileSerialNumberUpdate />,
   },
   {
     path: 'user-details/:userRoleBaseId',

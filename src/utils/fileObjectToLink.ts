@@ -10,20 +10,25 @@
  *
  */
 
-export default function fileObjectToLink(src: any) {
+import { IFileAfterUpload } from '@local-types/globalType';
+
+export default function fileObjectToLink(
+  src: IFileAfterUpload | string | undefined
+) {
   // Backend baseurl
   const backendBaseUrl = 'http://localhost:5000';
 
   let imageSrc;
-  if (src?.cdn) {
-    imageSrc = src.cdn + '/' + src.path;
-  } else if (typeof src === 'object' && src.url) {
-    imageSrc = src.url;
-  } else if (src?.server_url) {
+  // if (src?.cdn) {
+  //   // console.log("🚀 ~ sadfsadf", src);
+  //   imageSrc = src.cdn + '/' + src.path;
+  // } else
+  if (typeof src === 'object' && src.originalUrl) {
+    // console.log("🚀 ~ fffasdfnk ~ src:", src);
+    imageSrc = src.originalUrl;
+  } else if (typeof src === 'object' && src?.server_url) {
     imageSrc = backendBaseUrl + '/' + src.server_url;
   } else if (src && typeof src === 'string') {
-    imageSrc = src;
-  } else if (src) {
     imageSrc = src;
   } else {
     imageSrc =

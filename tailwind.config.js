@@ -10,7 +10,6 @@ export default {
         authBg: 'var(--authBg)',
         buttonBg: 'var(--buttonBg)',
         buttonTextColor: 'var(--buttonTextColor)',
-        gtc: 'var(--gtc)',
       },
     },
   },

@@ -1,8 +1,45 @@
+import { IFileAfterUpload } from '@local-types/globalType';
 import { IMeta } from '../../../types/common';
 import { baseApi } from '../../api/baseApi';
 import { tagTypes } from '../../tag-types';
 
 const URL = '/general-users';
+export interface ICategory {
+  value?: string;
+  label?: string;
+  uid?: string;
+  children?: ICategory & { children: ICategory };
+}
+
+export interface IUser {
+  _id: string;
+  userUniqueId: string;
+  userId?: string;
+  email: string;
+  accountType?: string;
+  authUserId?: string; // Vendor reference
+  name?: {
+    firstName?: string;
+    lastName?: string;
+  };
+  address?: {
+    area?: string;
+  };
+  country?: {
+    name?: string;
+    flag?: { url?: string };
+    isoCode?: string;
+  };
+  contactNumber?: string;
+  dateOfBirth?: Date;
+  category?: ICategory[];
+  profileImage?: IFileAfterUpload; // Adjust this type accordingly
+  verify?: string;
+  author?: any; // Adjust this type accordingly
+  status?: string;
+  isDelete?: boolean;
+  createdAt: string;
+}
 
 export const generalUserApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -14,23 +51,7 @@ export const generalUserApi = baseApi.injectEndpoints({
           params: arg,
         };
       },
-      transformResponse: (response: any, meta: IMeta) => {
-        return {
-          data: response,
-          meta,
-        };
-      },
-      providesTags: [tagTypes.GeneralUser],
-    }),
-    getGeneralUserVendorUser: build.query({
-      query: (arg: Record<string, any>) => {
-        return {
-          url: URL + '/dashboard',
-          method: 'GET',
-          params: arg,
-        };
-      },
-      transformResponse: (response: any, meta: IMeta) => {
+      transformResponse: (response: IUser, meta: IMeta) => {
         return {
           data: response,
           meta,
@@ -46,7 +67,7 @@ export const generalUserApi = baseApi.injectEndpoints({
           method: 'GET',
         };
       },
-      transformResponse: (response: any) => ({ data: response }),
+      transformResponse: (response: IUser) => response,
       providesTags: [tagTypes.GeneralUser],
     }),
 
@@ -88,5 +109,4 @@ export const {
   useGetAllGeneralUserQuery,
   useGetSingleGeneralUserQuery,
   useUpdateGeneralUserMutation,
-  useGetGeneralUserVendorUserQuery,
 } = generalUserApi;

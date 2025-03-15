@@ -1,4 +1,5 @@
 import { AllImage } from '@assets/AllImge';
+import CustomImageTag from '@components/ui/CustomTag/CustomImage';
 import {
   InputOTP,
   InputOTPGroup,
@@ -75,25 +76,24 @@ export default function VerifyOtpForm() {
         style={{ borderRadius: '30px', background: 'white' }}
         justify="center"
         align="middle"
-        className="mx-auto h-fit w-fit max-w-md rounded-2xl border p-5 shadow-xl"
+        className="mx-auto h-fit w-fit max-w-md"
       >
         <div className="flex flex-col items-center justify-center px-8 py-5">
           <div className="py-6">
-            {/* <CustomImageTag
+            <CustomImageTag
               src={AllImage.logoAndName}
-              width={4000}
-              height={4000}
-              className="mx-auto h-40 w-80"
-            /> */}
-            <img src={AllImage.logoAndName} className="mx-auto h-32 w-80" />
+              width={1900}
+              height={1900}
+              className="mx-auto h-40 w-40"
+            />
           </div>
-          <div className="flex flex-col items-center justify-center px-8 py-5">
+          <div className="-mt-16 flex flex-col items-center justify-center px-8 py-5">
             <div className="mb-6 flex flex-col items-center justify-center">
               <div className="flex items-center justify-center gap-2 font-sans text-lg font-bold">
                 <Link className="text-black" to={'/forgot-password'}>
                   <FaArrowLeft
                     className="text-black"
-                    style={{ fontSize: '15px' }}
+                    style={{ fontSize: '20px' }}
                   />
                 </Link>
                 {'Email'}

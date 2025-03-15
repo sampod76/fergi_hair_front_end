@@ -11,6 +11,7 @@ export type IUploadFile = {
 export type IFileAfterUpload = {
   server_url?: string;
   url?: string;
+  originalUrl?: string;
   path: string;
   mimetype: string;
   filename?: string;

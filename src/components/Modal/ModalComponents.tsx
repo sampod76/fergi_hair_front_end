@@ -48,6 +48,7 @@ const ModalComponent = ({
         // )}
         footer={false}
         width={width}
+        className=""
       >
         {/* {React.cloneElement(children, { open, setOpen })} */}
         {children}

@@ -4,26 +4,29 @@ import LoadingSkeleton from '@components/ui/Loading/LoadingSkeleton';
 import UMTable from '@components/ui/UMTable';
 import EarningInfoModal from '@components/UsersAllComponets/EarningInfoModalData';
 
-import { useGetDashboardQuery } from '@redux/features/admin/adminSettingApi';
 import {
   useGetAllChatValueQuery,
   useGetAllPaymentHistoryQuery,
+  useGetAllTimeToGroupValueQuery,
 } from '@redux/features/admin/paymentHistoryApi';
-import { useGetAllUsersQuery } from '@redux/features/users/userApi';
+import { useGetDashboardQuery } from '@redux/features/admin/usersApi';
 import { DatePicker, TableProps } from 'antd';
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { FaDollarSign, FaUser } from 'react-icons/fa';
 import { GrView } from 'react-icons/gr';
 import {
+  Area,
   Bar,
   BarChart,
   CartesianGrid,
+  Line,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
-import UserRatioChart from './User/UserRatio';
 
 const AdminDashboard = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -36,7 +39,7 @@ const AdminDashboard = () => {
   query['sortOrder'] = 'decs';
   query['needProperty'] = 'roleInfo';
   query['role'] = 'generalUser';
-  const { data, isLoading } = useGetAllUsersQuery(query);
+
   //******************************************** */
   const cQuery: any = {};
   cQuery['yearToQuery'] = year;
@@ -165,35 +168,68 @@ const AdminDashboard = () => {
   const fullDashboardData = Ddata?.data;
 
   //******************************************** */
-  if (Cloading || DLoading) {
+  const tQuery: any = {};
+  tQuery['time'] = 'daily';
+
+  const { data: tdata, isLoading: tLoading } =
+    useGetAllTimeToGroupValueQuery(tQuery);
+  if (Cloading || DLoading || tLoading) {
     return <LoadingSkeleton sectionNumber={5} />;
   }
 
-  let resentUser = data?.data || [];
-
   const dataChart = cData?.data || [];
   const changeData = [
-    { name: 'January', growth: 0 },
-    { name: 'February', growth: 0 },
-    { name: 'March', growth: 0 },
-    { name: 'April', growth: 0 },
+    { name: 'Jan', growth: 0 },
+    { name: 'Feb', growth: 0 },
+    { name: 'Mar', growth: 0 },
+    { name: 'Apr', growth: 0 },
     { name: 'May', growth: 0 },
-    { name: 'June', growth: 0 },
-    { name: 'July', growth: 0 },
-    { name: 'August', growth: 0 },
-    { name: 'September', growth: 0 },
-    { name: 'October', growth: 0 },
-    { name: 'November', growth: 0 },
-    { name: 'December', growth: 0 },
+    { name: 'Jun', growth: 0 },
+    { name: 'Jul', growth: 0 },
+    { name: 'Aug', growth: 0 },
+    { name: 'Sep', growth: 0 },
+    { name: 'Oct', growth: 0 },
+    { name: 'Nov', growth: 0 },
+    { name: 'Dec', growth: 0 },
   ].map((month) => {
     dataChart.forEach((updateMonth) => {
-      if (updateMonth.month.toLowerCase() === month.name.toLowerCase()) {
+      if (
+        updateMonth.month.toLowerCase().slice(0, 3) === month.name.toLowerCase()
+      ) {
         month.growth = updateMonth.value;
       }
     });
     return month;
   });
 
+  //********user chate********** */
+  const userChart = fullDashboardData?.userChart || [];
+
+  const userchangeData = [
+    { name: 'Jan', growth: 0 },
+    { name: 'Feb', growth: 0 },
+    { name: 'Mar', growth: 0 },
+    { name: 'Apr', growth: 0 },
+    { name: 'May', growth: 0 },
+    { name: 'Jun', growth: 0 },
+    { name: 'Jul', growth: 0 },
+    { name: 'Aug', growth: 0 },
+    { name: 'Sep', growth: 0 },
+    { name: 'Oct', growth: 0 },
+    { name: 'Nov', growth: 0 },
+    { name: 'Dec', growth: 0 },
+  ].map((month) => {
+    userChart.forEach((updateMonth: any) => {
+      if (
+        updateMonth.month.toLowerCase().slice(0, 3) === month.name.toLowerCase()
+      ) {
+        month.growth = updateMonth.value;
+      }
+    });
+    return month;
+  });
+
+  // ********************************
   const onChange = (date: any, dateString: any) => {
     console.log(dateString);
     query['yearToQuery'] = dateString;
@@ -201,8 +237,124 @@ const AdminDashboard = () => {
   };
   return (
     <div>
+      <div className="">
+        <div className="grid grid-cols-1 gap-3 p-4 lg:grid-cols-3">
+          <div className="flex h-full items-center gap-2 rounded-xl bg-bgd2 p-4 px-6">
+            <FaUser className="text-5xl" />
+            <div className="px-5">
+              <p className="text-2xl font-medium text-gray-700">Total User</p>
+              <h3 className="text-3xl font-semibold text-bgd">
+                {fullDashboardData?.totalUser.find(
+                  (d: any) => d._id === 'generalUser'
+                ).totalUsers || 0}
+              </h3>
+            </div>
+          </div>
+          <div className="flex h-full items-center gap-2 rounded-xl bg-bgd2 p-4 px-6">
+            <FaDollarSign className="text-5xl" />
+            <div className="px-4">
+              <p className="text-2xl font-medium text-gray-700">
+                ToDay Earnings
+              </p>
+              <h3 className="text-3xl font-semibold text-bgd">
+                ${tdata?.data?.timeToTotalIncome[0]?.income || 0}
+              </h3>
+            </div>
+          </div>
+          <div className="flex h-full items-center gap-2 rounded-xl bg-bgd2 p-4 px-6">
+            <FaDollarSign className="text-5xl" />
+            <div className="px-4">
+              <p className="text-2xl font-medium text-gray-700">
+                Total Earnings
+              </p>
+              <h3 className="text-3xl font-semibold text-bgd">
+                ${tdata?.data?.totalIncome[0]?.income || 0}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* <h1 className="text-center"> Admin Dashboard </h1> */}
       <div className="h-full flex-row-reverse justify-between gap-4 p-5 text-[30px] lg:flex lg:flex-row xl:gap-6">
+        <div
+          className="mt-4 h-full rounded-3xl bg-bgd2"
+          style={{ width: '100%' }}
+        >
+          <div className="pb-4" style={{ width: '100%', height: 400 }}>
+            <div className="flex items-center justify-between px-14 py-2">
+              <p className="font-semibold">User Overview</p>
+              <DatePicker
+                defaultValue={dayjs(new Date()).year(new Date().getFullYear())}
+                onChange={onChange}
+                picker="year"
+                className="!bg-bgd2"
+              />
+            </div>
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+              style={{ paddingBottom: '50px', borderRadius: '10px' }}
+            >
+              <LineChart
+                data={userchangeData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+              >
+                <defs>
+                  <linearGradient
+                    id="wave-gradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stopColor="#8B63FF" stopOpacity={0.7} />
+                    <stop offset="100%" stopColor="#FF5FCE" stopOpacity={0.2} />
+                  </linearGradient>
+                </defs>
+
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="name"
+                  //@ts-ignore
+                  tick={{ fontSize: 14, angle: 290 }}
+                  interval={0}
+                  ticks={[
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec',
+                  ]}
+                />
+                <YAxis tick={{ fontSize: 14 }} />
+                <Tooltip />
+
+                {/* Area element added to fill the area under the line */}
+                <Area
+                  type="monotone"
+                  dataKey="growth"
+                  fill="url(#wave-gradient)"
+                  stroke="none"
+                />
+
+                <Line
+                  type="monotone"
+                  dataKey="growth"
+                  stroke="url(#wave-gradient)"
+                  strokeWidth={3}
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
         <div
           className="mt-4 h-full rounded-3xl bg-bgd2"
           style={{ width: '100%' }}
@@ -224,38 +376,35 @@ const AdminDashboard = () => {
             >
               <BarChart
                 data={changeData}
-                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" tick={{ fontSize: 14 }} />
+                <XAxis
+                  dataKey="name"
+                  //@ts-ignore
+                  tick={{ fontSize: 14, angle: 290 }}
+                  interval={0} // This ensures that all month names are shown
+                  ticks={[
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec',
+                  ]} // Manually set all months to show up
+                />
                 <YAxis tick={{ fontSize: 14 }} />
                 <Tooltip />
                 <Bar dataKey="growth" fill="var(--bgd)" barSize={20} />
                 {/* <ReferenceLine y={5000} stroke="#007BFF" strokeWidth={3} /> */}
               </BarChart>
             </ResponsiveContainer>
-          </div>
-        </div>
-        <div className="flex h-[27rem] min-w-80 flex-col justify-between space-y-4 p-4">
-          <div className="h-full rounded-xl bg-bgd2 p-4 text-center">
-            <p className="text-2xl font-medium text-gray-700">Total Earnings</p>
-            <h3 className="text-3xl font-semibold text-bgd">
-              ${fullDashboardData?.totalEarningAmount || 0}
-            </h3>
-          </div>
-          <div className="h-full rounded-xl bg-bgd2 p-4 text-center">
-            <p className="text-2xl font-medium text-gray-700">Total User</p>
-            <h3 className="text-3xl font-semibold text-bgd">
-              {fullDashboardData?.totalUserCount || 0}
-            </h3>
-          </div>
-          <div className="h-full rounded-xl bg-bgd2 p-4 text-center">
-            <p className="text-2xl font-medium text-gray-700">
-              Total Subscriptions
-            </p>
-            <h3 className="text-3xl font-semibold text-bgd">
-              {fullDashboardData?.totalSubscriptionsCount}
-            </h3>
           </div>
         </div>
       </div>
@@ -274,9 +423,6 @@ const AdminDashboard = () => {
               showSizeChanger={false}
               showPagination={false}
             />
-          </div>
-          <div className="rootBg w-96">
-            <UserRatioChart data={fullDashboardData?.averagePackages} />
           </div>
         </div>
       </div>

@@ -6,9 +6,11 @@ import {
   ISubscription,
   useGetAllSubscriptionsQuery,
 } from '@redux/features/admin/subscriptionsApi';
+import { message } from 'antd';
 import React, { useState } from 'react';
+import { MdContentCopy } from 'react-icons/md';
 
-const ManageSubscription: React.FC = () => {
+const Pricing: React.FC = () => {
   const [isHighlighted, setHighlighted] = useState('');
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
@@ -29,8 +31,14 @@ const ManageSubscription: React.FC = () => {
         className={`w-full rounded-2xl p-10 capitalize shadow-lg ${plan.packageName === isHighlighted ? 'bg-[#143A69] text-white' : 'bg-white text-gray-900'}`}
         // style={{ width: '300px' }}
       >
-        <h2 className="mb-4 text-center text-4xl font-bold">
-          {plan.packageName}
+        <h2
+          onClick={() => {
+            navigator.clipboard.writeText(plan._id);
+            message.success('Copy Success:- ' + plan._id);
+          }}
+          className="mb-4 flex cursor-pointer items-center justify-center gap-2 text-center text-4xl font-bold"
+        >
+          {plan.packageName} <MdContentCopy className="text-xl" />
         </h2>
         <hr className="my-6" />
         <div className="mb-4 flex items-center gap-1 text-4xl font-bold">
@@ -125,4 +133,4 @@ const ManageSubscription: React.FC = () => {
   );
 };
 
-export default ManageSubscription;
+export default Pricing;

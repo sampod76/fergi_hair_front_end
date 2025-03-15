@@ -35,16 +35,22 @@ const UMTable = ({
 
   return (
     <Table
-      // style={{
-      //   overflowX: 'auto',
-      // }}
+      style={{
+        overflowX: 'auto',
+      }}
       loading={loading}
-      // scroll={{ x: 1000 }}
-      scroll={{ x: 'max-content' }}
+      scroll={{ x: 1000 }}
       columns={columns}
       bordered
       rowClassName={(record, index) => {
-        return index % 2 === 0 ? 'table-row-light' : 'table-row-dark';
+        let className = '';
+        if (index % 2 === 0) {
+          className += 'table-row-light ';
+        } else if (index % 2 !== 0) {
+          className += 'table-row-dark ';
+        }
+
+        return className.trim();
       }}
       dataSource={dataSource}
       pagination={paginationConfig}

@@ -18,10 +18,9 @@ const MainLayout = () => {
   return (
     <Layout className="mx-auto max-w-[1990px]" style={{ height: '100%' }}>
       <Sidebar />
-
       <Layout>
         <Header style={{ backgroundColor: 'var(--bgd)', height: '70px' }}>
-          <div className="mt-2 flex h-full justify-between text-gtc">
+          <div className="mt-2 flex h-full justify-between text-white">
             <div className="flex items-center justify-center gap-2">
               <Tooltip title="Sidebar Collapse">
                 <GoSidebarCollapse

@@ -10,39 +10,39 @@ import {
   useDeleteCategoryMutation,
   useGetAllCategoryQuery,
 } from '@redux/features/admin/categoryApi';
+
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
-import { useAppSelector } from '@redux/hooks';
-import { convertToTitleCase } from '@utils/convertToTitleCase';
+import { useAppSelector, useDebounced } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
-import {
-  Button,
-  Dropdown,
-  Input,
-  Select,
-  Space,
-  TableProps,
-  Tooltip,
-} from 'antd';
+import { Button, Dropdown, Input, Space, TableProps, Tooltip } from 'antd';
 import { useState } from 'react';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IMeta } from '../../../types/common';
 export default function CategoryList() {
   const user = useAppSelector(selectCurrentUser);
   //
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
+  const [size, setSize] = useState<number>(100);
   const [sortBy, setSortBy] = useState<string>('serialNumber');
-  const [sortOrder, setSortOrder] = useState<string>('desc');
+  const [sortOrder, setSortOrder] = useState<string>('asc');
   //
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [company, setCompany] = useState<string>('');
+  const [categoryType, setCategoryType] = useState<string>('profile');
   //
   const query: Record<string, any> = {};
   query['limit'] = size;
   query['page'] = page;
   query['sortBy'] = sortBy;
   query['sortOrder'] = sortOrder;
-  query['company'] = company;
-  query['searchTerm'] = searchTerm;
+  query['categoryType'] = categoryType;
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query['searchTerm'] = debouncedSearchTerm;
+  }
 
   const { data, isLoading } = useGetAllCategoryQuery(query);
   const [deleteCategory, { isLoading: dLoading }] = useDeleteCategoryMutation();
@@ -63,21 +63,19 @@ export default function CategoryList() {
       }
     );
   };
-  let resentUser = data?.data || [];
+  let allData = data?.data || [];
+
   const meta = (data?.meta as IMeta) || [];
 
   const columns: TableProps<any>['columns'] = [
     {
-      title: '#ID',
+      title: 'S/N',
       ellipsis: true,
       width: 200,
+      dataIndex: 'serialNumber',
       render: (data: any) => (
         <div className="flex items-center justify-between gap-2">
-          <p>
-            {data.company === 'companyOne'
-              ? 'O - ' + data.serialNumber
-              : 'T - ' + data.serialNumber}
-          </p>
+          <p>S/N-{data}</p>
         </div>
       ),
     },
@@ -86,28 +84,23 @@ export default function CategoryList() {
       ellipsis: true,
       render: (record: any) => (
         <div className="flex items-center justify-start gap-2">
-          <CustomImageTag
-            src={record?.image}
-            width={550}
-            height={550}
-            preview={true}
-            className="h-8 w-8 rounded-full shadow-lg md:h-12 md:w-12"
-            alt=""
-          />
-          <Tooltip title={record.title}>
-            <p className="truncate">{record.title}</p>
+          {record?.images?.length && (
+            <CustomImageTag
+              src={record?.images[0]}
+              width={550}
+              height={550}
+              preview={true}
+              className="h-8 w-8 rounded-full shadow-lg md:h-12 md:w-12"
+              alt=""
+            />
+          )}
+          <Tooltip title={record.label}>
+            <p className="truncate">{record.label}</p>
           </Tooltip>
         </div>
       ),
     },
-    {
-      title: 'Type',
-      dataIndex: ['company'],
-      width: 250,
-      render: (value, record, index) => {
-        return value && convertToTitleCase(value);
-      },
-    },
+
     {
       title: 'Date',
       ellipsis: true,
@@ -143,7 +136,7 @@ export default function CategoryList() {
               <ModalComponent
                 button={
                   <Button className="!w-20" type="default">
-                    Edit
+                    Edit/View
                   </Button>
                 }
               >
@@ -151,19 +144,19 @@ export default function CategoryList() {
               </ModalComponent>
             ),
           },
-          {
-            key: 'delete',
-            label: (
-              <Button
-                className="!w-20"
-                type="default"
-                loading={dLoading}
-                onClick={() => handleDelete(record._id)}
-              >
-                Delete
-              </Button>
-            ),
-          },
+          // {
+          //   key: 'delete',
+          //   label: (
+          //     <Button
+          //       className="!w-20"
+          //       type="default"
+          //       loading={dLoading}
+          //       onClick={() => handleDelete(record._id)}
+          //     >
+          //       Delete
+          //     </Button>
+          //   ),
+          // },
         ];
 
         return (
@@ -173,11 +166,14 @@ export default function CategoryList() {
               arrow
               menu={{ items: menuItems }} // Pass items directly to the menu prop
             >
-              <button className="text-blue-700">Action</button>
+              <button className="text-2xl text-blue-700">
+                <BsThreeDotsVertical />{' '}
+              </button>
             </Dropdown>
           </Space>
         );
       },
+      fixed: 'right',
     },
   ];
 
@@ -196,29 +192,31 @@ export default function CategoryList() {
     setSortBy('');
     setSortOrder('');
     setSearchTerm('');
-    setCompany('');
+    setCategoryType('');
   };
 
   return (
     <div>
+      <h1 className="text-center text-3xl font-bold capitalize">
+        Manage Hair Identity
+      </h1>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <h1 className="text-2xl font-bold capitalize">Category list</h1>
-          <ModalComponent
+          {/* <ModalComponent
             button={
-              <p className="mx-2 cursor-pointer rounded-xl border px-3 text-lg font-bold text-green-400">
-                Create Category
+              <p className="mx-2 flex cursor-pointer items-center justify-center gap-1 rounded-xl border px-3 text-lg font-bold text-gray-600">
+                <AiTwotonePlusCircle /> Create
               </p>
             }
           >
             <CategoryModal />
-          </ModalComponent>
+          </ModalComponent> */}
         </div>
 
         <ActionBar>
-          <div className="mx-2">
+          {/* <div className="mx-2">
             <Select
-              onChange={(value) => setCompany(value)}
+              onChange={(value) => setCategoryType(value)}
               placeholder="Select a company"
               allowClear
               size="large"
@@ -230,7 +228,7 @@ export default function CategoryList() {
                 Driver Document Submit
               </Select.Option>
             </Select>
-          </div>
+          </div> */}
           <Input
             size="large"
             placeholder="Search"
@@ -254,7 +252,7 @@ export default function CategoryList() {
         <UMTable
           loading={isLoading}
           columns={columns}
-          dataSource={resentUser}
+          dataSource={allData}
           pageSize={size}
           totalPages={meta?.total}
           showSizeChanger={true}
@@ -263,6 +261,11 @@ export default function CategoryList() {
           showPagination={true}
         />
       </div>
+      {/* <iframe
+        src="https://d43af62ilhxe5.cloudfront.net/others/plate.html"
+        width="100%"
+        height="500px"
+      ></iframe> */}
     </div>
   );
 }

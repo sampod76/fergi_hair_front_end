@@ -9,18 +9,22 @@ import ProtectedRoute from '../components/layout/ProtectedRoute';
 import ChangePassword from '../pages/ChangePassword';
 import { vendorPaths } from './vendor.routes';
 
+import ErrorBounderCom from '@components/ErrorComponents/ErrorBounderCom';
 import OutLetLayout from '@components/layout/OutLetLayout';
 import VerifyOtpForm from '@pages/VerifyOtpForm';
 import { Button, Result } from 'antd';
 import Dashboard from '../Dashboard';
 import ForgotPassword from '../pages/ForgetPassword';
-import Profile from '../pages/Profile';
 import ResetPassword from '../pages/ResetPassword';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <ErrorBounderCom>
+        <App />
+      </ErrorBounderCom>
+    ),
   },
 
   {
@@ -41,34 +45,58 @@ const router = createBrowserRouter([
     ),
     children: routeGenerator(vendorPaths),
   },
-  {
-    path: '/profile',
-    element: <Profile />,
-  },
+
   {
     path: '/login',
-    element: <Login />,
+    element: (
+      <ErrorBounderCom>
+        <Login />
+      </ErrorBounderCom>
+    ),
   },
 
   {
     path: '/change-password',
-    element: <ChangePassword />,
+    element: (
+      <ErrorBounderCom>
+        <ChangePassword />
+      </ErrorBounderCom>
+    ),
   },
   {
     path: '/register',
-    element: <Register />,
+    element: (
+      <ErrorBounderCom>
+        {' '}
+        <Register />
+      </ErrorBounderCom>
+    ),
   },
   {
     path: '/forgot-password',
-    element: <ForgotPassword />,
+    element: (
+      <ErrorBounderCom>
+        {' '}
+        <ForgotPassword />
+      </ErrorBounderCom>
+    ),
   },
   {
     path: '/verify-otp',
-    element: <VerifyOtpForm />,
+    element: (
+      <ErrorBounderCom>
+        <VerifyOtpForm />
+      </ErrorBounderCom>
+    ),
   },
   {
     path: '/password-reset',
-    element: <ResetPassword />,
+    element: (
+      <ErrorBounderCom>
+        {' '}
+        <ResetPassword />
+      </ErrorBounderCom>
+    ),
   },
 
   {

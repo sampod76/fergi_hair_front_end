@@ -4,7 +4,7 @@ import {
   PlusOutlined,
 } from '@ant-design/icons';
 import { useUpdateadminMutation } from '@redux/features/admin/adminApi';
-import { useUpdateVendorMutation } from '@redux/features/admin/vendorUserApi';
+
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
 import { useAppSelector } from '@redux/hooks';
 import { multipleFilesUploaderS3 } from '@utils/handelFileUploderS3';
@@ -27,7 +27,6 @@ const Profile = () => {
   //
   const { data, isLoading } = useGetProfileQuery({});
 
-  const [updateVendor, { isLoading: vLoading }] = useUpdateVendorMutation();
   const [updateAdmin, { isLoading: aLoading }] = useUpdateadminMutation();
   // console.log('🚀 ~ Profile ~ data:', data);
 
@@ -62,11 +61,6 @@ const Profile = () => {
 
       if (user?.role === 'admin') {
         await updateAdmin({
-          id: user?.roleBaseUserId,
-          data: values,
-        }).unwrap();
-      } else if (user?.role === 'vendor') {
-        await updateVendor({
           id: user?.roleBaseUserId,
           data: values,
         }).unwrap();
@@ -219,7 +213,7 @@ const Profile = () => {
                 <Form.Item>
                   <Button
                     type="primary"
-                    loading={aLoading || vLoading || uploading}
+                    loading={aLoading || uploading}
                     htmlType="submit"
                     className="!bg-bgd !text-white hover:!bg-bgd"
                   >

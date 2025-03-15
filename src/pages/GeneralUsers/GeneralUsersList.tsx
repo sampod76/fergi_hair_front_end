@@ -1,23 +1,22 @@
 import { ReloadOutlined } from '@ant-design/icons';
-import ModalComponent from '@components/Modal/ModalComponents';
 import ActionBar from '@components/ui/ActionBar';
 import CustomImageTag from '@components/ui/CustomTag/CustomImage';
 import LoadingSkeleton from '@components/ui/Loading/LoadingSkeleton';
 import UMTable from '@components/ui/UMTable';
 
-import ViewUserInfoModal from '@components/UsersAllComponets/viewUserInfoModal';
 import {
-  useDeleteVendorMutation,
-  useGetAllVendorQuery,
-} from '@redux/features/admin/vendorUserApi';
+  useDeleteGeneralUserMutation,
+  useGetAllGeneralUserQuery,
+} from '@redux/features/admin/generalUsersApi';
+
 import { selectCurrentUser } from '@redux/features/auth/authSlice';
-import { useAppSelector } from '@redux/hooks';
+import { useAppSelector, useDebounced } from '@redux/hooks';
 import { ConfirmModal, ErrorModal, SuccessModal } from '@utils/modalHook';
 import { Button, Dropdown, Input, Menu, Space, TableProps } from 'antd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IMeta } from '../../../types/common';
-export default function VendorList({ companyType }: { companyType: string }) {
+
+export default function GeneralUsersList() {
   const user = useAppSelector(selectCurrentUser);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
@@ -30,12 +29,19 @@ export default function VendorList({ companyType }: { companyType: string }) {
   query['sortBy'] = sortBy;
   query['sortOrder'] = sortOrder;
   query['needProperty'] = 'roleInfo';
-  // query['role'] = 'generalUser';
-  // query['company'] = companyType;
-  query['searchTerm'] = searchTerm;
 
-  const { data, isLoading } = useGetAllVendorQuery(query);
-  const [deleteVendor, { isLoading: dLoading }] = useDeleteVendorMutation();
+  const debouncedSearchTerm = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (debouncedSearchTerm) {
+    query['searchTerm'] = debouncedSearchTerm;
+  }
+
+  const { data, isLoading } = useGetAllGeneralUserQuery(query);
+  const [deleteVendor, { isLoading: dLoading }] =
+    useDeleteGeneralUserMutation();
 
   if (isLoading) {
     return <LoadingSkeleton sectionNumber={5} />;
@@ -43,11 +49,11 @@ export default function VendorList({ companyType }: { companyType: string }) {
 
   let resentUser = data?.data || [];
   // console.log('🚀 ~ Company ~ resentUser:', resentUser);
-  const meta = (data?.meta as IMeta) || [];
+  const meta = (data?.meta as any) || [];
 
   const columns: TableProps<any>['columns'] = [
     {
-      title: 'user id',
+      title: 'User id',
       // dataIndex: "createdAt",
       ellipsis: true,
       // dataIndex: ['roleInfo'],
@@ -91,18 +97,7 @@ export default function VendorList({ companyType }: { companyType: string }) {
       dataIndex: ['contactNumber'],
       width: 150,
     },
-    // {
-    //   title: 'Package',
-    //   // dataIndex: ['company'],
-    //   width: 150,
-    //   render(value, record, index) {
-    //     return (
-    //       <div className="rounded-xl bg-blue-200 py-2 font-bold text-blue-700">
-    //         {'Gold'}
-    //       </div>
-    //     );
-    //   },
-    // },
+
     {
       title: 'Date',
       // dataIndex: "createdAt",
@@ -135,45 +130,14 @@ export default function VendorList({ companyType }: { companyType: string }) {
                       //   onClick={() => handleEdit(record._id)}
                     >
                       <div className="flex items-center justify-center gap-3">
-                        <ModalComponent
-                          button={<button>View</button>}
-                          width={700}
-                        >
-                          <div className="my-6 flex items-center justify-center">
-                            <ViewUserInfoModal
-                              data={{ ...record, role: 'generalUser' }}
-                            />
-                          </div>
-                        </ModalComponent>
+                        <Link to={`/${user?.role}/user-details/${record._id}`}>
+                          {' '}
+                          View
+                        </Link>
                       </div>
                     </Button>
                   </Menu.Item>
-                  <Menu.Item key="submit task">
-                    <Button
-                      // type="link"
-                      className="w-full"
-                      // icon={<EditOutlined />}
-                    >
-                      <Link
-                        to={`/${user?.role}/show-user-submissions/${record?._id}?category=${'6763a68e34f47a3c642d7cf1'}&categoryName=Truck Registration-Insurance Card`}
-                      >
-                        All Doc
-                      </Link>
-                    </Button>
-                  </Menu.Item>
-                  <Menu.Item key="see order">
-                    <Button
-                      // type="link"
-                      className="w-full"
-                      // icon={<EditOutlined />}
-                    >
-                      <Link
-                        to={`/${user?.role}/show-packages/${record?._id}?userId=${record?._id}`}
-                      >
-                        Show Packages
-                      </Link>
-                    </Button>
-                  </Menu.Item>
+
                   <Menu.Item key="sudd">
                     <Button
                       // type="link"
@@ -229,7 +193,7 @@ export default function VendorList({ companyType }: { companyType: string }) {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold capitalize">Users</h1>
+        <h1 className="text-2xl font-bold capitalize">Account Details</h1>
         <ActionBar>
           <Input
             size="large"

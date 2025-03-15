@@ -1,17 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
+import { IFileAfterUpload } from '@local-types/globalType';
 export type IImagePlatform = 'imgbb' | 'cloudinary' | 'server' | 'aws' | string;
-export type IFileAfterUpload = {
-  mimetype: string;
-  server_url?: string;
-  filename?: string;
-  path?: string;
-  url?: string;
-  durl?: string;
-  platform: IImagePlatform;
-  cdn?: string; //https://www.youtube.com/watch?v=kbI7kRWAU-w
-  // fileId: Types.ObjectId | string | IFileUploade;
-};
+
 export type TUser = {
   userId: string;
   roleBaseUserId: string;

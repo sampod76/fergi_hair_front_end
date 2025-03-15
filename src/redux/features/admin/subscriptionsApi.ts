@@ -12,6 +12,7 @@ export interface ISubscriptionFeature {
 
 // Interface for the Subscription document
 export interface ISubscription {
+  _id: string;
   packageName: string;
   packageType: string;
   title: string;
