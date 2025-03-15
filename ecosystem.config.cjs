@@ -1,18 +1,18 @@
 module.exports = {
   apps: [
     {
-      name: 'd_fergie',
-      script: 'node_modules/.bin/serve', // Correct path to 'serve'
-      args: '-s dist -l 3006', // Serve 'dist' folder on port 3005
-      instances: '1', // Single instance
-      exec_mode: 'cluster', // Cluster mode for scaling
-      watch: false, // Disable watch in production
+      name: 'dashboard', // Name of the application
+      script: 'npm', // Using npm as the script runner
+      args: 'run start', // The start script of your React app
+      cwd: './', // Path to your React app directory
       env: {
-        NODE_ENV: 'development',
+        NODE_ENV: 'production', // Environment variable for production
       },
-      env_production: {
-        NODE_ENV: 'production',
-      },
+      watch: false, // You can enable this if you want to automatically restart the app on file changes
+      instances: '1', // Number of instances to run (can use 'max' for all CPU cores)
+      exec_mode: 'cluster', // For running in cluster mode (optional)
+      max_memory_restart: '4G', // Optional: to restart the app if it exceeds 1GB memory usage
+      log_date_format: 'YYYY-MM-DD HH:mm Z', // Date format for logs
     },
   ],
 };

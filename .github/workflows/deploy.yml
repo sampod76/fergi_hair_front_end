@@ -64,13 +64,13 @@ jobs:
         run: 7z x .env.zip -p"${{ secrets.ZIP_PASS }}" -o./ -y
       - name: Build the Project
         run: yarn build
-      - name: Check if client is running and restart or start accordingly
+      - name: Check if dashboard is running and restart or start accordingly
         run: |
           # Check if the process is running
-          if pm2 list | grep -q "client"; then
-            echo "client is already running, restarting it..."
-            pm2 restart client
+          if pm2 list | grep -q "dashboard"; then
+            echo "dashboard is already running, restarting it..."
+            pm2 restart dashboard
           else
-            echo "client is not running, starting it..."
-            pm2 start ecosystem.config.js --env production
+            echo "dashboard is not running, starting it..."
+            pm2 start ecosystem.config.cjs --env production
           fi
