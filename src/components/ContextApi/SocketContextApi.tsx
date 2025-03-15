@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { Socket, io } from 'socket.io-client';
 import { IGenericErrorResponse } from '../../types/common';
 
-import { getSocketBaseUrl } from '../../helpers/config/envConfig';
+import { configEnv } from '../../helpers/config/envConfig';
 import { useAppSelector } from '../../redux/hooks';
 
 export const SocketContext = createContext({});
@@ -24,7 +24,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     setLoading(true);
-    const socketStore = io(`${getSocketBaseUrl}`, {
+    const socketStore = io(`${configEnv.socketBaseUrl}`, {
       extraHeaders: { authorization: token as string },
       // auth: { accessToken: getFromLocalStorage(authKey) as string },
       //backend--> socket.handshake.headers.authorization; //socket.handshake.auth.token;
