@@ -6,10 +6,10 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   server: {
-    port: 3005, // Set the dev server port to 3001
+    port: 3000, // Set the dev server port to 3001
   },
   preview: {
-    port: 3005,
+    port: 3000,
   },
   resolve: {
     alias: {
