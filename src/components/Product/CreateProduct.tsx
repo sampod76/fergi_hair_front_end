@@ -128,7 +128,7 @@ const CreateProduct = ({
       >
         <Input />
       </Form.Item>
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+      <div className="2 grid grid-cols-1">
         <Form.Item
           label="Category"
           name="productCategoryId"
@@ -157,7 +157,7 @@ const CreateProduct = ({
             })}
           />
         </Form.Item>
-        <div className="flex flex-col items-center justify-start gap-2">
+        <div className="flex items-center justify-center gap-2">
           <Form.Item
             label="Upload photo"
             name="images"
@@ -173,7 +173,7 @@ const CreateProduct = ({
           >
             <Upload
               // action="/upload"
-              multiple={false}
+              multiple={true}
               listType="picture-card"
               showUploadList={true}
               maxCount={5}
