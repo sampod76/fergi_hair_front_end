@@ -157,7 +157,7 @@ const CreateProduct = ({
             })}
           />
         </Form.Item>
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex flex-col items-center justify-start gap-2">
           <Form.Item
             label="Upload photo"
             name="images"
@@ -176,7 +176,7 @@ const CreateProduct = ({
               multiple={false}
               listType="picture-card"
               showUploadList={true}
-              maxCount={1}
+              maxCount={5}
               accept="image/*"
               beforeUpload={() => false}
             >
