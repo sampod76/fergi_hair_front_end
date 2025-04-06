@@ -38,6 +38,7 @@ const HairIdentityCreate = ({
   initialValues?: any;
   readOnly?: boolean;
 }) => {
+  console.log('first');
   interface Option {
     value: string;
     label: string;
@@ -48,7 +49,7 @@ const HairIdentityCreate = ({
 
   let iniValue = { ...initialValues };
 
-  // console.log('🚀 ~ iniValue:', iniValue);
+  console.log('🚀 ~ iniValue:', iniValue);
   const [form] = Form.useForm();
   const { data, isLoading: pcLoading } = useGetAllCategoryQuery({
     categoryType: 'profile',
@@ -156,20 +157,31 @@ const HairIdentityCreate = ({
 
   if (iniValue?._id) {
     const { images, category, ...valueCopy } = iniValue;
+    console.log('🚀 ~ category:', category);
     iniValue = valueCopy;
-    const categoryArray = [];
-    if (category.uid) {
-      categoryArray.push(category.uid);
-      if (category.children) {
-        categoryArray.push(category.children.uid);
-        if (category.children.children) {
-          categoryArray.push(category.children.children.uid);
-          if (category.children.children.children) {
-            categoryArray.push(category.children.children.children.uid);
-          }
-        }
+    // const categoryArray = [];
+    function getUids(obj: any) {
+      let uids = [obj.uid]; // Start with the current uid
+      if (obj.children) {
+        // If there are children, recursively get their uids as well
+        uids = uids.concat(getUids(obj.children));
       }
+      return uids;
     }
+    const categoryArray = getUids(category);
+    console.log('🚀 ~ categoryArray:', categoryArray);
+    // if (category.uid) {
+    //   categoryArray.push(category.uid);
+    //   if (category.children) {
+    //     categoryArray.push(category.children.uid);
+    //     if (category.children.children) {
+    //       categoryArray.push(category.children.children.uid);
+    //       if (category.children.children.children) {
+    //         categoryArray.push(category.children.children.children.uid);
+    //       }
+    //     }
+    //   }
+    // }
     // iniValue.category = [
     //   '39840451-39ce-4a89-aaa5-70034fe250b8',
     //   's69b898d-7636-417c-91b4-148698341c123',

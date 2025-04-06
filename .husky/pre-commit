@@ -1,3 +1,0 @@
-bash scripts/zip_env.sh
-
-npm run format #not work yarn 

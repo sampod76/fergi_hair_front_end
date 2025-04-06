@@ -61,7 +61,7 @@ import { tagTypesList } from '../tag-types';
 
 //   return result;
 // };
-console.log(configEnv.baseURL);
+
 export const baseApi = createApi({
   // reducerPath: "baseApi",
   // baseQuery: baseQueryWithRefreshToken,

@@ -44,7 +44,7 @@ const CreateProduct = ({
   const [updateProduct, { isLoading: uloading }] = useUpdateProductMutation();
 
   const handleFinish = async (values: any | IProductCategory) => {
-    console.log('🚀 ~ handleFinish ~ values:', values.images);
+    // console.log('🚀 ~ handleFinish ~ values:', values.images);
     const category = productCategory?.find(
       (p) => p._id === values.productCategoryId
     );
@@ -76,7 +76,7 @@ const CreateProduct = ({
       values.images = [serverResponseObject];
 
       formData.append('data', JSON.stringify(values));
-      console.log(formData);
+      // console.log(formData);
       if (iniValue._id) {
         const res = await updateProduct({
           id: iniValue._id,
