@@ -10,7 +10,7 @@ export default defineConfig({
   },
   preview: {
     port: 3000,
-    allowedHosts: ['mywashdays.com'], // Allow this host
+    allowedHosts: true, // Allow this host
   },
   resolve: {
     alias: {
